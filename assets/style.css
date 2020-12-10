@@ -1,0 +1,27 @@
+.absolute {
+    position: absolute !important;
+}
+
+.relative {
+    position: relative !important;
+}
+
+.fill-height {
+    height: 100vh !important;
+}
+
+.fill-height-without-app-bar {
+    height: calc(100vh - 56px) !important;
+}
+
+.fill-width {
+    width: 100vw !important;
+}
+
+.full-width {
+    width: 100% !important;
+}
+
+.full-height {
+    height: 100% !important;
+}
