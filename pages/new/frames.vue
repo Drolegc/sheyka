@@ -1,10 +1,10 @@
 <template>
     <v-container class="full-height d-flex flex-column pa-0" min-height="100%">
     <v-slide-group
-      v-model="model"
+      v-model="selected"
     >
       <v-slide-item
-        v-for="n in 15"
+        v-for="(photo,n) in photos"
         :key="n"
         v-slot="{ active, toggle }"
       >
@@ -14,7 +14,7 @@
           @click="toggle"
         >
         <v-img
-        src="https://picsum.photos/350/165?random"
+        :src="photo.url"
         aspect-ratio="1"
         class="mb-1 transparent lighten-2 rounded-lg"
       >
@@ -36,7 +36,7 @@
                 <v-img
                 
                 class="asdad"
-                src="https://picsum.photos/350/165?random"
+                :src="photos[selected].url"
                 aspect-ratio="1"  
                 >
                 <v-img
@@ -58,7 +58,7 @@
         layout: 'new-photos-frame',
         data() {
             return {
-                model: null
+                selected: 0
             }
         },
         computed: {
@@ -66,7 +66,7 @@
                 get() {
                     return this.$store.getters["new/photos"]
                 }
-            }
+            },
         }
     }
 </script>

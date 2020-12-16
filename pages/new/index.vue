@@ -6,14 +6,14 @@
         </div>
         <v-row v-else>
             <v-col
-              v-for="(n,index) in photos"
+              v-for="(photo,index) in photos"
               :key="index"
               cols="4"
             >
               <div class="full-height elevation-1 rounded-lg">
 
                 <v-img
-                  :src="n.url"
+                  :src="photo.url"
                   aspect-ratio="1"
                   class="transparent lighten-2 rounded-lg"
                 >
@@ -64,7 +64,7 @@
     import EasyCamera from 'easy-vue-camera'
 
     export default {
-        layout: 'new-photos-frame',
+        layout: 'new-photos',
         data() {
             return {
                 options: false,
@@ -82,7 +82,7 @@
             }
         },
         beforeDestroy() {
-            this.photos = []
+            //this.photos = []
         },
         methods: {
             addPhotos() {

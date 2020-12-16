@@ -43,7 +43,7 @@
 <v-main>
     <nuxt></nuxt>
 </v-main>
-<v-app-bar v-if="photos.length == 0" app flat bottom color="white">
+<v-app-bar v-if="photos.length != 0" app flat bottom color="white">
     <v-spacer></v-spacer>
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="siguiente" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
