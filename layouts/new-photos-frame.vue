@@ -5,7 +5,7 @@
         absolute
         class="elevation-0 primary"
         >
-        <v-btn icon color="secondary" @click="$router.go(-1)"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        <v-btn icon color="secondary" @click="$router.push('/new')"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-spacer></v-spacer>
         <v-menu offset-y>
             <template v-slot:activator="{on,attrs}">
@@ -45,7 +45,7 @@
 </v-main>
 <v-app-bar v-if="photos.length == 0" app flat bottom color="white">
     <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Siguiente</v-btn>
+    <v-btn class="rounded-lg elevation-0" color="secondary" @click="siguiente" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
 </v-app>
@@ -54,7 +54,7 @@
 
 <script>
     export default {
-        name: 'new-photos',
+        name: 'new-photos-frame',
         middleware: "auth",
         data() {
             return {
@@ -78,9 +78,13 @@
                 get() {
                     return this.$store.getters["new/photos"]
                 }
-            },
-
+            }
         },
+        methods: {
+            siguiente() {
 
+
+            }
+        }
     }
 </script>

@@ -64,7 +64,7 @@
     import EasyCamera from 'easy-vue-camera'
 
     export default {
-        layout: 'new-photos',
+        layout: 'new-photos-frame',
         data() {
             return {
                 options: false,

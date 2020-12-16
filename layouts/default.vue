@@ -31,7 +31,7 @@
     <v-list-item>
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$auth.logout()">
         <v-list-item-title>Salir</v-list-item-title>
     </v-list-item>
 </v-list>
@@ -54,13 +54,13 @@
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <h3>Inicio de sesion</h3>
-        <v-form class="text-center" ref="inicio_sesion_form" v-model="valid_inicio_sesion">
-            <v-text-field name="Email" label="Email" id="email" v-model="email"></v-text-field>
-            <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass"></v-text-field>
-            <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
-            <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
-            <v-btn class="elevation-0 large" color="secondary" block>Entrar</v-btn>
+        <v-form class="full-width text-center" ref="form" v-model="valid_inicio_sesion">
+            <v-text-field name="Email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
+            <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
+            <v-btn class="elevation-0 large" color="secondary" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
+        <google-login class="ma-3 full-width" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
+        <v-facebook-login class="ma-3 full-width" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
     </div>
 </v-dialog>
 
@@ -68,16 +68,16 @@
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <h3>Registro</h3>
-        <v-form class="text-center" ref="inicio-sesion-form">
-            <v-text-field name="Email" type="email" label="Email" id="email" v-model="email" :rules="emailRules"></v-text-field>
-            <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :rules="passRules"></v-text-field>
+        <v-form class="text-center" ref="form" v-model="valid_inicio_sesion">
+            <v-text-field name="Email" type="email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
+            <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" @click:append="showPass = !showPass" required></v-text-field>
             <v-text-field name="nombre" label="Nombre" id="nombre" v-model="nombre"></v-text-field>
             <v-text-field name="apellido" label="Apellido" id="apellido" v-model="apellido"></v-text-field>
             <v-text-field name="telefono" label="Telefono" id="telefono" v-model="telefono" type="number"></v-text-field>
-            <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
-            <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
             <v-btn class="elevation-0 large" color="secondary" block>Crear cuenta</v-btn>
         </v-form>
+        <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
+        <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
     </div>
 </v-dialog>
 
@@ -115,6 +115,7 @@
                 nombre: null,
                 apellido: null,
                 telefono: null,
+                showPass: false,
                 //Manu options
                 optionsLoggedIn: [{
                     title: 'Click Me'
@@ -158,7 +159,7 @@
                 console.log("registro")
             },
             async inicioDeSesion() {
-                this.$refs.inicio_sesion_form.validate()
+                this.$refs.form.validate()
                 if (!this.valid_inicio_sesion) return
 
                 try {
@@ -168,6 +169,8 @@
                             password: this.pass,
                         }
                     })
+                    this.dialogInicioSesion = false
+                    this.dialogRegistro = false
                 } catch (e) {
                     console.error(e)
                 }
@@ -182,7 +185,7 @@
                 this.scope = scope
             },
             iniciar() {
-                if (!this.$auth.loggedIn) {
+                if (this.$auth.loggedIn) {
                     this.$router.push('/new')
                 } else {
                     this.dialogInicioSesion = true
