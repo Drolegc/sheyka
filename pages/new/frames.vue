@@ -11,7 +11,7 @@
         <v-card
           :elevation="active ? 3 : 1"
           :class=" !active ? 'ma-4 pa-2 rounded-lg' : 'primary-shadow ma-4 pa-2 rounded-lg primary--text ' "
-          @click="toggle"
+          @click="changeSelectedImage(n)"
         >
         <v-img
         :src="photo.url"
@@ -34,8 +34,6 @@
                 cols="8"
                 >
                 <v-img
-                
-                class="asdad"
                 :src="photos[selected].url"
                 aspect-ratio="1"  
                 >
@@ -47,7 +45,22 @@
             </v-img>
             </v-img>
                 </v-col>
+                <v-col class="pt-5" cols="12">
+                    <div class="d-flex justify-center align-center">
+                        <div class="d-flex justify-center align-center">
+                            <v-btn class="mr-2" elevation="0" color="secondary" @click="removeOne"><v-icon>mdi-minus</v-icon></v-btn>
+                        </div>
+                        <h1>{{photos[selected].cantidad}}</h1>
+                        <div class="d-flex justify-center align-center">
+                            <v-btn class="ml-2" elevation="0" color="secondary" @click="addOne" ><v-icon>mdi-plus</v-icon></v-btn>
+                        </div>
+                    </div>
+                </v-col>
+                <v-col>
+
+                </v-col>
             </v-row>
+            
         
     </div>
     </v-container>
@@ -67,6 +80,20 @@
                     return this.$store.getters["new/photos"]
                 }
             },
+        },
+        methods: {
+            changeSelectedImage(selected) {
+                if (this.selected != selected) {
+                    this.selected = selected
+                }
+            },
+            addOne() {
+                this.$store.dispatch("new/addCantidad", this.selected)
+            },
+            removeOne() {
+                if (this.photos[this.selected].cantidad > 1)
+                    this.$store.dispatch("new/removeCantidad", this.selected)
+            }
         }
     }
 </script>
@@ -74,9 +101,5 @@
 <style scoped>
     .primary-shadow {
         box-shadow: 0px 3px 3px -2px rgba(101, 24, 130, 0.12), 0px 3px 4px 0px rgba(101, 24, 130, 0.14), 0px 1px 8px 0px rgba(101, 24, 130, 0.12) !important;
-    }
-    
-    .primary_background {
-        background-color: rgba(101, 24, 130, 0.1);
     }
 </style>

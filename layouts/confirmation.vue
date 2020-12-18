@@ -49,9 +49,9 @@
 <v-main>
     <nuxt></nuxt>
 </v-main>
-<v-app-bar v-if="photos.length != 0" app flat bottom color="white">
+<v-app-bar app flat bottom color="white">
     <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Siguiente</v-btn>
+    <v-btn class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Confirmation</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
 </v-app>
@@ -60,7 +60,7 @@
 
 <script>
     export default {
-        name: 'new-photos',
+        name: 'confirmation',
         middleware: "auth",
         data() {
             return {

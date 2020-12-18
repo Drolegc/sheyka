@@ -1,9 +1,20 @@
-/* @font-face {
-    font-family: Monofur;
-    src: url('/assets/monof55.ttf') format('truetype');
-} */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@font-face {
+    font-family: 'Monofur';
+    src: url('monof55.ttf');
+    font-weight: bold;
+}
+
+.sheyka-title {
+    font-family: 'Monofur' !important;
+    font-size: 34pt;
+}
+
+.sheyka-app-bar {
+    font-family: 'Monofur' !important;
+    font-size: 28pt;
+}
+
 .v-application {
     font-family: 'Montserrat' !important;
 }
@@ -46,4 +57,8 @@
 
 .ls-3 {
     letter-spacing: 3px !important;
+}
+
+.primary_background {
+    background-color: rgba(101, 24, 130, 0.1) !important;
 }

@@ -14,7 +14,7 @@
       src="/logo.svg"
       height="200vh"    
       ></img>  
-      <h1 class="white--text text-center ls-3 mb-3">Sheyka</h1>
+      <h1 class="white--text text-center ls-3 mb-3 sheyka-title">Sheyka</h1>
       <p class="white--text text-center pl-5 ls-2 pr-5 mt-6">No pierdas tus mejores recuerdos en la memoria de tu celular, comienza a crear una galeria en tu casa.</p>
       <h2 class="white--text text-center ls-2 mb-6 mt-6">Asi de simple:</h2>
 

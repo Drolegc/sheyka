@@ -7,6 +7,8 @@
         >
         <v-btn icon color="secondary" @click="$router.push('/new')"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-spacer></v-spacer>
+        <span class="sheyka-app-bar white--text">Sheyka</span>
+        <v-spacer></v-spacer>
         <v-menu offset-y>
             <template v-slot:activator="{on,attrs}">
               <v-btn 
@@ -25,13 +27,17 @@
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
     <v-list-item>
-        <v-list-item-title>Comunicate con nosotros</v-list-item-title>
-    </v-list-item>
-    <v-list-item>
         <v-list-item-title>Preguntas frecuentes</v-list-item-title>
     </v-list-item>
     <v-list-item>
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
+    </v-list-item>
+    <v-list-item>
+        <v-list-item-icon>
+            <v-icon> mdi-whatsapp</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+            Comunicate con nosotros</v-list-item-title>
     </v-list-item>
     <v-list-item @click="$auth.logout()">
         <v-list-item-title>Salir</v-list-item-title>
@@ -43,9 +49,9 @@
 <v-main>
     <nuxt></nuxt>
 </v-main>
-<v-app-bar v-if="photos.length != 0" app flat bottom color="white">
+<v-app-bar v-if="photos.length != 0" class="elevation-1" app flat bottom color="white">
     <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="siguiente" large>Confirmar</v-btn>
+    <v-btn class="rounded-lg elevation-0" color="secondary" @click="$router.push('/confirmation')" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
 </v-app>

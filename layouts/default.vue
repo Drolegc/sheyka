@@ -22,14 +22,19 @@
     <v-list-item>
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
-    <v-list-item>
-        <v-list-item-title>Comunicate con nosotros</v-list-item-title>
-    </v-list-item>
+
     <v-list-item>
         <v-list-item-title>Preguntas frecuentes</v-list-item-title>
     </v-list-item>
     <v-list-item>
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
+    </v-list-item>
+    <v-list-item>
+        <v-list-item-icon>
+            <v-icon> mdi-whatsapp </v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+            Comunicate con nosotros</v-list-item-title>
     </v-list-item>
     <v-list-item @click="$auth.logout()">
         <v-list-item-title>Salir</v-list-item-title>
