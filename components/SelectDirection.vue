@@ -13,6 +13,7 @@
    <div class="rounded-lg white pa-2">
     <v-form
     ref="form"
+    v-model="validate"
     >
         <v-text-field
             name="nombre_apellido"
@@ -23,18 +24,18 @@
             required
         ></v-text-field>
         <v-text-field
-            name="direccion1"
+            name="calle_numero"
             label="Calle y numero"
-            id="direccion1"
-            v-model="direccion1"
+            id="calle_numero"
+            v-model="calle_numero"
             :rules="[ v => !!v || 'Calle y numero requeridos']"
             required
         ></v-text-field>
         <v-text-field
-            name="direccion2"
-            v-model="direccion2"
+            name="piso_puerta_otros"
+            v-model="piso_puerta_otros"
             label="Piso, puerta, escalera, otros"
-            id="direccion2"
+            id="piso_puerta_otros"
         ></v-text-field>
         <v-select 
         :items="paises" 
@@ -45,7 +46,7 @@
         label="Pais" 
         :rules="[(v) => !!v || 'Este campo es requerido']"></v-select>
         <v-select 
-        :items="ciudad" 
+        :items="ciudades" 
         item-text="text" 
         item-value="value" 
         required 
@@ -55,7 +56,7 @@
         <v-text-field
             name="codigo_postal"
             label="Codigo postal"
-            id="codigo postal"
+            id="codigo_postal"
             v-model="codigo_postal"
         ></v-text-field>
         <v-text-field
@@ -64,9 +65,8 @@
             id="telefono"
             v-model="telefono"
         ></v-text-field>
-        <div class="d-flex justify-space-between align-center">
-            <v-btn icon color="red"><v-icon>mdi-close</v-icon></v-btn>
-            <v-btn icon color="success"><v-icon>mdi-check</v-icon></v-btn>
+        <div class="text-center">
+            <v-btn class="elevation-0" fab color="success" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
         </div>
     </v-form>
         
@@ -80,17 +80,66 @@
     export default {
         data() {
             return {
-                dialog: true,
-                direccion1: '',
-                direccion2: '',
-                ciudad: [''],
+                dialog: false,
+                validate: false,
+                // direccion1: '',
+                // direccion2: '',
+                ciudades: [''],
                 ciudadSeleccionada: '',
-                estado_provincia: '',
-                codigo_postal: '',
-                numero: '',
-                pais: [''],
+                // estado_provincia: '',
+                // codigo_postal: '',
+                // numero: '',
+                paises: [''],
                 paisSeleccionado: '',
-                telefono: ''
+                // telefono: ''
+            }
+        },
+        computed: {
+            nombre_apellido: {
+                set(value) {
+                    this.$store.dispatch("new/setNombreApellido", value)
+                },
+                get() {
+                    return this.$store.nombre_apellido
+                }
+            },
+            calle_numero: {
+                set(value) {
+                    this.$store.dispatch("new/setCalleNumero", value)
+                },
+                get() {
+                    return this.$store.calle_numero
+                }
+            },
+            piso_puerta_otros: {
+                set(value) {
+                    this.$store.dispatch("new/setPisoPuertaOtros", value)
+                },
+                get() {
+                    this.$store.piso_puerta_otros
+                }
+            },
+            codigo_postal: {
+                set(value) {
+                    this.$store.dispatch("new/setCodigoPostal", value)
+                },
+                get() {
+                    this.$store.codigo_postal
+                }
+            },
+            telefono: {
+                set(value) {
+                    this.$store.dispatch("new/setTelefono", value)
+                },
+                get() {
+                    this.$store.telefono
+                }
+            }
+        },
+        methods: {
+            checkForm() {
+                this.$refs.form.validate()
+                if (this.validate) return
             }
         }
     }

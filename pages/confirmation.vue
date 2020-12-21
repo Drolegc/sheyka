@@ -16,13 +16,14 @@
 
         <div class="full-width mb-5">
             <p class="title">Pago</p>
-            <h1 class="primary--text">{{photos.length}} cuadros de 20x20</h1>
+            <select-payment></select-payment>
         </div>
     </v-container>
 </template>
 
 <script>
     import SelectDirection from '~/components/SelectDirection.vue'
+    import SelectPayment from '~/components/SelectPayment.vue'
 
     export default {
         layout: 'confirmation',
@@ -34,7 +35,8 @@
             },
         },
         components: {
-            SelectDirection
+            SelectDirection,
+            SelectPayment
         }
     }
 </script>
