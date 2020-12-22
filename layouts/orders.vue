@@ -49,49 +49,15 @@
 <v-main>
     <nuxt></nuxt>
 </v-main>
-<v-app-bar app flat bottom color="white">
-    <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmation</v-btn>
-    <v-spacer></v-spacer>
-</v-app-bar>
 </v-app>
 
 </template>
 
 <script>
     export default {
-        name: 'confirmation',
+        name: 'orders',
         middleware: "auth",
-        data() {
-            return {
-                options: [{
-                    title: 'Mi perfil',
-                    callback: ''
-                }, {
-                    title: 'Mis ordenes',
-                    callback: ''
-                }, {
-                    title: 'Contacto',
-                    callback: ''
-                }, {
-                    title: 'Click Me 2',
-                    callback: ''
-                }, ],
-            }
-        },
-        computed: {
-            photos: {
-                get() {
-                    return this.$store.getters["new/photos"]
-                }
-            },
 
-        },
-        methods: {
-            createOrder() {
-                this.$router.push('/orders')
-            }
-        }
 
     }
 </script>
