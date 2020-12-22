@@ -42,28 +42,20 @@
 </template>
 
 <script>
-    export default { <<
-        << << < HEAD ===
-        === =
+    export default {
         layout: 'orders',
-        >>>
-        >>> > 3 f55616657483a95c2e551b700d7f4950f803eba
         data() {
             return {
                 orders: []
             }
         },
-        created() { <<
-            << << < HEAD
-            this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = repsonse.data) ===
-                === =
-                this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = response)
+        created() {
+            this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = response)
         },
         methods: {
             deleteOrder() {
                 this.$router.push('/orders')
-            } >>>
-            >>> > 3 f55616657483a95c2e551b700d7f4950f803eba
+            }
         }
     }
 </script>
