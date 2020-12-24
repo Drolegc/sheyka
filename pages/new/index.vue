@@ -126,7 +126,8 @@
                     reader.onload = (e) => {
                         let data = {
                             file: files[i],
-                            url: e.target.result
+                            url: e.target.result,
+                            cantidad: 1
                         }
                         this.$store.dispatch("new/addPhoto", data);
                     }

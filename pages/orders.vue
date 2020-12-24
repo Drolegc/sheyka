@@ -1,43 +1,69 @@
 <template>
     <v-container class=" full-height primary_background" >
         <h1 class="primary--text mb-10">Mis ordenes</h1>
-        <div class="white d-flex justify-center align-center rounded-lg elevation-1 pa-3">
-            <v-img
-            class="mr-3"
-            src="https://picsum.photos/id/11/500/300"
-            aspect-ratio="1"
-            >   
-            </v-img>
-            <div class="text-left">
-                <span class="subtitle">3 cuadros grandes</span>
-                <br>
-                <span><b>Estado:</b> en camino</span>
-            </div>
-            <v-spacer></v-spacer>
-            <div class="text-center">
-                <v-menu
-            bottom
-            left
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                icon
-                v-bind="attrs"
-                v-on="on"
+        <template v-for="(order,index) in orders">
+            <div class="white d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3">
+                <v-img
+                class="mr-3"
+                :src="$axios.defaults.baseURL + order.frames[0].picture.url"
+                aspect-ratio="1"
+                >   
+                </v-img>
+                <div class="text-left">
+                    <span class="subtitle">{{quantity(order)}} cuadros</span>
+                    <br>
+                    <span><b>Estado:</b> {{state(order.state)}}</span>
+                </div>
+                <v-spacer></v-spacer>
+                <div class="text-center">
+                    <v-menu
+                bottom
+                left
               >
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
 
 <v-list>
-    <v-list-item>
-        <v-list-item-title>Reportar retraso</v-list-item-title>
+    <v-list-item @click="orderAction(order)">
+        <v-list-item-title>Detalles</v-list-item-title>
     </v-list-item>
 </v-list>
 </v-menu>
 </div>
 
 </div>
+</template>
+<v-dialog v-model="selectedOrder" max-width="500px" transition="dialog-transition">
+    <div class="pa-4 white rounded-lg">
+        <h3>Detalles de la orden</h3>
+        <hr class="mt-2 mb-2">
+        <template v-for="(frame,index) in selectedOrderData.frames">
+            <div class="d-flex align-center" :key="index">
+                <v-img
+                aspect-ratio="1"
+                class="mr-3"
+                :src="$axios.defaults.baseURL + frame.picture.url"
+                max-width="75"
+                max-height="75"
+                ></v-img>
+                <span>Cantidad: {{frame.quantity}}</span>
+            </div>
+        </template>
+        <hr class="mt-2 mb-2">
+        <div class="d-flex align-center">
+            <v-btn class="elevation-0 rounded-lg white--text" color="red">Reportar demora</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="elevation-0 rounded-lg" color="success">Ya llego!</v-btn>
+        </div>
+    </div>
+</v-dialog>
 </v-container>
 </template>
 
@@ -46,15 +72,36 @@
         layout: 'orders',
         data() {
             return {
-                orders: []
+                orders: [],
+                selectedOrder: false,
+                selectedOrderData: {},
             }
         },
         created() {
-            this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = response)
+            this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = response.data)
         },
         methods: {
             deleteOrder() {
                 this.$router.push('/orders')
+            },
+            quantity(order) {
+                var result = 0
+                order.frames.forEach(frame => result += frame.quantity)
+                return result
+            },
+            state(state_data) {
+                switch (state_data) {
+                    case 'comming':
+                        return 'en camino'
+                    case 'delay':
+                        return 'con retraso'
+                    case 'received':
+                        return 'recibido'
+                }
+            },
+            orderAction(order) {
+                this.selectedOrder = true
+                this.selectedOrderData = order
             }
         }
     }
