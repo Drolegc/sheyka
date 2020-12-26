@@ -51,7 +51,7 @@
 </v-main>
 <v-app-bar app flat bottom color="white">
     <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmation</v-btn>
+    <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
 </v-app>
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+    import VS2 from 'vue-script2'
+
     export default {
         name: 'confirmation',
         middleware: "auth",
@@ -89,7 +91,50 @@
         },
         methods: {
             createOrder() {
-                this.$router.push('/orders')
+                VS2.load('https://checkout.epayco.co/checkout.js')
+                    .then(() => {
+                        var handler = ePayco.checkout.configure({
+                            key: '733c081b8f0b9b3c4c7259ceedbd3a34',
+                            test: true
+                        })
+                        var data = {
+                            //Parametros compra (obligatorio)
+                            name: "Vestido Mujer Primavera",
+                            description: "Vestido Mujer Primavera",
+                            invoice: "1234",
+                            currency: "cop",
+                            amount: "12000",
+                            tax_base: "0",
+                            tax: "0",
+                            country: "co",
+                            lang: "en",
+
+                            //Onpage="false" - Standard="true"
+                            external: "false",
+
+
+                            //Atributos opcionales
+                            extra1: "extra1",
+                            extra2: "extra2",
+                            extra3: "extra3",
+                            confirmation: "http://localhost:3000",
+                            response: "http://localhost:3000",
+
+                            //Atributos cliente
+                            name_billing: "Andres Perez",
+                            address_billing: "Carrera 19 numero 14 91",
+                            type_doc_billing: "cc",
+                            mobilephone_billing: "3050000000",
+                            number_doc_billing: "50148289",
+
+                            //atributo deshabilitación metodo de pago
+                            //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
+
+                        }
+
+                        handler.open(data)
+                    })
+                    //this.$router.push('/orders')
             }
         }
 

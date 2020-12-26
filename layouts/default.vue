@@ -84,6 +84,7 @@
         <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
         <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
     </div>
+
 </v-dialog>
 
 
@@ -92,7 +93,9 @@
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="iniciar" large>Iniciemos</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
-
+<v-snackbar v-model="snackbar" :timeout="1500">
+    Email y/o contraseña incorrecta
+</v-snackbar>
 </v-app>
 </template>
 
@@ -105,6 +108,7 @@
         name: 'default',
         data() {
             return {
+                snackbar: false,
                 dialogInicioSesion: false,
                 valid_inicio_sesion: false,
                 dialogRegistro: false,
@@ -177,7 +181,9 @@
                     this.dialogInicioSesion = false
                     this.dialogRegistro = false
                 } catch (e) {
+                    console.log("aqui")
                     console.error(e)
+                    this.snackbar = true
                 }
             },
 
