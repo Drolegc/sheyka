@@ -17,6 +17,7 @@ export const state = () => ({
     ciudad: '',
     codigo_postal: '',
     telefono: '',
+    documento: ''
 
 })
 
@@ -53,6 +54,9 @@ export const mutations = {
     },
     setTelefono(state, telefono) {
         state.telefono = telefono
+    },
+    setDocumento(state, documento) {
+        state.documento = documento
     }
 }
 
@@ -89,12 +93,32 @@ export const actions = {
     },
     setTelefono({ commit }, telefono) {
         commit('setTelefono', telefono)
+    },
+    setDocumento({ commit }, documento) {
+        commit('setDocumento', documento)
     }
 }
 
 export const getters = {
     photos(state) {
         return state.photos
+    },
+    checkOrderInformation(state) {
+        return (state.photos.length > 0 &&
+            state.nombre_apellido != '' &&
+            state.calle_numero != '' &&
+            state.piso_puerta_otros != '' &&
+            state.pais != '' &&
+            state.ciudad != '' &&
+            state.codigo_postal != '' &&
+            state.telefono != '' &&
+            state.documento != ''
+        )
+    },
+    frames(state) {
+        var frames = 0
+        state.photos.forEach(photo => frames += photo.cantidad)
+        return frames
     }
 
 }

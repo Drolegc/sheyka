@@ -54,6 +54,7 @@
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
+<script2 src="https://checkout.epayco.co/checkout.js"></script2>
 </v-app>
 
 </template>
@@ -87,54 +88,91 @@
                     return this.$store.getters["new/photos"]
                 }
             },
+            nombre_apellido: {
+                get() {
+                    return this.$store.nombre_apellido
+                }
+            },
+            calle_numero: {
+                get() {
+                    return this.$store.calle_numero
+                }
+            },
+            piso_puerta_otros: {
+                get() {
+                    this.$store.piso_puerta_otros
+                }
+            },
+            codigo_postal: {
+                get() {
+                    this.$store.codigo_postal
+                }
+            },
+            telefono: {
+                get() {
+                    this.$store.telefono
+                }
+            },
+            documento: {
+                get() {
+                    this.$store.documento
+                }
+            }
 
         },
         methods: {
             createOrder() {
-                VS2.load('https://checkout.epayco.co/checkout.js')
-                    .then(() => {
-                        var handler = ePayco.checkout.configure({
-                            key: '733c081b8f0b9b3c4c7259ceedbd3a34',
-                            test: true
-                        })
-                        var data = {
-                            //Parametros compra (obligatorio)
-                            name: "Vestido Mujer Primavera",
-                            description: "Vestido Mujer Primavera",
-                            invoice: "1234",
-                            currency: "cop",
-                            amount: "12000",
-                            tax_base: "0",
-                            tax: "0",
-                            country: "co",
-                            lang: "en",
 
-                            //Onpage="false" - Standard="true"
-                            external: "false",
+                if (!this.$store.getters["new/checkOrderInformation"]) {
+                    this.$root.$emit('showOrderInformation')
+                    return
+                }
+
+                var handler = ePayco.checkout.configure({
+                    key: '733c081b8f0b9b3c4c7259ceedbd3a34',
+                    test: true
+                })
+                var frames = this.$store.getters["new/frames"]
+                var data = {
+                    //Parametros compra (obligatorio)
+                    name: `${frames} cuadros de 20x20`,
+                    description: `${frames} cuadros de Sheyka de 20x20 cms`,
+                    currency: "cop",
+                    amount: "",
+                    country: "co",
+                    lang: "en",
+
+                    //Onpage="false" - Standard="true"
+                    external: "false",
 
 
-                            //Atributos opcionales
-                            extra1: "extra1",
-                            extra2: "extra2",
-                            extra3: "extra3",
-                            confirmation: "http://localhost:3000",
-                            response: "http://localhost:3000",
+                    //Atributos opcionales
+                    extra1: "extra1",
+                    extra2: "extra2",
+                    extra3: "extra3",
+                    response: "http://b285b42293ef.ngrok.io/orders",
+                    acepted: `${this.$axios.defaults.baseURL}/orders/acepted`,
+                    rejected: `${this.$axios.defaults.baseURL}/orders/rejected`,
 
-                            //Atributos cliente
-                            name_billing: "Andres Perez",
-                            address_billing: "Carrera 19 numero 14 91",
-                            type_doc_billing: "cc",
-                            mobilephone_billing: "3050000000",
-                            number_doc_billing: "50148289",
+                    //Atributos cliente
+                    name_billing: this.nombre_apellido,
+                    address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
+                    type_doc_billing: "cc",
+                    mobilephone_billing: this.telefono,
+                    number_doc_billing: this.documento,
 
-                            //atributo deshabilitación metodo de pago
-                            //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
+                    //atributo deshabilitación metodo de pago
+                    //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
 
-                        }
+                }
 
-                        handler.open(data)
-                    })
-                    //this.$router.push('/orders')
+                this.$axios.get('/order-price').then(response => {
+                    var amount = response.data
+                    var newAmount = amount * frames
+                    data["amount"] = newAmount
+                    handler.open(data)
+                })
+
             }
         }
 

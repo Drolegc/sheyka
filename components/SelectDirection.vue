@@ -12,7 +12,7 @@
 
    <div class="rounded-lg white pa-2">
     <v-form
-    ref="form"
+    ref="formDirection"
     v-model="validate"
     >
         <v-text-field
@@ -94,6 +94,13 @@
                 // telefono: ''
             }
         },
+        created() {
+            this.$root.$on('showOrderInformation', () => {
+                this.dialog = true
+                    //this.checkForm()
+
+            })
+        },
         computed: {
             nombre_apellido: {
                 set(value) {
@@ -138,7 +145,7 @@
         },
         methods: {
             checkForm() {
-                this.$refs.form.validate()
+                this.$refs.formDirection.validate()
                 if (this.validate) return
             }
         }
