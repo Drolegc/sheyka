@@ -9,7 +9,7 @@
       <template v-slot:activator="{on,attrs}">
         <v-btn 
         icon 
-        color="secondary" 
+        color="white" 
         v-bind="attrs"
         v-on="on">
           <v-icon>mdi-menu</v-icon>
@@ -19,7 +19,7 @@
     <v-list-item>
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('/orders/')">
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
 
@@ -62,7 +62,7 @@
         <v-form class="full-width text-center" ref="form" v-model="valid_inicio_sesion">
             <v-text-field name="Email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
             <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
-            <v-btn class="elevation-0 large" color="secondary" @click="inicioDeSesion" block>Entrar</v-btn>
+            <v-btn class="elevation-0 large" color="white" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
         <google-login class="ma-3 full-width" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
         <v-facebook-login class="ma-3 full-width" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
@@ -79,7 +79,7 @@
             <v-text-field name="nombre" label="Nombre" id="nombre" v-model="nombre"></v-text-field>
             <v-text-field name="apellido" label="Apellido" id="apellido" v-model="apellido"></v-text-field>
             <v-text-field name="telefono" label="Telefono" id="telefono" v-model="telefono" type="number"></v-text-field>
-            <v-btn class="elevation-0 large" color="secondary" block>Crear cuenta</v-btn>
+            <v-btn class="elevation-0 large" color="white" block>Crear cuenta</v-btn>
         </v-form>
         <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
         <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>

@@ -1,18 +1,25 @@
 <template>
     <v-container class=" full-height primary_background" >
         <h1 class="primary--text mb-10">Mis ordenes</h1>
-        <template v-for="(order,index) in orders">
+        <p class="subtitle text-center">Las ordenes pueden demorar un par de minutos en ser procesadas</p>
+        <h3 v-if="orders.length == 0" class="grey--text">No tienes ordenes</h3>
+        <template v-else v-for="(order,index) in orders">
             <div class="white d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3">
                 <v-img
                 class="mr-3"
                 :src="$axios.defaults.baseURL + order.frames[0].picture.url"
                 aspect-ratio="1"
+                width="33%"
                 >   
                 </v-img>
                 <div class="text-left">
                     <span class="subtitle">{{quantity(order)}} cuadros</span>
                     <br>
                     <span><b>Estado:</b> {{state(order.state)}}</span>
+                    <br>
+                    <span><b>Fecha:</b> {{formatDate(order.created_at)}}</span>
+
+                    
                 </div>
                 <v-spacer></v-spacer>
                 <div class="text-center">
@@ -68,6 +75,8 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         layout: 'orders',
         data() {
@@ -90,6 +99,7 @@
                 return result
             },
             state(state_data) {
+                console.log(state_data)
                 switch (state_data) {
                     case 'comming':
                         return 'en camino'
@@ -97,11 +107,16 @@
                         return 'con retraso'
                     case 'received':
                         return 'recibido'
+                    default:
+                        'error  '
                 }
             },
             orderAction(order) {
                 this.selectedOrder = true
                 this.selectedOrderData = order
+            },
+            formatDate(date) {
+                return moment(date).format('LLLL');
             }
         }
     }

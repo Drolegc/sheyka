@@ -5,7 +5,7 @@
         absolute
         class="elevation-0 primary"
         >
-        <v-btn icon color="secondary" @click="$router.push('/')"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        <v-btn icon color="white" @click="$router.push('/')"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-spacer></v-spacer>
         <span class="sheyka-app-bar white--text">Sheyka</span>
         <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
             <template v-slot:activator="{on,attrs}">
               <v-btn 
               icon 
-              color="secondary" 
+              color="white" 
               v-bind="attrs"
               v-on="on">
                 <v-icon>mdi-menu</v-icon>
@@ -23,7 +23,7 @@
     <v-list-item>
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('/orders/')">
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
     <v-list-item>

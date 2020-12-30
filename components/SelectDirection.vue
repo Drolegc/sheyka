@@ -2,7 +2,7 @@
     <v-container >
         <v-container class="d-flex justify-space-around align-center rounded-lg white" @click="dialog = true">
             <v-icon x-large>mdi-home</v-icon>
-        <span class="headline">Agregar direccion</span>
+        <span class="headline">{{message}}</span>
         </v-container>
 
         <v-dialog
@@ -24,6 +24,14 @@
             required
         ></v-text-field>
         <v-text-field
+            name="documento"
+            label="Documento de identidad"
+            id="documento"
+            v-model="documento"
+            :rules="[ v => !!v || 'Documento requerido']"
+            required
+        ></v-text-field>
+        <v-text-field
             name="calle_numero"
             label="Calle y numero"
             id="calle_numero"
@@ -36,12 +44,14 @@
             v-model="piso_puerta_otros"
             label="Piso, puerta, escalera, otros"
             id="piso_puerta_otros"
+            :rules="[ v => !!v || 'Campo requerido']"
+
+            required
         ></v-text-field>
         <v-select 
         :items="paises" 
         item-text="text" 
         item-value="value" 
-        required 
         v-model="paisSeleccionado" 
         label="Pais" 
         :rules="[(v) => !!v || 'Este campo es requerido']"></v-select>
@@ -56,14 +66,20 @@
         <v-text-field
             name="codigo_postal"
             label="Codigo postal"
+            type="number"
             id="codigo_postal"
+            required
             v-model="codigo_postal"
+            :rules="[ v => !!v || 'Codigo postal requerido']"
         ></v-text-field>
         <v-text-field
             name="telefono"
             label="Numero de telefono"
+            type="number"
             id="telefono"
+            required
             v-model="telefono"
+            :rules="[ v => !!v || 'Telefono requeridos']"
         ></v-text-field>
         <div class="text-center">
             <v-btn class="elevation-0" fab color="success" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
@@ -77,20 +93,22 @@
 </template>
 
 <script>
+    import ciudades from '~/static/ciudades.json'
+
+
     export default {
         data() {
             return {
+                message: 'Agregar direccion',
                 dialog: false,
                 validate: false,
                 // direccion1: '',
                 // direccion2: '',
-                ciudades: [''],
-                ciudadSeleccionada: '',
+                ciudades: ciudades,
                 // estado_provincia: '',
                 // codigo_postal: '',
                 // numero: '',
-                paises: [''],
-                paisSeleccionado: '',
+                paises: ['Colombia'],
                 // telefono: ''
             }
         },
@@ -98,8 +116,9 @@
             this.$root.$on('showOrderInformation', () => {
                 this.dialog = true
                     //this.checkForm()
-
             })
+
+
         },
         computed: {
             nombre_apellido: {
@@ -107,7 +126,7 @@
                     this.$store.dispatch("new/setNombreApellido", value)
                 },
                 get() {
-                    return this.$store.nombre_apellido
+                    return this.$store.getters["new/getNombreApellido"]
                 }
             },
             calle_numero: {
@@ -115,7 +134,7 @@
                     this.$store.dispatch("new/setCalleNumero", value)
                 },
                 get() {
-                    return this.$store.calle_numero
+                    return this.$store.getters["new/getCalleNumero"]
                 }
             },
             piso_puerta_otros: {
@@ -123,7 +142,7 @@
                     this.$store.dispatch("new/setPisoPuertaOtros", value)
                 },
                 get() {
-                    this.$store.piso_puerta_otros
+                    return this.$store.getters["new/getPisoPuertaOtros"]
                 }
             },
             codigo_postal: {
@@ -131,7 +150,7 @@
                     this.$store.dispatch("new/setCodigoPostal", value)
                 },
                 get() {
-                    this.$store.codigo_postal
+                    return this.$store.getters["new/getCodigoPostal"]
                 }
             },
             telefono: {
@@ -139,14 +158,40 @@
                     this.$store.dispatch("new/setTelefono", value)
                 },
                 get() {
-                    this.$store.telefono
+                    return this.$store.getters["new/getTelefono"]
                 }
-            }
+            },
+            paisSeleccionado: {
+                set(value) {
+                    this.$store.dispatch("new/setPais", value)
+                },
+                get() {
+                    return this.$store.getters["new/getPais"]
+                }
+            },
+            ciudadSeleccionada: {
+                set(value) {
+                    this.$store.dispatch("new/setCiudad", value)
+                },
+                get() {
+                    return this.$store.getters["new/getCiudad"]
+                }
+            },
+            documento: {
+                set(value) {
+                    this.$store.dispatch("new/setDocumento", value)
+                },
+                get() {
+                    return this.$store.getters["new/getDocumento"]
+                }
+            },
         },
         methods: {
             checkForm() {
                 this.$refs.formDirection.validate()
-                if (this.validate) return
+                if (!this.validate) return
+                this.dialog = false
+                this.message = `${this.paisSeleccionado} ${this.ciudadSeleccionada} ${this.calle_numero} ${this.piso_puerta_otros}`
             }
         }
     }

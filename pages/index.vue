@@ -11,7 +11,7 @@
     
       <img
       class="logo mb-3"
-      src="/logo.svg"
+      src="/logo.png"
       height="200vh"    
       ></img>  
       <h1 class="white--text text-center ls-3 mb-3 sheyka-title">Sheyka</h1>
@@ -44,11 +44,8 @@
 
 <style>
     .background {
-        /* background-color: aqua; */
-        /* background-image: url('/background.png');
-        background-size: cover; */
-        background: rgb(101, 24, 130);
-        background: linear-gradient(180deg, rgba(101, 24, 130, 1) 0%, rgba(101, 24, 130, 1) 22%, rgba(101, 24, 130, 0.7) 50%, rgba(101, 24, 130, 0.5) 79%, rgba(255, 255, 255, 0.14889705882352944) 100%);
+        background: rgb(25, 82, 126);
+        background: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
     }
     
     .sheyka-title {

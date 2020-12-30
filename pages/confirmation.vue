@@ -14,10 +14,10 @@
             <select-direction></select-direction>
         </div>
 
-        <div class="full-width mb-5">
+        <!-- <div class="full-width mb-5">
             <p class="title">Pago</p>
             <select-payment></select-payment>
-        </div>
+        </div> -->
     </v-container>
 </template>
 

@@ -5,7 +5,7 @@
         absolute
         class="elevation-0 primary"
         >
-        <v-btn icon color="secondary" @click="$router.push('/')"><v-icon>mdi-arrow-left</v-icon></v-btn>
+        <v-btn icon color="white" @click="$router.push('/')"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-spacer></v-spacer>
         <span class="sheyka-app-bar white--text">Sheyka</span>
         <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
             <template v-slot:activator="{on,attrs}">
               <v-btn 
               icon 
-              color="secondary" 
+              color="white" 
               v-bind="attrs"
               v-on="on">
                 <v-icon>mdi-menu</v-icon>
@@ -23,7 +23,7 @@
     <v-list-item>
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('/orders/')">
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
     <v-list-item>
@@ -90,32 +90,48 @@
             },
             nombre_apellido: {
                 get() {
-                    return this.$store.nombre_apellido
+                    return this.$store.getters["new/getNombreApellido"]
                 }
             },
             calle_numero: {
                 get() {
-                    return this.$store.calle_numero
+                    return this.$store.getters["new/getCalleNumero"]
                 }
             },
             piso_puerta_otros: {
                 get() {
-                    this.$store.piso_puerta_otros
+                    return this.$store.getters["new/PisoPuertaOtros"]
                 }
             },
             codigo_postal: {
                 get() {
-                    this.$store.codigo_postal
+                    return this.$store.getters["new/getCodigoPostal"]
                 }
             },
             telefono: {
                 get() {
-                    this.$store.telefono
+                    return this.$store.getters["new/getTelefono"]
                 }
             },
             documento: {
                 get() {
-                    this.$store.documento
+                    return this.$store.getters["new/getDocumento"]
+                }
+            },
+            paisSeleccionado: {
+                set(value) {
+                    this.$store.dispatch("new/setPais", value)
+                },
+                get() {
+                    return this.$store.getters["new/getPais"]
+                }
+            },
+            ciudadSeleccionada: {
+                set(value) {
+                    this.$store.dispatch("new/setCiudad", value)
+                },
+                get() {
+                    return this.$store.getters["new/getCiudad"]
                 }
             }
 
@@ -129,7 +145,7 @@
                 }
 
                 var handler = ePayco.checkout.configure({
-                    key: '733c081b8f0b9b3c4c7259ceedbd3a34',
+                    key: '1dec2b485b2f6dcf1ea69d936bb005a5',
                     test: true
                 })
                 var frames = this.$store.getters["new/frames"]
@@ -150,10 +166,10 @@
                     extra1: "extra1",
                     extra2: "extra2",
                     extra3: "extra3",
-                    response: "http://b285b42293ef.ngrok.io/orders",
-                    acepted: `${this.$axios.defaults.baseURL}/orders/acepted`,
-                    rejected: `${this.$axios.defaults.baseURL}/orders/rejected`,
-
+                    response: "http://localhost:3000/orders/acepted",
+                    confirmation: "http://84ce528a8263.ngrok.io/orders",
+                    accepted: "http://localhost:3000/orders/acepted",
+                    rejected: "http://localhost:3000/orders/rejected",
                     //Atributos cliente
                     name_billing: this.nombre_apellido,
                     address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
@@ -168,7 +184,7 @@
 
                 this.$axios.get('/order-price').then(response => {
                     var amount = response.data
-                    var newAmount = amount * frames
+                    var newAmount = amount['price'] * frames
                     data["amount"] = newAmount
                     handler.open(data)
                 })

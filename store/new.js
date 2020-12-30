@@ -10,14 +10,14 @@ export const state = () => ({
         url: "https://picsum.photos/id/11/500/300",
         cantidad: 1
     }],
-    nombre_apellido: '',
-    calle_numero: '',
-    piso_puerta_otros: '',
-    pais: '',
-    ciudad: '',
-    codigo_postal: '',
-    telefono: '',
-    documento: ''
+    nombre_apellido: 'octonove test',
+    calle_numero: 'Calle 004',
+    piso_puerta_otros: 'Apto 003',
+    pais: "Colombia",
+    ciudad: "Medellin",
+    codigo_postal: '2222',
+    telefono: '093393982',
+    documento: '50369276'
 
 })
 
@@ -108,8 +108,8 @@ export const getters = {
             state.nombre_apellido != '' &&
             state.calle_numero != '' &&
             state.piso_puerta_otros != '' &&
-            state.pais != '' &&
-            state.ciudad != '' &&
+            state.pais != null &&
+            state.ciudad != null &&
             state.codigo_postal != '' &&
             state.telefono != '' &&
             state.documento != ''
@@ -119,6 +119,30 @@ export const getters = {
         var frames = 0
         state.photos.forEach(photo => frames += photo.cantidad)
         return frames
+    },
+    getNombreApellido(state) {
+        return state.nombre_apellido
+    },
+    getCalleNumero(state) {
+        return state.calle_numero
+    },
+    getPisoPuertaOtros(state) {
+        return state.piso_puerta_otros
+    },
+    getPais(state) {
+        return state.pais
+    },
+    getCiudad(state) {
+        return state.ciudad
+    },
+    getCodigoPostal(state) {
+        return state.codigo_postal
+    },
+    getTelefono(state) {
+        return state.telefono
+    },
+    getDocumento(state) {
+        return state.documento
     }
 
 }

@@ -3,7 +3,7 @@
         <template v-slot:activator="{on,attrs}">
           <v-btn 
           icon 
-          color="secondary" 
+          color="white" 
           v-bind="attrs"
           v-on="on">
             <v-icon>mdi-menu</v-icon>
@@ -13,7 +13,7 @@
     <v-list-item>
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('/orders/')">
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
 
