@@ -10,14 +10,15 @@ export const state = () => ({
         url: "https://picsum.photos/id/11/500/300",
         cantidad: 1
     }],
-    nombre_apellido: 'octonove test',
-    calle_numero: 'Calle 004',
-    piso_puerta_otros: 'Apto 003',
-    pais: "Colombia",
-    ciudad: "Medellin",
-    codigo_postal: '2222',
-    telefono: '093393982',
-    documento: '50369276'
+    nombre_apellido: '',
+    calle_numero: '',
+    piso_puerta_otros: '',
+    pais: "",
+    ciudad: "",
+    codigo_postal: '',
+    telefono: '',
+    documento: '',
+    email: ''
 
 })
 
@@ -57,6 +58,17 @@ export const mutations = {
     },
     setDocumento(state, documento) {
         state.documento = documento
+    },
+    setUserInitData(state, user_init_data) {
+        state.documento = user_init_data.documento
+        state.telefono = user_init_data.telefono
+            //state.codigo_postal = user_init_data.codigo_postal
+            //state.ciudad = user_init_data.ciudad
+            //state.pais = user_init_data.pais
+            //state.piso_puerta_otros = calle_otros
+            //state.calle_numero = user_init_data.calle
+        state.nombre_apellido = user_init_data.nombre_apellido
+        state.email = user_init_data.email
     }
 }
 
@@ -96,6 +108,9 @@ export const actions = {
     },
     setDocumento({ commit }, documento) {
         commit('setDocumento', documento)
+    },
+    setUserInitData({ commit }, user_init_data) {
+        commit('setUserInitData', user_init_data)
     }
 }
 

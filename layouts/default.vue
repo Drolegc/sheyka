@@ -16,7 +16,7 @@
         </v-btn>
       </template>
 <v-list v-if="$auth.loggedIn">
-    <v-list-item>
+    <v-list-item @click="$router.push('/profile/')">
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
     <v-list-item @click="$router.push('/orders/')">
@@ -62,7 +62,7 @@
         <v-form class="full-width text-center" ref="form" v-model="valid_inicio_sesion">
             <v-text-field name="Email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
             <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
-            <v-btn class="elevation-0 large" color="white" @click="inicioDeSesion" block>Entrar</v-btn>
+            <v-btn class="elevation-0 large" color="primary" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
         <google-login class="ma-3 full-width" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
         <v-facebook-login class="ma-3 full-width" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
@@ -180,6 +180,9 @@
                     })
                     this.dialogInicioSesion = false
                     this.dialogRegistro = false
+
+                    var response = await this.$axios.get("/users/" + this.$auth.user.id)
+                    this.$store.dispatch("new/setUserInitData", response.data)
                 } catch (e) {
                     console.log("aqui")
                     console.error(e)
