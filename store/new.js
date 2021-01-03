@@ -1,24 +1,26 @@
 export const state = () => ({
-    photos: [{
-        id: 0,
-        file: "",
-        url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-        cantidad: 1
-    }, {
-        id: 1,
-        file: "",
-        url: "https://picsum.photos/id/11/500/300",
-        cantidad: 1
-    }],
-    nombre_apellido: '',
-    calle_numero: '',
-    piso_puerta_otros: '',
-    pais: "",
-    ciudad: "",
-    codigo_postal: '',
-    telefono: '',
-    documento: '',
-    email: ''
+    photos: [
+        //     {
+        //     id: 0,
+        //     file: "",
+        //     url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
+        //     cantidad: 1
+        // }, {
+        //     id: 1,
+        //     file: "",
+        //     url: "https://picsum.photos/id/11/500/300",
+        //     cantidad: 1
+        // }
+    ],
+    nombre_apellido: 'Test',
+    calle_numero: 'Spinola',
+    piso_puerta_otros: 'apto004',
+    pais: "Uruguay",
+    ciudad: "Maldonado",
+    codigo_postal: '20000',
+    telefono: '111',
+    documento: '123123',
+    email: 'drolegc@gmail.com'
 
 })
 

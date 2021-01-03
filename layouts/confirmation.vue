@@ -61,6 +61,7 @@
 
 <script>
     import VS2 from 'vue-script2'
+    import moment from 'moment';
 
     export default {
         name: 'confirmation',
@@ -100,7 +101,7 @@
             },
             piso_puerta_otros: {
                 get() {
-                    return this.$store.getters["new/PisoPuertaOtros"]
+                    return this.$store.getters["new/getPisoPuertaOtros"]
                 }
             },
             codigo_postal: {
@@ -137,22 +138,59 @@
 
         },
         methods: {
-            createOrder() {
+            async createOrder() {
 
                 if (!this.$store.getters["new/checkOrderInformation"]) {
                     this.$root.$emit('showOrderInformation')
                     return
                 }
 
+                const framesQuantity = this.$store.getters["new/frames"]
+
+                //Generar frames
+                let frames = []
+                for (const photo of this.photos) {
+                    let frameData = new FormData()
+                    frameData.append('files.picture', photo.file, `${this.$auth.user.username+moment()}`)
+                    frameData.append('data', JSON.stringify({
+                        quantity: photo.cantidad
+                    }))
+                    let response = await this.$axios.post('/frames', frameData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    frames.push(response.data.id)
+                }
+
+
+                try {
+                    var response = await this.$axios.post('/orders', {
+                        frames: frames,
+                        user: this.$auth.user.id,
+                        street: this.calle_numero,
+                        street_number: this.piso_puerta_otros,
+                        country: this.paisSeleccionado,
+                        city: this.ciudadSeleccionada
+                    })
+
+                } catch (e) {
+                    return
+                }
+                return
+
+                //Generar Orden
+
+                return
+
                 var handler = ePayco.checkout.configure({
                     key: '1dec2b485b2f6dcf1ea69d936bb005a5',
                     test: true
                 })
-                var frames = this.$store.getters["new/frames"]
                 var data = {
                     //Parametros compra (obligatorio)
-                    name: `${frames} cuadros de 20x20`,
-                    description: `${frames} cuadros de Sheyka de 20x20 cms`,
+                    name: `${framesQuantity} cuadros de 20x20`,
+                    description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
                     currency: "cop",
                     amount: "",
                     country: "co",
