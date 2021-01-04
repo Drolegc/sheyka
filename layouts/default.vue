@@ -45,7 +45,7 @@
         <v-list-item-title @click="dialogInicioSesion = true">Iniciar sesion</v-list-item-title>
     </v-list-item>
     <v-list-item>
-        <v-list-item-title @click="registro">Reistro</v-list-item-title>
+        <v-list-item-title @click="dialogRegistro = true">Reistro</v-list-item-title>
     </v-list-item>
 </v-list>
 
@@ -73,16 +73,17 @@
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <h3>Registro</h3>
-        <v-form class="text-center" ref="form" v-model="valid_inicio_sesion">
-            <v-text-field name="Email" type="email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
-            <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" @click:append="showPass = !showPass" required></v-text-field>
-            <v-text-field name="nombre" label="Nombre" id="nombre" v-model="nombre"></v-text-field>
-            <v-text-field name="apellido" label="Apellido" id="apellido" v-model="apellido"></v-text-field>
-            <v-text-field name="telefono" label="Telefono" id="telefono" v-model="telefono" type="number"></v-text-field>
-            <v-btn class="elevation-0 large" color="white" block>Crear cuenta</v-btn>
+        <v-form class="text-center full-width" ref="form_registro" v-model="valid_registro">
+            <v-text-field name="email" type="email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
+            <v-text-field name="pass" type="password" label="Contraseña" id="pass" v-model="pass" @click:append="showPass = !showPass" required></v-text-field>
+            <v-text-field name="nombre" label="Nombre" id="nombre" v-model="nombre" required></v-text-field>
+            <v-text-field name="apellido" label="Apellido" id="apellido" v-model="apellido" required></v-text-field>
+            <v-text-field name="telefono" label="Telefono" id="telefono" v-model="telefono" type="number" required></v-text-field>
+            <v-text-field name="documento" label="Documento" id="documento" v-model="documento" type="number" required></v-text-field>
+            <v-btn class="elevation-0 large" color="primary" @click="registro" block>Crear cuenta</v-btn>
         </v-form>
-        <google-login class="ma-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
-        <v-facebook-login class="ma-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
+        <google-login class="mt-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
+        <v-facebook-login class="mt-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
     </div>
 
 </v-dialog>
@@ -111,6 +112,7 @@
                 snackbar: false,
                 dialogInicioSesion: false,
                 valid_inicio_sesion: false,
+                valid_registro: false,
                 dialogRegistro: false,
                 //Data para registrar usuario
                 email: null,
@@ -124,24 +126,8 @@
                 nombre: null,
                 apellido: null,
                 telefono: null,
+                documento: null,
                 showPass: false,
-                //Manu options
-                optionsLoggedIn: [{
-                    title: 'Click Me'
-                }, {
-                    title: 'Click Me'
-                }, {
-                    title: 'Click Me'
-                }, {
-                    title: 'Click Me 2'
-                }, ],
-                optionsAnonymously: [{
-                    title: 'Iniciar sesion',
-                    callback: 'inicioDeSesion'
-                }, {
-                    title: 'Registro',
-                    callback: 'registro'
-                }, ],
                 params: {
                     client_id: "957222471580-0s95ltriq07u5ugq6l81ksovbiorm6lk.apps.googleusercontent.com"
                 },
@@ -164,8 +150,26 @@
                 console.log("Failed", data)
             },
             registro() {
-                this.dialogRegistro = true
-                console.log("registro")
+                this.$refs.form_registro.validate()
+                if (!this.valid_registro) return
+                this.$axios.post('/auth/local/register', {
+                    username: this.email,
+                    email: this.email,
+                    password: this.pass,
+                    nombre_apellido: `${this.nombre} ${this.apellido}`,
+                    telefono: this.telefono,
+                    documento: this.documento
+                }).then(response => {
+                    this.$auth.loginWith("local", {
+                        data: {
+                            identifier: this.email,
+                            password: this.pass,
+                        }
+                    }).then(response => {
+                        this.dialogRegistro = false
+                    })
+
+                })
             },
             async inicioDeSesion() {
                 this.$refs.form.validate()
@@ -182,14 +186,12 @@
                     this.dialogRegistro = false
 
                     var response = await this.$axios.get("/users/" + this.$auth.user.id)
-                    this.$store.dispatch("new/setUserInitData", response.data)
+                        //this.$store.dispatch("new/setUserInitData", response.data)
                 } catch (e) {
-                    console.log("aqui")
                     console.error(e)
                     this.snackbar = true
                 }
             },
-
             handleSdkInit({
                 FB,
                 scope

@@ -2,10 +2,11 @@
     <v-container class=" pa-3 full-height primary_background">
         <v-card class="pa-1 rounded-lg" >
             <v-img
-        :src="$axios.defaults.baseURL + user.profile_picture.url"
+        :src="picture"
         max-height="30vh"
         aspect-ratio="1"
         ></v-img>
+
         <v-form
         class="pa-2"
         ref="form"
@@ -27,6 +28,14 @@
             required
         ></v-text-field>
         <v-text-field
+            name="telefono"
+            label="Telefono"
+            id="telefono"
+            v-model="user.telefono"
+            type="number"
+            required
+        ></v-text-field>
+        <v-text-field
             name="username"
             label="Usuario"
             id="username"
@@ -40,12 +49,12 @@
             v-model="user.email"
             required
         ></v-text-field>
-            
+        <v-btn v-show="saveBtn" class="mt-3" color="primary" @click="updateUser" block>Guardar cambios</v-btn>
+
         </v-form>
 
         </v-card>
 
-        <v-btn v-show="saveBtn" class="mt-3" color="primary" @click="updateUser" block>Guardar cambios</v-btn>
         <v-snackbar v-model="snackbar" :timeout="1500">
             Datos gaurdados
         </v-snackbar>
@@ -58,9 +67,7 @@
         data() {
             return {
                 user: {
-                    profile_picture: {
-                        url: ''
-                    }
+                    profile_picture: null
                 },
                 initUser: {},
                 valid: false,
@@ -76,6 +83,7 @@
                     }
                 })
         },
+
         watch: {
             user: {
                 handler(val) {
@@ -88,6 +96,13 @@
 
                 },
                 deep: true
+            }
+        },
+        computed: {
+            picture: {
+                get() {
+                    return (this.user.profile_picture == null) ? '/default_user.png' : this.$axios.defaults.baseURL + this.user.profile_picture.url
+                }
             }
         },
         methods: {

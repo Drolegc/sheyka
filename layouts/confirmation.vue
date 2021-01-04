@@ -20,6 +20,9 @@
               </v-btn>
             </template>
 <v-list>
+    <v-list-item @click="$router.push('/')">
+        <v-list-item-title>Inicio</v-list-item-title>
+    </v-list-item>
     <v-list-item @click="$router.push('/profile/')">
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
@@ -54,6 +57,11 @@
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
+<v-dialog v-model="loading" fullscreen>
+    <div class="full-height d-flex justify-center align-center">
+        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+    </div>
+</v-dialog>
 <script2 src="https://checkout.epayco.co/checkout.js"></script2>
 </v-app>
 
@@ -68,19 +76,7 @@
         middleware: "auth",
         data() {
             return {
-                options: [{
-                    title: 'Mi perfil',
-                    callback: ''
-                }, {
-                    title: 'Mis ordenes',
-                    callback: ''
-                }, {
-                    title: 'Contacto',
-                    callback: ''
-                }, {
-                    title: 'Click Me 2',
-                    callback: ''
-                }, ],
+                loading: true
             }
         },
         computed: {
@@ -163,7 +159,7 @@
                     frames.push(response.data.id)
                 }
 
-
+                let newOrderData
                 try {
                     var response = await this.$axios.post('/orders', {
                         frames: frames,
@@ -174,14 +170,14 @@
                         city: this.ciudadSeleccionada
                     })
 
+                    newOrderData = response.data
+
                 } catch (e) {
+                    console.error(e)
                     return
                 }
-                return
 
                 //Generar Orden
-
-                return
 
                 var handler = ePayco.checkout.configure({
                     key: '1dec2b485b2f6dcf1ea69d936bb005a5',
@@ -192,7 +188,7 @@
                     name: `${framesQuantity} cuadros de 20x20`,
                     description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
                     currency: "cop",
-                    amount: "",
+                    amount: newOrderData.price,
                     country: "co",
                     lang: "en",
 
@@ -201,11 +197,11 @@
 
 
                     //Atributos opcionales
-                    extra1: "extra1",
-                    extra2: "extra2",
-                    extra3: "extra3",
-                    response: "http://localhost:3000/orders/acepted",
-                    confirmation: "http://84ce528a8263.ngrok.io/orders",
+                    extra1: newOrderData.id,
+                    // extra2: "extra2",
+                    // extra3: "extra3",
+                    response: "http://localhost:3000/orders",
+                    confirmation: "https://6dd3cf4609f3.ngrok.io/orders/confirm",
                     accepted: "http://localhost:3000/orders/acepted",
                     rejected: "http://localhost:3000/orders/rejected",
                     //Atributos cliente
@@ -220,12 +216,7 @@
 
                 }
 
-                this.$axios.get('/order-price').then(response => {
-                    var amount = response.data
-                    var newAmount = amount['price'] * frames
-                    data["amount"] = newAmount
-                    handler.open(data)
-                })
+                handler.open(data)
 
             }
         }

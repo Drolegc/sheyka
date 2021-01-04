@@ -49,10 +49,16 @@
 </template>
 <v-dialog v-model="selectedOrder" max-width="500px" transition="dialog-transition">
     <div class="pa-4 white rounded-lg">
-        <h3>Detalles de la orden</h3>
+        <h2>Detalles de la orden</h2>
+        <span>* Codigo de referencia en epayco: {{selectedOrderData.ref_payco}}</span>
+        <hr class="mt-2 mb-2">
+        <p><b>Pais: </b>{{selectedOrderData.country}}</p>
+        <p><b>Ciudad: </b>{{selectedOrderData.city}}</p>
+        <p><b>Calle: </b>{{selectedOrderData.street}}</p>
+        <p><b>Otros: </b>{{selectedOrderData.street_number}}</p>
         <hr class="mt-2 mb-2">
         <template v-for="(frame,index) in selectedOrderData.frames">
-            <div class="d-flex align-center" :key="index">
+            <div class="d-flex align-center mt-1 mb-1" :key="index">
                 <v-img
                 aspect-ratio="1"
                 class="mr-3"
@@ -64,10 +70,12 @@
             </div>
         </template>
         <hr class="mt-2 mb-2">
-        <div class="d-flex align-center">
-            <v-btn class="elevation-0 rounded-lg white--text" color="red">Reportar demora</v-btn>
+        <h3>Total: $COL {{selectedOrderData.price}}</h3>
+        <hr class="mt-2 mb-2">
+        <div class=" text-center">
+            <v-btn class="elevation-0 rounded-lg mt-2 mb-2" color="primary">Ya llego!</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="elevation-0 rounded-lg" color="success">Ya llego!</v-btn>
+            <v-btn class="mt-2" text small color="red">Reportar demora</v-btn>
         </div>
     </div>
 </v-dialog>
@@ -87,7 +95,7 @@
             }
         },
         created() {
-            this.$axios.get('/orders?user=' + this.$auth.user.id).then(response => this.orders = response.data)
+            this.$axios.get(`/orders?user=${this.$auth.user.id}&ref_payco_null=false`).then(response => this.orders = response.data)
         },
         methods: {
             deleteOrder() {

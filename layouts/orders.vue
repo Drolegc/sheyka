@@ -3,7 +3,7 @@
         <v-app-bar
         app
         absolute
-        class="elevation-0 primary"
+        class="elevation-0 primary pa-0"
         >
         <v-btn icon color="white" @click="$router.push('/')"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-spacer></v-spacer>
@@ -20,6 +20,9 @@
               </v-btn>
             </template>
 <v-list>
+    <v-list-item @click="$router.push('/')">
+        <v-list-item-title>Inicio</v-list-item-title>
+    </v-list-item>
     <v-list-item @click="$router.push('/profile/')">
         <v-list-item-title>Mi perfil</v-list-item-title>
     </v-list-item>
