@@ -20,7 +20,8 @@ export const state = () => ({
     codigo_postal: '20000',
     telefono: '111',
     documento: '123123',
-    email: 'drolegc@gmail.com'
+    email: 'drolegc@gmail.com',
+    regalo: false
 
 })
 
@@ -71,6 +72,12 @@ export const mutations = {
             //state.calle_numero = user_init_data.calle
         state.nombre_apellido = user_init_data.nombre_apellido
         state.email = user_init_data.email
+    },
+    setEmail(state, email) {
+        state.email = email
+    },
+    setRegalo(state, regalo) {
+        state.regalo = regalo
     }
 }
 
@@ -113,6 +120,12 @@ export const actions = {
     },
     setUserInitData({ commit }, user_init_data) {
         commit('setUserInitData', user_init_data)
+    },
+    setEmail({ commit }, email) {
+        commit('setEmail', email)
+    },
+    setRegalo({ commit }, regalo) {
+        commit('setRegalo', regalo)
     }
 }
 
@@ -160,6 +173,12 @@ export const getters = {
     },
     getDocumento(state) {
         return state.documento
+    },
+    getEmail(state) {
+        return state.email
+    },
+    getRegalo(state) {
+        return state.regalo
     }
 
 }

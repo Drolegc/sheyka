@@ -14,16 +14,16 @@
             <select-direction></select-direction>
         </div>
 
-        <!-- <div class="full-width mb-5">
-            <p class="title">Pago</p>
-            <select-payment></select-payment>
-        </div> -->
+        <div class="full-width mb-5">
+            <p class="title">Para</p>
+            <person-data></person-data>
+        </div>
     </v-container>
 </template>
 
 <script>
     import SelectDirection from '~/components/SelectDirection.vue'
-    import SelectPayment from '~/components/SelectPayment.vue'
+    import PersonData from '~/components/PersonData.vue'
 
     export default {
         layout: 'confirmation',
@@ -44,7 +44,7 @@
         },
         components: {
             SelectDirection,
-            SelectPayment
+            PersonData
         }
     }
 </script>

@@ -58,7 +58,7 @@
     <v-spacer></v-spacer>
 </v-app-bar>
 <v-dialog v-model="loading" fullscreen>
-    <div class="full-height d-flex justify-center align-center">
+    <div class="full-height d-flex justify-center align-center shadow-background">
         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
     </div>
 </v-dialog>
@@ -76,7 +76,7 @@
         middleware: "auth",
         data() {
             return {
-                loading: true
+                loading: false
             }
         },
         computed: {
@@ -130,6 +130,11 @@
                 get() {
                     return this.$store.getters["new/getCiudad"]
                 }
+            },
+            regalo: {
+                get() {
+                    this.$store.getters["new/getRegalo"]
+                }
             }
 
         },
@@ -159,11 +164,22 @@
                     frames.push(response.data.id)
                 }
 
+                let newPerson = null
+                if (this.regalo)
+                    newPerson = (await this.$axios.post('/personas', {
+                        "nombre_apellido": this.nombre_apellido,
+                        "documento": this.documento,
+                        "email": this.email,
+                        "telefono": this.telefono
+                    })).data
+
+
                 let newOrderData
                 try {
                     var response = await this.$axios.post('/orders', {
                         frames: frames,
                         user: this.$auth.user.id,
+                        persona: newPerson,
                         street: this.calle_numero,
                         street_number: this.piso_puerta_otros,
                         country: this.paisSeleccionado,
@@ -176,6 +192,7 @@
                     console.error(e)
                     return
                 }
+                return
 
                 //Generar Orden
 
@@ -223,3 +240,9 @@
 
     }
 </script>
+
+<style scoped>
+    .shadow-background {
+        background: rgba(65, 65, 65, 0.267);
+    }
+</style>
