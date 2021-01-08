@@ -17,7 +17,16 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" :outlined="!regalo" @click="regalo = true">De regalo!</v-btn>
     </div>
-
+    <v-select
+    v-show="regalo"
+        filled
+        class="ma-2"
+        :items="personas"
+        v-model="selectedPerson"
+        label="Amigos a los que ya les reglaste"
+        item-text="nombre_apellido"
+        item-value="id"
+    ></v-select>
     <v-form
     ref="formDirection"
     v-model="validate"
@@ -28,7 +37,7 @@
             id="nombre_apellido"
             v-model="nombre_apellido"
             :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
-            :disabled="!regalo"
+            :disabled="!regalo || !nuevoAmigo"
             required
         ></v-text-field>
         <v-text-field
@@ -37,7 +46,7 @@
             id="documento"
             v-model="documento"
             :rules="[ v => !!v || 'Documento requerido']"
-            :disabled="!regalo"
+            :disabled="!regalo || !nuevoAmigo"
             required
         ></v-text-field>
         <v-text-field
@@ -48,7 +57,7 @@
             required
             v-model="email"
             :rules="[ v => !!v || 'Email requerido']"
-            :disabled="!regalo"
+            :disabled="!regalo || !nuevoAmigo"
 
         ></v-text-field>
         <v-text-field
@@ -59,7 +68,7 @@
             required
             v-model="telefono"
             :rules="[ v => !!v || 'Telefono requerido']"
-            :disabled="!regalo"
+            :disabled="!regalo || !nuevoAmigo"
 
         ></v-text-field>
         <div class="text-center">
@@ -82,6 +91,8 @@
             return {
                 user: {},
                 personas: [],
+                nuevoAmigo: true,
+                selectedPerson: 0,
                 message: 'Datos del destinatario',
                 dialog: false,
                 validate: false,
@@ -101,8 +112,28 @@
                     //this.checkForm()
             })
             this.$axios.get('/users/' + this.$auth.user.id).then(response => this.user = response.data)
-            this.$axios.get('/personas/misPersonas/').then(response => this.personas = response.data)
+            this.$axios.get('/personas/misPersonas/').then(response => {
+                this.personas = response.data
+                this.personas.push({
+                    id: 0,
+                    nombre_apellido: 'Nuevo amigo',
+                    documento: '',
+                    email: '',
+                    telefono: ''
+                })
+            })
 
+        },
+        watch: {
+            selectedPerson(value) {
+                var persona = this.personas.find(persona => persona.id == value)
+                this.nombre_apellido = persona.nombre_apellido
+                this.documento = persona.documento
+                this.email = persona.email
+                this.telefono = persona.telefono
+                this.nuevoAmigo = (value == 0)
+
+            }
         },
         computed: {
             regalo: {
@@ -116,6 +147,8 @@
             nombre_apellido: {
                 set(value) {
                     this.$store.dispatch("new/setNombreApellido", value)
+                    var persona = this.personas.find(persona => persona.id == this.selectedPerson)
+                    persona.nombre_apellido = value
                 },
                 get() {
                     return (this.regalo) ? this.$store.getters["new/getNombreApellido"] : this.user.nombre_apellido
