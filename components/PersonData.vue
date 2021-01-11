@@ -37,7 +37,7 @@
             id="nombre_apellido"
             v-model="nombre_apellido"
             :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
             required
         ></v-text-field>
         <v-text-field
@@ -46,7 +46,7 @@
             id="documento"
             v-model="documento"
             :rules="[ v => !!v || 'Documento requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
             required
         ></v-text-field>
         <v-text-field
@@ -57,7 +57,7 @@
             required
             v-model="email"
             :rules="[ v => !!v || 'Email requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
 
         ></v-text-field>
         <v-text-field
@@ -68,7 +68,7 @@
             required
             v-model="telefono"
             :rules="[ v => !!v || 'Telefono requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
 
         ></v-text-field>
         <div class="text-center mt-1">
@@ -91,7 +91,7 @@
             return {
                 user: {},
                 personas: [],
-                nuevoAmigo: true,
+                //nuevoAmigo: true,
                 selectedPerson: 0,
                 message: 'Datos del destinatario',
                 dialog: false,
@@ -135,13 +135,19 @@
 
         },
         watch: {
-            selectedPerson(personaId) {
-                var persona = this.personas.find(persona => persona.id == personaId)
+            selectedPerson(persona_id) {
+                var persona = this.personas.find(persona => persona.id == persona_id)
                 this.nombre_apellido = persona.nombre_apellido
                 this.documento = persona.documento
                 this.email = persona.email
                 this.telefono = persona.telefono
-                this.nuevoAmigo = (personaId == 0)
+                if (persona_id == 0) {
+                    this.nuevo_amigo = true
+                    this.id_amigo = 0
+                } else {
+                    this.nuevo_amigo = false
+                    this.id_amigo = persona_id
+                }
             }
         },
         computed: {
@@ -209,7 +215,24 @@
                 get() {
                     return this.personas.find(persona => persona.id == this.selectedPerson)
                 }
+            },
+            nuevo_amigo: {
+                set(value) {
+                    this.$store.dispatch("new/setIsNewPerson", value)
+                },
+                get() {
+                    return this.$store.getters["new/getIsNewPerson"]
+                }
+            },
+            id_amigo: {
+                set(value) {
+                    this.$store.dispatch("new/setIdPerson", value)
+                },
+                get() {
+                    return this.$store.getters["new/getIdPerson"]
+                }
             }
+
         },
         methods: {
             checkForm() {

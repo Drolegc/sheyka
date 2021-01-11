@@ -21,7 +21,9 @@ export const state = () => ({
     telefono: '',
     documento: '',
     email: '',
-    regalo: false
+    regalo: false,
+    is_new_person: true,
+    id_person: 0
 
 })
 
@@ -78,6 +80,12 @@ export const mutations = {
     },
     setRegalo(state, regalo) {
         state.regalo = regalo
+    },
+    setIsNewPerson(state, is_new_person) {
+        state.is_new_person = is_new_person
+    },
+    setIdPerson(state, id_person) {
+        state.id_person = id_person
     }
 }
 
@@ -126,6 +134,12 @@ export const actions = {
     },
     setRegalo({ commit }, regalo) {
         commit('setRegalo', regalo)
+    },
+    setIsNewPerson({ commit }, is_new_person) {
+        commit('setIsNewPerson', is_new_person)
+    },
+    setIdPerson({ commit }, id_person) {
+        commit('setIdPerson', id_person)
     }
 }
 
@@ -179,6 +193,12 @@ export const getters = {
     },
     getRegalo(state) {
         return state.regalo
+    },
+    getIsNewPerson(state) {
+        return state.is_new_person
+    },
+    getIdPerson(state) {
+        return state.id_person
     }
 
 }
