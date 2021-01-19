@@ -12,16 +12,18 @@ export const state = () => ({
         //     cantidad: 1
         // }
     ],
-    nombre_apellido: 'Test',
-    calle_numero: 'Spinola',
-    piso_puerta_otros: 'apto004',
-    pais: "Uruguay",
-    ciudad: "Maldonado",
-    codigo_postal: '20000',
-    telefono: '111',
-    documento: '123123',
-    email: 'drolegc@gmail.com',
-    regalo: false
+    nombre_apellido: '',
+    calle_numero: '',
+    piso_puerta_otros: '',
+    pais: "",
+    ciudad: "",
+    codigo_postal: '',
+    telefono: '',
+    documento: '',
+    email: '',
+    regalo: false,
+    is_new_person: true,
+    id_person: 0
 
 })
 
@@ -79,8 +81,16 @@ export const mutations = {
     setRegalo(state, regalo) {
         state.regalo = regalo
     },
+<<<<<<< HEAD
     removePhoto(state, index) {
         state.photos = state.photos.filter((photo, id) => id != index)
+=======
+    setIsNewPerson(state, is_new_person) {
+        state.is_new_person = is_new_person
+    },
+    setIdPerson(state, id_person) {
+        state.id_person = id_person
+>>>>>>> 4ea382334c31dfbccd578f511ccca061ba416b33
     }
 }
 
@@ -130,8 +140,16 @@ export const actions = {
     setRegalo({ commit }, regalo) {
         commit('setRegalo', regalo)
     },
+<<<<<<< HEAD
     removePhoto({ commit }, index) {
         commit('removePhoto', index)
+=======
+    setIsNewPerson({ commit }, is_new_person) {
+        commit('setIsNewPerson', is_new_person)
+    },
+    setIdPerson({ commit }, id_person) {
+        commit('setIdPerson', id_person)
+>>>>>>> 4ea382334c31dfbccd578f511ccca061ba416b33
     }
 }
 
@@ -185,6 +203,12 @@ export const getters = {
     },
     getRegalo(state) {
         return state.regalo
+    },
+    getIsNewPerson(state) {
+        return state.is_new_person
+    },
+    getIdPerson(state) {
+        return state.id_person
     }
 
 }

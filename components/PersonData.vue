@@ -37,7 +37,7 @@
             id="nombre_apellido"
             v-model="nombre_apellido"
             :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
             required
         ></v-text-field>
         <v-text-field
@@ -46,7 +46,7 @@
             id="documento"
             v-model="documento"
             :rules="[ v => !!v || 'Documento requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
             required
         ></v-text-field>
         <v-text-field
@@ -57,7 +57,7 @@
             required
             v-model="email"
             :rules="[ v => !!v || 'Email requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
 
         ></v-text-field>
         <v-text-field
@@ -68,11 +68,11 @@
             required
             v-model="telefono"
             :rules="[ v => !!v || 'Telefono requerido']"
-            :disabled="!regalo || !nuevoAmigo"
+            :disabled="!regalo || !nuevo_amigo"
 
         ></v-text-field>
-        <div class="text-center">
-            <v-btn class="elevation-0" fab color="success" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
+        <div class="text-center mt-1">
+            <v-btn class="elevation-0" block color="secondary" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
         </div>
     </v-form>
         
@@ -91,7 +91,7 @@
             return {
                 user: {},
                 personas: [],
-                nuevoAmigo: true,
+                //nuevoAmigo: true,
                 selectedPerson: 0,
                 message: 'Datos del destinatario',
                 dialog: false,
@@ -111,7 +111,17 @@
                 this.dialog = true
                     //this.checkForm()
             })
-            this.$axios.get('/users/' + this.$auth.user.id).then(response => this.user = response.data)
+            this.$axios.get('/users/' + this.$auth.user.id).then(response => {
+                this.user = response.data
+
+                //Current user info saved on the store
+                //Because is the first time loading this page, we asume that this order its going to be for the current user
+                this.nombre_apellido = this.user.nombre_apellido
+                this.documento = this.user.documento
+                this.email = this.user.email
+                this.telefono = this.user.telefono
+
+            })
             this.$axios.get('/personas/misPersonas/').then(response => {
                 this.personas = response.data
                 this.personas.push({
@@ -125,20 +135,36 @@
 
         },
         watch: {
-            selectedPerson(value) {
-                var persona = this.personas.find(persona => persona.id == value)
+            selectedPerson(persona_id) {
+                var persona = this.personas.find(persona => persona.id == persona_id)
                 this.nombre_apellido = persona.nombre_apellido
                 this.documento = persona.documento
                 this.email = persona.email
                 this.telefono = persona.telefono
-                this.nuevoAmigo = (value == 0)
-
+                if (persona_id == 0) {
+                    this.nuevo_amigo = true
+                    this.id_amigo = 0
+                } else {
+                    this.nuevo_amigo = false
+                    this.id_amigo = persona_id
+                }
             }
         },
         computed: {
             regalo: {
-                set(value) {
-                    this.$store.dispatch("new/setRegalo", value)
+                set(isRegalo) {
+                    this.$store.dispatch("new/setRegalo", isRegalo)
+                    if (!isRegalo) {
+                        this.nombre_apellido = this.user.nombre_apellido
+                        this.documento = this.user.documento
+                        this.email = this.user.email
+                        this.telefono = this.user.telefono
+                    } else {
+                        this.nombre_apellido = this.persona.nombre_apellido
+                        this.documento = this.persona.documento
+                        this.email = this.persona.email
+                        this.telefono = this.persona.telefono
+                    }
                 },
                 get() {
                     return this.$store.getters["new/getRegalo"]
@@ -147,37 +173,66 @@
             nombre_apellido: {
                 set(value) {
                     this.$store.dispatch("new/setNombreApellido", value)
-                    var persona = this.personas.find(persona => persona.id == this.selectedPerson)
-                    persona.nombre_apellido = value
+                    if (this.personas.length > 0 && this.regalo)
+                        this.persona.nombre_apellido = value
+
                 },
                 get() {
-                    return (this.regalo) ? this.$store.getters["new/getNombreApellido"] : this.user.nombre_apellido
+                    return this.$store.getters["new/getNombreApellido"]
                 }
             },
             telefono: {
                 set(value) {
                     this.$store.dispatch("new/setTelefono", value)
+                    if (this.personas.length > 0 && this.regalo)
+                        this.persona.telefono = value
                 },
                 get() {
-                    return (this.regalo) ? this.$store.getters["new/getTelefono"] : this.user.telefono
+                    return this.$store.getters["new/getTelefono"]
                 }
             },
             documento: {
                 set(value) {
                     this.$store.dispatch("new/setDocumento", value)
+                    if (this.personas.length > 0 && this.regalo)
+                        this.persona.documento = value
                 },
                 get() {
-                    return (this.regalo) ? this.$store.getters["new/getDocumento"] : this.user.documento
+                    return this.$store.getters["new/getDocumento"]
                 }
             },
             email: {
                 set(value) {
                     this.$store.dispatch("new/setEmail", value)
+                    if (this.personas.length > 0 && this.regalo)
+                        this.persona.email = value
                 },
                 get() {
                     return this.$store.getters["new/getEmail"]
                 }
+            },
+            persona: {
+                get() {
+                    return this.personas.find(persona => persona.id == this.selectedPerson)
+                }
+            },
+            nuevo_amigo: {
+                set(value) {
+                    this.$store.dispatch("new/setIsNewPerson", value)
+                },
+                get() {
+                    return this.$store.getters["new/getIsNewPerson"]
+                }
+            },
+            id_amigo: {
+                set(value) {
+                    this.$store.dispatch("new/setIdPerson", value)
+                },
+                get() {
+                    return this.$store.getters["new/getIdPerson"]
+                }
             }
+
         },
         methods: {
             checkForm() {

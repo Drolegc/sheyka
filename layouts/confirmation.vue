@@ -133,7 +133,17 @@
             },
             regalo: {
                 get() {
-                    this.$store.getters["new/getRegalo"]
+                    return this.$store.getters["new/getRegalo"]
+                }
+            },
+            is_new_person: {
+                get() {
+                    return this.$store.getters["new/getIsNewPerson"]
+                }
+            },
+            id_person: {
+                get() {
+                    return this.$store.getters["new/getIdPerson"]
                 }
             }
 
@@ -164,14 +174,20 @@
                     frames.push(response.data.id)
                 }
 
-                let newPerson = null
-                if (this.regalo)
-                    newPerson = (await this.$axios.post('/personas', {
-                        "nombre_apellido": this.nombre_apellido,
-                        "documento": this.documento,
-                        "email": this.email,
-                        "telefono": this.telefono
-                    })).data
+                let person = null
+                if (this.regalo) {
+                    if (this.is_new_person) {
+                        person = (await this.$axios.post('/personas', {
+                            "nombre_apellido": this.nombre_apellido,
+                            "documento": this.documento,
+                            "email": this.email,
+                            "telefono": this.telefono
+                        })).data.id
+                    } else {
+                        person = this.id_person
+                    }
+                }
+
 
 
                 let newOrderData
@@ -179,7 +195,7 @@
                     var response = await this.$axios.post('/orders', {
                         frames: frames,
                         user: this.$auth.user.id,
-                        persona: newPerson,
+                        persona: person,
                         street: this.calle_numero,
                         street_number: this.piso_puerta_otros,
                         country: this.paisSeleccionado,
@@ -189,10 +205,9 @@
                     newOrderData = response.data
 
                 } catch (e) {
-                    console.error(e)
+                    console.error("Error generando orden de ocmpra", e)
                     return
                 }
-                return
 
                 //Generar Orden
 
@@ -210,17 +225,17 @@
                     lang: "en",
 
                     //Onpage="false" - Standard="true"
-                    external: "false",
+                    external: "true",
 
 
                     //Atributos opcionales
                     extra1: newOrderData.id,
                     // extra2: "extra2",
                     // extra3: "extra3",
-                    response: "http://localhost:3000/orders",
-                    confirmation: "https://6dd3cf4609f3.ngrok.io/orders/confirm",
-                    accepted: "http://localhost:3000/orders/acepted",
-                    rejected: "http://localhost:3000/orders/rejected",
+                    response: window.location.hostname + ":3000/orders",
+                    confirmation: this.$axios.defaults.baseURL + "/orders/confirm",
+                    accepted: window.location.hostname + ":3000/orders/acepted",
+                    rejected: window.location.hostname + ":3000/orders/rejected",
                     //Atributos cliente
                     name_billing: this.nombre_apellido,
                     address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
@@ -232,7 +247,7 @@
                     //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
 
                 }
-
+                console.log("Opening dialog")
                 handler.open(data)
 
             }
