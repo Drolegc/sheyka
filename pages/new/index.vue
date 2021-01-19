@@ -1,8 +1,9 @@
 <template>
     <v-container class="full-height" >
         <div class="d-flex flex-column justify-center align-center full-height" @click="options = true" v-if="photos.length == 0" >
-            <h3 class="ma-3 text-center" >Selecciona tus imagenes favoritas</h3>
+            <h3 class="ma-3 text-center" >Has click para seleccionar</h3>
             <v-icon x-large>mdi-plus</v-icon>
+            <!-- <span class="overline blue-grey--text text-lighten-5">* mínimo 3 imagenes</span> -->
         </div>
         <v-row v-else>
             <v-col
@@ -17,7 +18,21 @@
                   aspect-ratio="1"
                   class="transparent lighten-2 rounded-lg"
                 >
+                
+                <v-btn 
+                fab
+                dark
+                x-small
+                absolute
+                dark
+                elevation="0"
+                color="red"
+                @click="removePhoto(index)"
+                >
+              <v-icon>mdi-delete</v-icon></v-btn>
                   </v-img>
+
+                  
                   
               </div>
             </v-col>
@@ -33,42 +48,37 @@
             class="text-center transparent pa-3"
             >
             <div class="white rounded-xl">
-                <h3 class="pa-2" @click="showCamara=true;options=false">Camara</h3>
-                <v-divider></v-divider>
                 <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg"> 
                 <h3 class="pa-2" @click="$refs.imagePicker.click()">Galeria</h3>
-               
             </div>
             </v-sheet>
         </v-bottom-sheet>
-        <v-dialog
-            v-model="showCamara"
-            transition="dialog-transition"
+        <v-snackbar
+            v-model="moreImages"
+            timeout="2000"
+            rounded="pill"
         >
-        <v-easy-camera
-        :fullscreen="true"
-        :mustApprove="true"
-        :output="'blob'"
-        @approve="actionCamera"
-        @close="actionCamera"
-        ref="camaraComponent"
-        ></v-easy-camera>
-        </v-dialog>
-
+            Te faltan {{3 - photos.length}} imagenes para un minimo de 3
+        </v-snackbar>
 
     </v-container>
 </template>
 
 
 <script>
-    import EasyCamera from 'easy-vue-camera'
-
     export default {
         layout: 'new-photos',
         data() {
             return {
                 options: false,
-                showCamara: false,
+                moreImages: false,
+            }
+        },
+        watch: {
+            photos(value) {
+                if (value.length < 3) {
+                    this.moreImages = true
+                }
             }
         },
         computed: {
@@ -79,44 +89,9 @@
                 get() {
                     return this.$store.getters["new/photos"]
                 }
-            }
-        },
-        beforeDestroy() {
-            //this.photos = []
+            },
         },
         methods: {
-            addPhotos() {
-                this.photos = [1, 2, 3]
-            },
-            actionCamera(data) {
-                if (data != undefined) {
-                    var file = new File([data], "camera-" + Math.random())
-                    var reader = new FileReader()
-                    reader.onload = (e) => {
-                        this.$store.dispatch("new/addPhoto", {
-                            file: file,
-                            url: e.target.result
-                        })
-                    }
-                    reader.readAsDataURL(file)
-
-                }
-                this.showCamara = false
-                this.$refs.camaraComponent.stop()
-
-            },
-            urlFromFileImageOrBlob(n) {
-                console.log(n)
-                return ""
-            },
-            handleFilesValidated(result, files) {
-                console.log('Validation result: ' + result);
-            },
-
-            handleFilesChanged(files) {
-                console.log('Selected files: ');
-                console.table(files);
-            },
             newImages(e) {
                 var files = e.target.files
                 for (let i = 0; i < files.length; i++) {
@@ -129,17 +104,17 @@
                             url: e.target.result,
                             cantidad: 1
                         }
-                        this.$store.dispatch("new/addPhoto", data);
+                        this.$store.dispatch("new/addPhoto", data)
                     }
                     reader.readAsDataURL(files[i])
                 }
                 this.options = false
 
+            },
+            removePhoto(index) {
+                this.$store.dispatch("new/removePhoto", index)
             }
 
         },
-        components: {
-            'v-easy-camera': EasyCamera,
-        }
     }
 </script>

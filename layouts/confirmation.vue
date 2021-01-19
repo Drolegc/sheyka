@@ -202,7 +202,7 @@
                 })
                 var data = {
                     //Parametros compra (obligatorio)
-                    name: `${framesQuantity} cuadros de 20x20`,
+                    name: `${framesQuantity} cuadros de 20x20(cm)`,
                     description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
                     currency: "cop",
                     amount: newOrderData.price,

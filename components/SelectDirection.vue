@@ -48,21 +48,37 @@
 
             required
         ></v-text-field>
-        <v-select 
+        <!-- <v-select 
         :items="paises" 
         item-text="text" 
         item-value="value" 
         v-model="paisSeleccionado" 
         label="Pais" 
-        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select>
-        <v-select 
+        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select> -->
+        <!-- <v-select 
         :items="ciudades" 
         item-text="text" 
         item-value="value" 
         required 
         v-model="ciudadSeleccionada" 
         label="Ciudad" 
-        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select>
+        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select> -->
+        <v-text-field
+            name="pais_seleccionado"
+            v-model="paisSeleccionado"
+            label="Pais"
+            id="pais_seleccionado"
+            :rules="[ v => !!v || 'Campo requerido']"
+            required
+        ></v-text-field>
+        <v-text-field
+            name="ciudad_seleccionada"
+            v-model="ciudadSeleccionada"
+            label="Ciudad o Municipio"
+            id="ciudad_seleccionada"
+            :rules="[ v => !!v || 'Campo requerido']"
+            required
+        ></v-text-field>
         <v-text-field
             name="codigo_postal"
             label="Codigo postal"

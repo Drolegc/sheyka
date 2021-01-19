@@ -78,6 +78,9 @@ export const mutations = {
     },
     setRegalo(state, regalo) {
         state.regalo = regalo
+    },
+    removePhoto(state, index) {
+        state.photos = state.photos.filter((photo, id) => id != index)
     }
 }
 
@@ -126,6 +129,9 @@ export const actions = {
     },
     setRegalo({ commit }, regalo) {
         commit('setRegalo', regalo)
+    },
+    removePhoto({ commit }, index) {
+        commit('removePhoto', index)
     }
 }
 

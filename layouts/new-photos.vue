@@ -54,7 +54,7 @@
 </v-main>
 <v-app-bar v-if="photos.length != 0" app flat bottom color="white">
     <v-spacer></v-spacer>
-    <v-btn class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Siguiente</v-btn>
+    <v-btn v-show="showBtn" class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Siguiente</v-btn>
     <v-spacer></v-spacer>
 </v-app-bar>
 </v-app>
@@ -80,6 +80,14 @@
                     title: 'Click Me 2',
                     callback: ''
                 }, ],
+                showBtn: false
+            }
+        },
+        watch: {
+            photos(value) {
+                if (value.length >= 3) {
+                    this.showBtn = true
+                }
             }
         },
         computed: {
