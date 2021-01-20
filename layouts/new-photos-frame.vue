@@ -65,23 +65,6 @@
     export default {
         name: 'new-photos-frame',
         middleware: "auth",
-        data() {
-            return {
-                options: [{
-                    title: 'Mi perfil',
-                    callback: ''
-                }, {
-                    title: 'Mis ordenes',
-                    callback: ''
-                }, {
-                    title: 'Contacto',
-                    callback: ''
-                }, {
-                    title: 'Click Me 2',
-                    callback: ''
-                }, ],
-            }
-        },
         computed: {
             photos: {
                 get() {

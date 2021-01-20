@@ -103,23 +103,16 @@
             return {
                 user: {},
                 personas: [],
-                //nuevoAmigo: true,
                 selectedPerson: 0,
                 message: 'Datos del destinatario',
                 dialog: false,
                 validate: false,
-                // direccion1: '',
-                // direccion2: '',
                 ciudades: ciudades,
-                // estado_provincia: '',
-                // codigo_postal: '',
-                // numero: '',
                 paises: ['Colombia'],
-                // telefono: ''
             }
         },
         created() {
-            this.$root.$on('showOrderInformation', () => {
+            this.$root.$on('showOrderPersonInformation', () => {
                 this.dialog = true
                     //this.checkForm()
             })

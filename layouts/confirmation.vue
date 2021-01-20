@@ -156,11 +156,17 @@
         methods: {
             async createOrder() {
 
-                if (!this.$store.getters["new/checkOrderInformation"]) {
-                    this.$root.$emit('showOrderInformation')
+                if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
+                    this.$root.$emit('showOrderDirectionInformation')
                     return
                 }
 
+                if (!this.$store.getters["new/checkOrderPersonInformation"]) {
+                    this.$root.$emit('showOrderPersonInformation')
+                    return
+                }
+
+                return
                 const framesQuantity = this.$store.getters["new/frames"]
 
                 //Generar frames

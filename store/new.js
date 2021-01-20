@@ -31,6 +31,7 @@ export const state = () => ({
     is_new_person: true,
     id_person: 0,
     terminos_y_condiciones: false,
+    selected_frame: 1
 
 })
 
@@ -102,6 +103,9 @@ export const mutations = {
     },
     setTerminosYCondiciones(state, terminos_y_condiciones) {
         state.terminos_y_condiciones = terminos_y_condiciones
+    },
+    setSelectedFrame(state, selected_frame) {
+        state.selected_frame = selected_frame
     }
 }
 
@@ -165,6 +169,9 @@ export const actions = {
     },
     setTerminosYCondiciones({ commit }, terminos_y_condiciones) {
         commit('setTerminosYCondiciones', terminos_y_condiciones)
+    },
+    setSelectedFrame({ commit }, selected_frame) {
+        commit('setSelectedFrame', selected_frame)
     }
 }
 
@@ -172,16 +179,21 @@ export const getters = {
     photos(state) {
         return state.photos
     },
-    checkOrderInformation(state) {
-        return (state.photos.length > 0 &&
-            state.nombre_apellido != '' &&
+    checkOrderDirectionInformation(state) {
+        return (
             state.calle_numero != '' &&
             state.piso_puerta_otros != '' &&
-            state.pais != null &&
-            state.ciudad != null &&
-            state.codigo_postal != '' &&
+            state.pais != '' &&
+            state.ciudad != ''
+        )
+    },
+    checkOrderPersonInformation(state) {
+        return (
+            state.nombre_apellido != '' &&
             state.telefono != '' &&
-            state.documento != ''
+            state.documento != '' &&
+            state.email != '' &&
+            state.terminos_y_condiciones
         )
     },
     frames(state) {
@@ -230,6 +242,9 @@ export const getters = {
     },
     getTerminosYCondiciones(state) {
         return state.terminos_y_condiciones
+    },
+    getSelectedFrame(state) {
+        return state.selected_frame
     }
 
 }

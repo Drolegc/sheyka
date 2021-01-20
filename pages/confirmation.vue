@@ -33,7 +33,8 @@
             }
         },
         created() {
-            this.$axios.get('/order-price').then(response => this.price = response.data['price'] * this.$store.getters["new/frames"])
+            var cantidad = this.$store.getters["new/frames"]
+            this.price = 150000 + (cantidad - 3) * 30000
         },
         computed: {
             photos: {

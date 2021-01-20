@@ -108,7 +108,7 @@
             }
         },
         created() {
-            this.$root.$on('showOrderInformation', () => {
+            this.$root.$on('showOrderDirectionInformation', () => {
                 this.dialog = true
                     //this.checkForm()
             })
