@@ -1,16 +1,21 @@
 export const state = () => ({
-    photos: [
-        //     {
-        //     id: 0,
-        //     file: "",
-        //     url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-        //     cantidad: 1
-        // }, {
-        //     id: 1,
-        //     file: "",
-        //     url: "https://picsum.photos/id/11/500/300",
-        //     cantidad: 1
-        // }
+    photos: [{
+            id: 0,
+            file: "",
+            url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
+            cantidad: 1
+        }, {
+            id: 1,
+            file: "",
+            url: "https://picsum.photos/id/11/500/300",
+            cantidad: 1
+        },
+        {
+            id: 2,
+            file: "",
+            url: "https://picsum.photos/id/11/500/300",
+            cantidad: 1
+        }
     ],
     nombre_apellido: '',
     calle_numero: '',
@@ -19,11 +24,13 @@ export const state = () => ({
     ciudad: "",
     codigo_postal: '',
     telefono: '',
+    telefono_extra: '',
     documento: '',
     email: '',
     regalo: false,
     is_new_person: true,
-    id_person: 0
+    id_person: 0,
+    terminos_y_condiciones: false,
 
 })
 
@@ -81,16 +88,20 @@ export const mutations = {
     setRegalo(state, regalo) {
         state.regalo = regalo
     },
-<<<<<<< HEAD
     removePhoto(state, index) {
         state.photos = state.photos.filter((photo, id) => id != index)
-=======
+    },
     setIsNewPerson(state, is_new_person) {
         state.is_new_person = is_new_person
     },
     setIdPerson(state, id_person) {
         state.id_person = id_person
->>>>>>> 4ea382334c31dfbccd578f511ccca061ba416b33
+    },
+    setTelefonoExtra(state, telefono_extra) {
+        state.telefono_extra = telefono_extra
+    },
+    setTerminosYCondiciones(state, terminos_y_condiciones) {
+        state.terminos_y_condiciones = terminos_y_condiciones
     }
 }
 
@@ -140,16 +151,20 @@ export const actions = {
     setRegalo({ commit }, regalo) {
         commit('setRegalo', regalo)
     },
-<<<<<<< HEAD
     removePhoto({ commit }, index) {
         commit('removePhoto', index)
-=======
+    },
     setIsNewPerson({ commit }, is_new_person) {
         commit('setIsNewPerson', is_new_person)
     },
     setIdPerson({ commit }, id_person) {
         commit('setIdPerson', id_person)
->>>>>>> 4ea382334c31dfbccd578f511ccca061ba416b33
+    },
+    setTelefonoExtra({ commit }, telefono_extra) {
+        commit('setTelefonoExtra', telefono_extra)
+    },
+    setTerminosYCondiciones({ commit }, terminos_y_condiciones) {
+        commit('setTerminosYCondiciones', terminos_y_condiciones)
     }
 }
 
@@ -209,6 +224,12 @@ export const getters = {
     },
     getIdPerson(state) {
         return state.id_person
+    },
+    getTelefonoExtra(state) {
+        return state.telefono_extra
+    },
+    getTerminosYCondiciones(state) {
+        return state.terminos_y_condiciones
     }
 
 }

@@ -63,13 +63,18 @@
             required
         ></v-text-field>
         <v-text-field
+            name="telefono"
+            label="Telefono extra (opcional)"
+            type="number"
+            id="telefono"
+            v-model="telefono_extra"
+        ></v-text-field>
+        <v-text-field
             name="codigo_postal"
-            label="Codigo postal"
+            label="Codigo postal (opcional)"
             type="number"
             id="codigo_postal"
-            required
             v-model="codigo_postal"
-            :rules="[ v => !!v || 'Codigo postal requerido']"
         ></v-text-field>
         <div class="text-center mt-1">
             <v-btn class="elevation-0" block color="secondary" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
@@ -149,6 +154,14 @@
                 },
                 get() {
                     return this.$store.getters["new/getCiudad"]
+                }
+            },
+            telefono_extra: {
+                set(value) {
+                    this.$store.dispatch("new/setTelefonoExtra", value)
+                },
+                get() {
+                    return this.$store.getters["new/getTelefonoExtra"]
                 }
             }
         },

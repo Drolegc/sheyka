@@ -1,7 +1,36 @@
 <template>
     <v-container class="full-height d-flex flex-column pa-0" min-height="100%">
-    <v-slide-group
-      v-model="selected"
+        <!-- <v-slide-group>
+            <v-slide-item
+            v-for="n in 4"
+            :key="n"
+            v-slot="{ active, toggle }"
+            >
+            <v-card class="pa-1">
+                <v-img
+                :src="getMarco(n)"
+                aspect-ratio="1"
+                class="grey lighten-2"
+            >
+            </v-img>
+            </v-card>
+            </v-slide-item>
+        </v-slide-group> -->
+        <v-row justify="center" class="ml-1 mr-1">
+            <v-col v-for="n in 4">
+                <v-card class="pa-1">
+                    <v-img
+                    :src="getMarco(n)"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                >
+                </v-img>
+                </v-card>
+            </v-col>
+        </v-row>
+    <div class="d-flex justify-center align-center full-height primary_background">
+        <v-slide-group
+        v-model="selected"
     >
       <v-slide-item
         v-for="(photo,n) in photos"
@@ -9,7 +38,9 @@
         v-slot="{ active, toggle }"
       >
         <v-card
-          :elevation="active ? 3 : 1"
+          elevation="3"
+          :width="'80vw'"
+          
           :class=" !active ? 'ma-4 pa-2 rounded-lg' : 'primary-shadow ma-4 pa-2 rounded-lg primary--text ' "
           @click="changeSelectedImage(n)"
         >
@@ -19,12 +50,22 @@
         class="mb-1 transparent lighten-2 rounded-lg"
       >
         </v-img>
-        <b>Cuadro simple</b>
+        <div class="d-flex justify-center align-center">
+            <div class="d-flex justify-center align-center">
+                <v-btn class="mr-2" elevation="0" color="secondary" @click="removeOne(n)"><v-icon>mdi-minus</v-icon></v-btn>
+            </div>
+            <h1>{{photo.cantidad}}</h1>
+            <div class="d-flex justify-center align-center">
+                <v-btn class="ml-2" elevation="0" color="secondary" @click="addOne(n)" ><v-icon>mdi-plus</v-icon></v-btn>
+            </div>
+        </div>
         </v-card>
       </v-slide-item>
     </v-slide-group>
-    <div class="d-flex justify-center align-center full-height primary_background">
-            <v-row
+
+    <!-- -->
+    
+            <!-- <v-row
             align="center"
             justify="center"
             no-gutters
@@ -59,7 +100,7 @@
                 <v-col>
 
                 </v-col>
-            </v-row>
+            </v-row> -->
             
         
     </div>
@@ -87,12 +128,24 @@
                     this.selected = selected
                 }
             },
-            addOne() {
-                this.$store.dispatch("new/addCantidad", this.selected)
+            addOne(index) {
+                this.$store.dispatch("new/addCantidad", index)
             },
-            removeOne() {
-                if (this.photos[this.selected].cantidad > 1)
-                    this.$store.dispatch("new/removeCantidad", this.selected)
+            removeOne(index) {
+                if (this.photos[index].cantidad > 1)
+                    this.$store.dispatch("new/removeCantidad", index)
+            },
+            getMarco(index) {
+                switch (index) {
+                    case 1:
+                        return '/marcoNegroConSubBordeBlanco.png'
+                    case 2:
+                        return '/marcoNegro.png'
+                    case 3:
+                        return '/marcoBlancoConSubBordeBlanco.png'
+                    case 4:
+                        return '/marcoBlanco.png'
+                }
             }
         }
     }

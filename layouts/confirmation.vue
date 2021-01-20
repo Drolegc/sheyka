@@ -145,6 +145,11 @@
                 get() {
                     return this.$store.getters["new/getIdPerson"]
                 }
+            },
+            telefono_extra: {
+                get() {
+                    return this.$store.getters["new/getTelefonoExtra"]
+                }
             }
 
         },
@@ -199,7 +204,8 @@
                         street: this.calle_numero,
                         street_number: this.piso_puerta_otros,
                         country: this.paisSeleccionado,
-                        city: this.ciudadSeleccionada
+                        city: this.ciudadSeleccionada,
+                        telefono_extra: this.telefono_extra
                     })
 
                     newOrderData = response.data

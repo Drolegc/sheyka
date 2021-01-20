@@ -71,6 +71,18 @@
             :disabled="!regalo || !nuevo_amigo"
 
         ></v-text-field>
+        <div class="d-flex align-center">
+            <v-checkbox 
+            label="Terminos y condiciones" 
+            v-model="terminos_y_condiciones"
+            :rules="[v => !!v || 'Debe aceptar los terminos y condiciones para continuar']"
+            required
+            ></v-checkbox>
+            <v-btn 
+            class="ml-1"
+            icon
+            color="blue lighten-3"><v-icon>mdi-help-circle</v-icon></v-btn>
+        </div>
         <div class="text-center mt-1">
             <v-btn class="elevation-0" block color="secondary" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
         </div>
@@ -230,6 +242,14 @@
                 },
                 get() {
                     return this.$store.getters["new/getIdPerson"]
+                }
+            },
+            terminos_y_condiciones: {
+                set(value) {
+                    this.$store.dispatch("new/setTerminosYCondiciones", value)
+                },
+                get() {
+                    return this.$store.getters["new/getTerminosYCondiciones"]
                 }
             }
 
