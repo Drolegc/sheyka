@@ -32,9 +32,11 @@
                 price: null
             }
         },
-        created() {
+        async created() {
             var cantidad = this.$store.getters["new/frames"]
-            this.price = 150000 + (cantidad - 3) * 30000
+            const basePrice = (await this.$axios.get('/order-price')).data.price
+            const extraOrderPrice = (await this.$axios.get('/extra-order-price')).data.price
+            this.price = basePrice + (cantidad - 3) * extraOrderPrice
         },
         computed: {
             photos: {

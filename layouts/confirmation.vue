@@ -166,7 +166,7 @@
                     return
                 }
 
-                return
+
                 const framesQuantity = this.$store.getters["new/frames"]
 
                 //Generar frames
