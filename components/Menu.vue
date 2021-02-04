@@ -39,7 +39,7 @@
         <v-list-item-title @click="inicioDeSesion">Iniciar sesion</v-list-item-title>
     </v-list-item>
     <v-list-item>
-        <v-list-item-title @click="registro">Reistro</v-list-item-title>
+        <v-list-item-title @click="registro">Registro</v-list-item-title>
     </v-list-item>
 </v-list>
 

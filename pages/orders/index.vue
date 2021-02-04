@@ -95,7 +95,7 @@
             }
         },
         created() {
-            this.$axios.get(`/orders?user=${this.$auth.user.id}&ref_payco_null=false`).then(response => this.orders = response.data)
+            this.$axios.get(`/orders?user=${this.$auth.user.id}`).then(response => this.orders = response.data)
         },
         methods: {
             deleteOrder() {
@@ -115,8 +115,14 @@
                         return 'con retraso'
                     case 'received':
                         return 'recibido'
+                    case 'processing':
+                        return ' procesando'
+                    case 'denied':
+                        return 'denegado'
+                    case 'preparing':
+                        return 'preparando'
                     default:
-                        'error  '
+                        return 'error'
                 }
             },
             orderAction(order) {

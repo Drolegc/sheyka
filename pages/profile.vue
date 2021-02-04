@@ -56,7 +56,7 @@
         </v-card>
 
         <v-snackbar v-model="snackbar" :timeout="1500">
-            Datos gaurdados
+            {{snackbarMessage}}
         </v-snackbar>
     </v-container>
 </template>
@@ -72,7 +72,8 @@
                 initUser: {},
                 valid: false,
                 saveBtn: false,
-                snackbar: false
+                snackbar: false,
+                snackbarMessage: "Datos guardados"
             }
         },
         created() {
@@ -110,10 +111,14 @@
                 this.$axios.put('/users/' + this.$auth.user.id, this.user)
                     .then(response => {
                         this.snackbar = true
+                        this.snackbarMessage = "Datos guardados"
                         this.saveBtn = false
                         this.user = response.data
                         this.initUser = {...response.data
                         }
+                    }).catch((error) => {
+                        this.snackbar = true
+                        this.snackbarMessage = `Error: ${error.message}`
                     })
             }
         }

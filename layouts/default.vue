@@ -45,7 +45,7 @@
         <v-list-item-title @click="dialogInicioSesion = true">Iniciar sesion</v-list-item-title>
     </v-list-item>
     <v-list-item>
-        <v-list-item-title @click="dialogRegistro = true">Reistro</v-list-item-title>
+        <v-list-item-title @click="dialogRegistro = true">Registro</v-list-item-title>
     </v-list-item>
 </v-list>
 

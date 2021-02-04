@@ -155,114 +155,121 @@
         },
         methods: {
             async createOrder() {
-
-                if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
-                    this.$root.$emit('showOrderDirectionInformation')
-                    return
-                }
-
-                if (!this.$store.getters["new/checkOrderPersonInformation"]) {
-                    this.$root.$emit('showOrderPersonInformation')
-                    return
-                }
-
-
-                const framesQuantity = this.$store.getters["new/frames"]
-
-                //Generar frames
-                let frames = []
-                for (const photo of this.photos) {
-                    let frameData = new FormData()
-                    frameData.append('files.picture', photo.file, `${this.$auth.user.username+moment()}`)
-                    frameData.append('data', JSON.stringify({
-                        quantity: photo.cantidad
-                    }))
-                    let response = await this.$axios.post('/frames', frameData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    frames.push(response.data.id)
-                }
-
-                let person = null
-                if (this.regalo) {
-                    if (this.is_new_person) {
-                        person = (await this.$axios.post('/personas', {
-                            "nombre_apellido": this.nombre_apellido,
-                            "documento": this.documento,
-                            "email": this.email,
-                            "telefono": this.telefono
-                        })).data.id
-                    } else {
-                        person = this.id_person
-                    }
-                }
-
-
-
-                let newOrderData
                 try {
-                    var response = await this.$axios.post('/orders', {
-                        frames: frames,
-                        user: this.$auth.user.id,
-                        persona: person,
-                        street: this.calle_numero,
-                        street_number: this.piso_puerta_otros,
-                        country: this.paisSeleccionado,
-                        city: this.ciudadSeleccionada,
-                        telefono_extra: this.telefono_extra
-                    })
 
-                    newOrderData = response.data
+                    if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
+                        this.$root.$emit('showOrderDirectionInformation')
+                        return
+                    }
+
+                    if (!this.$store.getters["new/checkOrderPersonInformation"]) {
+                        this.$root.$emit('showOrderPersonInformation')
+                        return
+                    }
+
+                    this.loading = true
+                    const framesQuantity = this.$store.getters["new/frames"]
+
+                    //Generar frames
+                    let frames = []
+                    for (const photo of this.photos) {
+                        let frameData = new FormData()
+                        frameData.append('files.picture', photo.file, `${this.$auth.user.username+moment()}`)
+                        frameData.append('data', JSON.stringify({
+                            quantity: photo.cantidad
+                        }))
+                        let response = await this.$axios.post('/frames', frameData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        frames.push(response.data.id)
+                    }
+
+                    let person = null
+                    if (this.regalo) {
+                        if (this.is_new_person) {
+                            person = (await this.$axios.post('/personas', {
+                                "nombre_apellido": this.nombre_apellido,
+                                "documento": this.documento,
+                                "email": this.email,
+                                "telefono": this.telefono
+                            })).data.id
+                        } else {
+                            person = this.id_person
+                        }
+                    }
+
+
+
+                    let newOrderData
+                    try {
+                        var response = await this.$axios.post('/orders', {
+                            frames: frames,
+                            user: this.$auth.user.id,
+                            persona: person,
+                            street: this.calle_numero,
+                            street_number: this.piso_puerta_otros,
+                            country: this.paisSeleccionado,
+                            city: this.ciudadSeleccionada,
+                            telefono_extra: this.telefono_extra,
+                            post_code: this.codigo_postal
+                        })
+
+                        newOrderData = response.data
+
+                    } catch (e) {
+                        this.loading = false
+                        console.error("Error generando orden de compra", e)
+                        return
+                    }
+
+                    //Generar Orden
+
+                    var handler = ePayco.checkout.configure({
+                        key: '1dec2b485b2f6dcf1ea69d936bb005a5',
+                        test: true
+                    })
+                    var data = {
+                        //Parametros compra (obligatorio)
+                        name: `${framesQuantity} cuadros de 20x20(cm)`,
+                        description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
+                        currency: "cop",
+                        amount: newOrderData.price,
+                        country: "co",
+                        lang: "en",
+
+                        //Onpage="false" - Standard="true"
+                        external: "true",
+
+
+                        //Atributos opcionales
+                        extra1: newOrderData.id,
+                        // extra2: "extra2",
+                        // extra3: "extra3",
+                        response: window.location.hostname + ":3000/orders",
+                        confirmation: "https://6e11d5cf07a5.ngrok.io/orders/confirm",
+                        accepted: window.location.hostname + ":3000/orders/acepted",
+                        rejected: window.location.hostname + ":3000/orders/rejected",
+                        //Atributos cliente
+                        name_billing: this.nombre_apellido,
+                        address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
+                        type_doc_billing: "cc",
+                        mobilephone_billing: this.telefono,
+                        number_doc_billing: this.documento,
+
+                        //atributo deshabilitación metodo de pago
+                        //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
+
+                    }
+                    console.log("Opening dialog")
+                    handler.open(data)
 
                 } catch (e) {
-                    console.error("Error generando orden de ocmpra", e)
-                    return
+                    this.loading = false
                 }
-
-                //Generar Orden
-
-                var handler = ePayco.checkout.configure({
-                    key: '1dec2b485b2f6dcf1ea69d936bb005a5',
-                    test: true
-                })
-                var data = {
-                    //Parametros compra (obligatorio)
-                    name: `${framesQuantity} cuadros de 20x20(cm)`,
-                    description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
-                    currency: "cop",
-                    amount: newOrderData.price,
-                    country: "co",
-                    lang: "en",
-
-                    //Onpage="false" - Standard="true"
-                    external: "true",
-
-
-                    //Atributos opcionales
-                    extra1: newOrderData.id,
-                    // extra2: "extra2",
-                    // extra3: "extra3",
-                    response: window.location.hostname + ":3000/orders",
-                    confirmation: this.$axios.defaults.baseURL + "/orders/confirm",
-                    accepted: window.location.hostname + ":3000/orders/acepted",
-                    rejected: window.location.hostname + ":3000/orders/rejected",
-                    //Atributos cliente
-                    name_billing: this.nombre_apellido,
-                    address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
-                    type_doc_billing: "cc",
-                    mobilephone_billing: this.telefono,
-                    number_doc_billing: this.documento,
-
-                    //atributo deshabilitación metodo de pago
-                    //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
-
-                }
-                console.log("Opening dialog")
-                handler.open(data)
-
             }
+
         }
 
     }
