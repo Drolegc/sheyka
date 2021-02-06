@@ -34,7 +34,7 @@
         class="mb-1 transparent lighten-2 rounded-lg"
         >
             <v-img
-                src="/blackFrame.svg"
+                :src="selectedFrameImage"
                 aspect-ratio="1"
             >
                 </v-img>
@@ -79,6 +79,20 @@
                 get() {
                     return this.$store.getters["new/getSelectedFrame"]
                 }
+            },
+            selectedFrameImage: {
+                get() {
+                    switch (this.selectedFrame) {
+                        case 1:
+                            return '/previewMarcoNegroBorde.svg'
+                        case 2:
+                            return '/previewMarcoNegro.svg'
+                        case 3:
+                            return '/previewMarcoBlancoBorde.svg'
+                        case 4:
+                            return '/previewMarcoBlanco.svg'
+                    }
+                }
             }
         },
         methods: {
@@ -97,11 +111,11 @@
             getMarco(index) {
                 switch (index) {
                     case 1:
-                        return '/marcoNegroConSubBordeBlanco.png'
+                        return '/marcoNegroConBorde.png'
                     case 2:
                         return '/marcoNegro.png'
                     case 3:
-                        return '/marcoBlancoConSubBordeBlanco.png'
+                        return '/marcoBlancoConBorde.png'
                     case 4:
                         return '/marcoBlanco.png'
                 }

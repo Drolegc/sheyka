@@ -65,37 +65,17 @@
     export default {
         name: 'new-photos',
         middleware: "auth",
-        data() {
-            return {
-                options: [{
-                    title: 'Mi perfil',
-                    callback: ''
-                }, {
-                    title: 'Mis ordenes',
-                    callback: ''
-                }, {
-                    title: 'Contacto',
-                    callback: ''
-                }, {
-                    title: 'Click Me 2',
-                    callback: ''
-                }, ],
-                showBtn: false
-            }
-        },
-        watch: {
-            photos(value) {
-                if (value.length >= 3) {
-                    this.showBtn = true
-                }
-            }
-        },
         computed: {
             photos: {
                 get() {
                     return this.$store.getters["new/photos"]
                 }
             },
+            showBtn: {
+                get() {
+                    return (this.photos.length >= 3)
+                }
+            }
 
         },
 

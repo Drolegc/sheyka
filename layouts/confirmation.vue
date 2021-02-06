@@ -150,7 +150,21 @@
                 get() {
                     return this.$store.getters["new/getTelefonoExtra"]
                 }
-            }
+            },
+            selected_frame: {
+                get() {
+                    switch (this.$store.getters["new/getSelectedFrame"]) {
+                        case 1:
+                            return 'negro_margen'
+                        case 2:
+                            return 'negro'
+                        case 3:
+                            return 'blanco_margen'
+                        case 4:
+                            return 'blanco'
+                    }
+                }
+            },
 
         },
         methods: {
@@ -174,7 +188,7 @@
                     let frames = []
                     for (const photo of this.photos) {
                         let frameData = new FormData()
-                        frameData.append('files.picture', photo.file, `${this.$auth.user.username+moment()}`)
+                        frameData.append('files.picture', photo.file, `${this.$auth.user.username+moment()}.png`)
                         frameData.append('data', JSON.stringify({
                             quantity: photo.cantidad
                         }))
@@ -201,7 +215,6 @@
                     }
 
 
-
                     let newOrderData
                     try {
                         var response = await this.$axios.post('/orders', {
@@ -213,7 +226,8 @@
                             country: this.paisSeleccionado,
                             city: this.ciudadSeleccionada,
                             telefono_extra: this.telefono_extra,
-                            post_code: this.codigo_postal
+                            post_code: this.codigo_postal,
+                            frame_type: selected_frame
                         })
 
                         newOrderData = response.data
@@ -232,7 +246,7 @@
                     })
                     var data = {
                         //Parametros compra (obligatorio)
-                        name: `${framesQuantity} cuadros de 20x20(cm)`,
+                        name: `${framesQuantity} cuadros de 20x20(cms)`,
                         description: `${framesQuantity} cuadros de Sheyka de 20x20 cms`,
                         currency: "cop",
                         amount: newOrderData.price,
@@ -248,7 +262,7 @@
                         // extra2: "extra2",
                         // extra3: "extra3",
                         response: window.location.hostname + ":3000/orders",
-                        confirmation: "https://6e11d5cf07a5.ngrok.io/orders/confirm",
+                        confirmation: window.location.hostname + "/orders/confirm",
                         accepted: window.location.hostname + ":3000/orders/acepted",
                         rejected: window.location.hostname + ":3000/orders/rejected",
                         //Atributos cliente
