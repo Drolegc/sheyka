@@ -72,13 +72,17 @@
         <hr class="mt-2 mb-2">
         <h3>Total: $COL {{selectedOrderData.price}}</h3>
         <hr class="mt-2 mb-2">
-        <div class=" text-center">
-            <v-btn class="elevation-0 rounded-lg mt-2 mb-2" color="primary">Ya llego!</v-btn>
+        <div v-show="selectedOrderData.state != 'received'" class=" text-center">
+            <v-btn class="elevation-0 rounded-lg mt-2 mb-2" color="primary" @click="yaLlego">Ya llego!</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="mt-2" text small color="red">Reportar demora</v-btn>
+            <v-btn class="mt-2" text small color="red" @click="reportarDemora">Reportar demora</v-btn>
         </div>
     </div>
 </v-dialog>
+
+<v-snackbar v-model="snackbar" :timeout="1500">
+    Reporte de demora enviado
+</v-snackbar>
 </v-container>
 </template>
 
@@ -92,6 +96,8 @@
                 orders: [],
                 selectedOrder: false,
                 selectedOrderData: {},
+                snackbar: false,
+                snackbarMessage: 'Reporte de demora enviado'
             }
         },
         created() {
@@ -107,7 +113,6 @@
                 return result
             },
             state(state_data) {
-                console.log(state_data)
                 switch (state_data) {
                     case 'comming':
                         return 'en camino'
@@ -131,6 +136,22 @@
             },
             formatDate(date) {
                 return moment(date).format('LLLL');
+            },
+            yaLlego() {
+                this.$axios.put('/orders/' + this.selectedOrderData.id, {
+                    state: 'received'
+                }).then(() => {
+                    this.selectedOrderData.state = 'received'
+                    this.selectedOrder = false
+                })
+            },
+            reportarDemora() {
+                this.$axios.post('/orders/report', {
+                    order: this.selectedOrderData.id
+                }).then((response) => {
+                    this.snackbar = true
+                    this.selectedOrderData.state = 'delay'
+                })
             }
         }
     }

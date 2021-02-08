@@ -227,7 +227,7 @@
                             city: this.ciudadSeleccionada,
                             telefono_extra: this.telefono_extra,
                             post_code: this.codigo_postal,
-                            frame_type: selected_frame
+                            frame_type: this.selected_frame
                         })
 
                         newOrderData = response.data
