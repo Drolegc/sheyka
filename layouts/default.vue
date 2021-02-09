@@ -153,7 +153,7 @@
                 this.$refs.form_registro.validate()
                 if (!this.valid_registro) return
                 this.$axios.post('/auth/local/register', {
-                    username: this.email,
+                    username: this.email.split('@')[0],
                     email: this.email,
                     password: this.pass,
                     nombre_apellido: `${this.nombre} ${this.apellido}`,
