@@ -86,9 +86,15 @@
         <v-facebook-login class="mt-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
     </div>
 
+
+
 </v-dialog>
 
-
+<v-dialog v-model="loading" fullscreen class="no-transition">
+    <div class="full-height d-flex justify-center align-center shadow-background">
+        <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+    </div>
+</v-dialog>
 <v-app-bar app flat bottom color="white">
     <v-spacer></v-spacer>
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="iniciar" large>Iniciemos</v-btn>
@@ -114,6 +120,7 @@
                 valid_inicio_sesion: false,
                 valid_registro: false,
                 dialogRegistro: false,
+                loading: false,
                 //Data para registrar usuario
                 email: null,
                 emailRules: [
@@ -150,6 +157,7 @@
                 console.log("Failed", data)
             },
             registro() {
+                this.loading = true
                 this.$refs.form_registro.validate()
                 if (!this.valid_registro) return
                 this.$axios.post('/auth/local/register', {
@@ -166,12 +174,15 @@
                             password: this.pass,
                         }
                     }).then(response => {
+                        this.loading = false
                         this.dialogRegistro = false
+
                     })
 
-                })
+                }).catc(e => loading = false)
             },
             async inicioDeSesion() {
+                this.loading = true
                 this.$refs.form.validate()
                 if (!this.valid_inicio_sesion) return
 
@@ -184,12 +195,14 @@
                     })
                     this.dialogInicioSesion = false
                     this.dialogRegistro = false
+                    this.loading = false
 
                     var response = await this.$axios.get("/users/" + this.$auth.user.id)
                         //this.$store.dispatch("new/setUserInitData", response.data)
                 } catch (e) {
                     console.error(e)
                     this.snackbar = true
+                    this.loading = false
                 }
             },
             handleSdkInit({
@@ -218,5 +231,7 @@
 </script>
 
 <style>
-
+    .no-transition .stepper__content {
+        transition: none;
+    }
 </style>
