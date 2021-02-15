@@ -191,11 +191,8 @@
                     })
                     this.dialogInicioSesion = false
                     this.dialogRegistro = false
-<<<<<<< HEAD
-=======
                     this.loading = false
 
->>>>>>> 64170c1f10ed8977becd4cd4e50990f9c843acfd
                     var response = await this.$axios.get("/users/" + this.$auth.user.id)
 
                 } catch (e) {
