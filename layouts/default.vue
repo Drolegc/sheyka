@@ -64,8 +64,11 @@
             <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
-        <google-login class="ma-3 full-width" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
-        <v-facebook-login class="ma-3 full-width" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
+        <v-btn class="mt-1" color="white" block elevation="0" @click="googleAuthentication">
+            <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
+
+        <v-btn class="mt-1" color="white" block elevation="0">
+            <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
     </div>
 </v-dialog>
 
@@ -82,8 +85,11 @@
             <v-text-field name="documento" label="Documento" id="documento" v-model="documento" type="number" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="registro" block>Crear cuenta</v-btn>
         </v-form>
-        <google-login class="mt-3" :params="params" :renderParams="renderParams" :onSuccess="onSuccessGoogle" :onFailure="onFailureGoogle"></google-login>
-        <v-facebook-login class="mt-3" app-id="1099826073788172" @sdk-init="handleSdkInit"></v-facebook-login>
+        <v-btn class="mt-1" color="white" block elevation="0" @click="googleAuthentication">
+            <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
+
+        <v-btn class="mt-1" color="white" block elevation="0">
+            <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
     </div>
 
 </v-dialog>
@@ -101,10 +107,6 @@
 </template>
 
 <script>
-    import GoogleLogin from 'vue-google-login';
-    import VFacebookLogin from 'vue-facebook-login-component'
-    import Menu from '../components/Menu.vue'
-
     export default {
         name: 'default',
         data() {
@@ -137,18 +139,12 @@
                     height: 50,
                     longtitle: true,
                 },
-                FB: {},
                 model: {},
                 scope: {}
             }
         },
         methods: {
-            onSuccessGoogle(data) {
-                console.log("Success", data)
-            },
-            onFailureGoogle(data) {
-                console.log("Failed", data)
-            },
+
             registro() {
                 this.$refs.form_registro.validate()
                 if (!this.valid_registro) return
@@ -184,21 +180,12 @@
                     })
                     this.dialogInicioSesion = false
                     this.dialogRegistro = false
-
                     var response = await this.$axios.get("/users/" + this.$auth.user.id)
-                        //this.$store.dispatch("new/setUserInitData", response.data)
+
                 } catch (e) {
                     console.error(e)
                     this.snackbar = true
                 }
-            },
-            handleSdkInit({
-                FB,
-                scope
-            }) {
-                console.log(FB, scope)
-                this.FB = FB
-                this.scope = scope
             },
             iniciar() {
                 if (this.$auth.loggedIn) {
@@ -206,14 +193,21 @@
                 } else {
                     this.dialogInicioSesion = true
                 }
+            },
+            googleAuthentication(id) {
+                this.$axios.get(`/auth/google/callback?id_token=${id}`).then(response => {
+                    this.$axios.setToken(response.data['jwt'])
+                    this.$axios.setUser(response.data['user'])
+                })
             }
 
         },
-        components: {
-            GoogleLogin,
-            VFacebookLogin,
-            Menu
-        }
+        created() {
+            const id_token = this.$route.query['id_token']
+            if (id_token != undefined)
+                this.googleAuthentication()
+        },
+
     }
 </script>
 
