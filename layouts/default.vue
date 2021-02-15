@@ -64,7 +64,7 @@
             <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
-        <v-btn class="mt-1" color="white" block elevation="0" @click="googleAuthentication">
+        <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/api/google/connect'">
             <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
 
         <v-btn class="mt-1" color="white" block elevation="0">
@@ -85,7 +85,7 @@
             <v-text-field name="documento" label="Documento" id="documento" v-model="documento" type="number" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="registro" block>Crear cuenta</v-btn>
         </v-form>
-        <v-btn class="mt-1" color="white" block elevation="0" @click="googleAuthentication">
+        <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/api/google/connect'">
             <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
 
         <v-btn class="mt-1" color="white" block elevation="0">
@@ -207,6 +207,9 @@
                 } else {
                     this.dialogInicioSesion = true
                 }
+            },
+            goToGoogleAuth() {
+
             },
             googleAuthentication(id) {
                 this.$axios.get(`/auth/google/callback?id_token=${id}`).then(response => {
