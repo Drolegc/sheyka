@@ -261,10 +261,10 @@
                         extra1: newOrderData.id,
                         // extra2: "extra2",
                         // extra3: "extra3",
-                        response: window.location.hostname + ":3000/orders",
+                        response: window.location.hostname + "/orders",
                         confirmation: window.location.hostname + "/orders/confirm",
-                        accepted: window.location.hostname + ":3000/orders/acepted",
-                        rejected: window.location.hostname + ":3000/orders/rejected",
+                        accepted: window.location.hostname + "/orders/acepted",
+                        rejected: window.location.hostname + "/orders/rejected",
                         //Atributos cliente
                         name_billing: this.nombre_apellido,
                         address_billing: `Calle numero: ${this.calle_numero}. Otros (piso, puerta, etc): ${this.piso_puerta_otros}`,
