@@ -35,13 +35,7 @@
     <v-list-item>
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
     </v-list-item>
-    <v-list-item>
-        <v-list-item-icon>
-            <v-icon> mdi-whatsapp</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-            Comunicate con nosotros</v-list-item-title>
-    </v-list-item>
+
     <v-list-item @click="$auth.logout()">
         <v-list-item-title>Salir</v-list-item-title>
     </v-list-item>
@@ -56,6 +50,9 @@
     <v-spacer></v-spacer>
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
+    <v-btn fab small elevation="1" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+        <v-icon>mdi-whatsapp</v-icon>
+    </v-btn>
 </v-app-bar>
 <v-dialog v-model="loading" fullscreen>
     <div class="full-height d-flex justify-center align-center shadow-background">
