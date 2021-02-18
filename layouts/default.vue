@@ -201,9 +201,6 @@
                     this.dialogInicioSesion = true
                 }
             },
-            goToGoogleAuth() {
-
-            },
             googleAuthentication(id) {
                 this.$axios.get(`/auth/google/callback?id_token=${id}`).then(response => {
                     this.$axios.setToken(response.data['jwt'])

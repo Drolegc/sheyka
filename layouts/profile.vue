@@ -47,7 +47,7 @@
     <nuxt></nuxt>
 </v-main>
 <v-app-bar app flat bottom color="primary_background">
-    <v-btn fab small elevation="1" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+    <v-btn fab elevation="1" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
         <v-icon>mdi-whatsapp</v-icon>
     </v-btn>
 </v-app-bar>
