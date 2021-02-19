@@ -105,7 +105,6 @@
                             original: e.target.result,
                             preview: '',
                             cantidad: 1,
-                            cropper: {}
                         }
 
                         // data['cropper'] = new Cropper(data['original'], {

@@ -1,5 +1,9 @@
-import Cropper from "cropperjs";
-
+function urltoFile(url, filename, mimeType) {
+    return (fetch(url)
+        .then(function(res) { return res.arrayBuffer(); })
+        .then(function(buf) { return new File([buf], filename, { type: mimeType }); })
+    );
+}
 
 export const state = () => ({
     photos: [],
@@ -92,7 +96,9 @@ export const mutations = {
         let index = data.index
         let src = data.src
         state.photos[index].preview = src
-
+    },
+    async changeFiles(state) {
+        Promise.all(state.photos.map(async photo => photo.file = await urltoFile(photo.preview, 'preview.png', 'image/png')))
     }
 }
 
@@ -162,6 +168,9 @@ export const actions = {
     },
     setPreview({ commit }, data) {
         commit('setPreview', data)
+    },
+    async changeFiles({ commit }) {
+        commit('changeFiles')
     }
 }
 

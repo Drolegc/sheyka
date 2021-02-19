@@ -34,7 +34,8 @@
             transition="scroll-y-reverse-transition"
             eager
         >
-        <v-card height="200">
+        <v-card
+        >
             <img 
             :src="photo.original"
             :ref="'cropped' + index"
@@ -63,24 +64,19 @@
         mounted() {
             let ref = 'cropped' + this.index
             this.cropper = new Cropper(
-                    this.$refs[ref], {
-                        zoomable: true,
-                        scalable: false,
-                        aspectRatio: 1,
-                        crop: () => {
-                            const canvas = this.cropper.getCroppedCanvas();
-                            this.$store.dispatch("new/setPreview", {
-                                index: this.index,
-                                src: canvas.toDataURL("image/png")
-                            })
-                        }
+                this.$refs[ref], {
+                    zoomable: true,
+                    scalable: false,
+                    aspectRatio: 1,
+                    crop: () => {
+                        const canvas = this.cropper.getCroppedCanvas();
+                        this.$store.dispatch("new/setPreview", {
+                            index: this.index,
+                            src: canvas.toDataURL("image/png")
+                        })
                     }
-                )
-                // let ref = 'cropped' + this.index
-                // this.$store.dispatch("new/setCropper", {
-                //     index: this.index,
-                //     ref: this.$refs[ref]
-                // })
+                }
+            )
         },
         computed: {
             photo: {
@@ -100,3 +96,10 @@
         }
     }
 </script>
+
+<style>
+    .container-cropper {
+        display: block;
+        max-width: 100%;
+    }
+</style>

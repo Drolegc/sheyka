@@ -73,7 +73,7 @@
         middleware: "auth",
         data() {
             return {
-                loading: false
+                loading: false,
             }
         },
         computed: {
@@ -179,6 +179,9 @@
                     }
 
                     this.loading = true
+
+                    await this.$store.dispatch('new/changeFiles')
+
                     const framesQuantity = this.$store.getters["new/frames"]
 
                     //Generar frames
@@ -196,6 +199,7 @@
                         })
                         frames.push(response.data.id)
                     }
+
 
                     let person = null
                     if (this.regalo) {

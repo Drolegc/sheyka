@@ -62,6 +62,7 @@
     export default {
         name: 'new-photos-frame',
         middleware: "auth",
+
         computed: {
             photos: {
                 get() {
