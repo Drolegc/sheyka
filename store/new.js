@@ -1,23 +1,5 @@
 export const state = () => ({
-    photos: [
-        // {
-        //     id: 0,
-        //     file: "",
-        //     url: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-        //     cantidad: 1
-        // }, {
-        //     id: 1,
-        //     file: "",
-        //     url: "https://picsum.photos/id/11/500/300",
-        //     cantidad: 1
-        // },
-        // {
-        //     id: 2,
-        //     file: "",
-        //     url: "https://picsum.photos/id/11/500/300",
-        //     cantidad: 1
-        // }
-    ],
+    photos: [],
     nombre_apellido: '',
     calle_numero: '',
     piso_puerta_otros: '',
@@ -76,11 +58,6 @@ export const mutations = {
     setUserInitData(state, user_init_data) {
         state.documento = user_init_data.documento
         state.telefono = user_init_data.telefono
-            //state.codigo_postal = user_init_data.codigo_postal
-            //state.ciudad = user_init_data.ciudad
-            //state.pais = user_init_data.pais
-            //state.piso_puerta_otros = calle_otros
-            //state.calle_numero = user_init_data.calle
         state.nombre_apellido = user_init_data.nombre_apellido
         state.email = user_init_data.email
     },

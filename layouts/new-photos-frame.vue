@@ -50,7 +50,7 @@
     <v-spacer></v-spacer>
     <v-btn v-show="photos.length != 0" class="rounded-lg elevation-0" color="secondary" @click="$router.push('/confirmation')" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
-    <v-btn fab elevation="1" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+    <v-btn class="mb-4" fab elevation="2" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
         <v-icon>mdi-whatsapp</v-icon>
     </v-btn>
 </v-app-bar>
@@ -77,3 +77,7 @@
         }
     }
 </script>
+
+<style>
+    @import 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.min.css';
+</style>
