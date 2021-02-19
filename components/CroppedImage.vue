@@ -7,7 +7,7 @@
         >
         <v-img
         @click="dialog = true"
-        :src="photo.original"
+        :src="photo.preview"
         aspect-ratio="1"
         class="mb-1 transparent lighten-2 rounded-lg"
         >
@@ -30,17 +30,24 @@
 
         <v-dialog
             v-model="dialog"
-            fullscreen
-            persistent :overlay="false"
-            width="100"
-            transition="dialog-transition"
+            :overlay="false"
+            transition="scroll-y-reverse-transition"
+            eager
         >
-            <h1>asd</h1>
-        </v-dialog>
+        <v-card height="200">
+            <img 
+            :src="photo.original"
+            :ref="'cropped' + index"
+            crossorigin
+            />
+        </v-card>
+    
+            </v-dialog>
         </v-card>
 </template>
 
 <script>
+    import Cropper from "cropperjs";
     export default {
         props: {
             index: Number,
@@ -49,8 +56,31 @@
         },
         data() {
             return {
-                dialog: false
+                dialog: false,
+                cropper: {}
             }
+        },
+        mounted() {
+            let ref = 'cropped' + this.index
+            this.cropper = new Cropper(
+                    this.$refs[ref], {
+                        zoomable: true,
+                        scalable: false,
+                        aspectRatio: 1,
+                        crop: () => {
+                            const canvas = this.cropper.getCroppedCanvas();
+                            this.$store.dispatch("new/setPreview", {
+                                index: this.index,
+                                src: canvas.toDataURL("image/png")
+                            })
+                        }
+                    }
+                )
+                // let ref = 'cropped' + this.index
+                // this.$store.dispatch("new/setCropper", {
+                //     index: this.index,
+                //     ref: this.$refs[ref]
+                // })
         },
         computed: {
             photo: {

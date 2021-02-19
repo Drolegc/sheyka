@@ -47,7 +47,7 @@
             class="text-center transparent pa-3"
             >
             <div class="white rounded-xl">
-                <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg"> 
+                <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg, image/jpeg"> 
                 <h3 class="pa-2" @click="$refs.imagePicker.click()">Galeria</h3>
             </div>
             </v-sheet>
@@ -103,7 +103,7 @@
                         let data = {
                             file: files[i],
                             original: e.target.result,
-                            destination: e.target.result,
+                            preview: '',
                             cantidad: 1,
                             cropper: {}
                         }

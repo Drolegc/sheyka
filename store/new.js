@@ -1,3 +1,6 @@
+import Cropper from "cropperjs";
+
+
 export const state = () => ({
     photos: [],
     nombre_apellido: '',
@@ -84,6 +87,12 @@ export const mutations = {
     },
     setSelectedFrame(state, selected_frame) {
         state.selected_frame = selected_frame
+    },
+    setPreview(state, data) {
+        let index = data.index
+        let src = data.src
+        state.photos[index].preview = src
+
     }
 }
 
@@ -150,6 +159,9 @@ export const actions = {
     },
     setSelectedFrame({ commit }, selected_frame) {
         commit('setSelectedFrame', selected_frame)
+    },
+    setPreview({ commit }, data) {
+        commit('setPreview', data)
     }
 }
 
