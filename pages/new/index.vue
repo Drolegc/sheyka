@@ -3,7 +3,6 @@
         <div class="d-flex flex-column justify-center align-center full-height" @click="options = true" v-if="photos.length == 0" >
             <h3 class="ma-3 text-center" >Has click para seleccionar</h3>
             <v-icon x-large>mdi-plus</v-icon>
-            <!-- <span class="overline blue-grey--text text-lighten-5">* mínimo 3 imagenes</span> -->
         </div>
         <v-row v-else>
             <v-col
@@ -14,7 +13,7 @@
               <div class="full-height elevation-1 rounded-lg">
 
                 <v-img
-                  :src="photo.url"
+                  :src="photo.original"
                   aspect-ratio="1"
                   class="transparent lighten-2 rounded-lg"
                 >
@@ -48,7 +47,7 @@
             class="text-center transparent pa-3"
             >
             <div class="white rounded-xl">
-                <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg"> 
+                <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg, image/jpeg"> 
                 <h3 class="pa-2" @click="$refs.imagePicker.click()">Galeria</h3>
             </div>
             </v-sheet>
@@ -66,6 +65,8 @@
 
 
 <script>
+    import Cropper from "cropperjs";
+
     export default {
         layout: 'new-photos',
         data() {
@@ -101,9 +102,21 @@
                     reader.onload = (e) => {
                         let data = {
                             file: files[i],
-                            url: e.target.result,
-                            cantidad: 1
+                            original: e.target.result,
+                            preview: '',
+                            cantidad: 1,
                         }
+
+                        // data['cropper'] = new Cropper(data['original'], {
+                        //     zoomable: true,
+                        //     scalable: true,
+                        //     aspectRatio: 1,
+                        //     crop: () => {
+                        //         const canvas = this.cropper.getCroppedCanvas()
+                        //         data['destination'] = canvas.toDataUrl("image/png")
+                        //     }
+                        // })
+
                         this.$store.dispatch("new/addPhoto", data)
                     }
                     reader.readAsDataURL(files[i])

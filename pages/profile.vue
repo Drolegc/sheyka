@@ -1,12 +1,7 @@
 <template>
     <v-container class=" pa-3 full-height primary_background">
+        <h1>Mi perfil</h1>
         <v-card class="pa-1 rounded-lg" >
-            <v-img
-        :src="picture"
-        max-height="30vh"
-        aspect-ratio="1"
-        ></v-img>
-
         <v-form
         class="pa-2"
         ref="form"
@@ -66,9 +61,7 @@
         layout: 'profile',
         data() {
             return {
-                user: {
-                    profile_picture: null
-                },
+                user: {},
                 initUser: {},
                 valid: false,
                 saveBtn: false,
@@ -97,13 +90,6 @@
 
                 },
                 deep: true
-            }
-        },
-        computed: {
-            picture: {
-                get() {
-                    return (this.user.profile_picture == null) ? '/default_user.png' : this.$axios.defaults.baseURL + this.user.profile_picture.url
-                }
             }
         },
         methods: {

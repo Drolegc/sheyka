@@ -21,44 +21,16 @@
         :key="n"
         v-slot="{ active, toggle }"
       >
-        <v-card
-        active-class=""
-          elevation="3"
-          :width="'80vw'"
-          :class=" !active ? 'ma-4 pa-2 rounded-lg' : 'primary-shadow ma-4 pa-2 rounded-lg primary--text ' "
-          @click="changeSelectedImage(n)"
-        >
-        <v-img
-        :src="photo.url"
-        aspect-ratio="1"
-        class="mb-1 transparent lighten-2 rounded-lg"
-        >
-            <v-img
-                :src="selectedFrameImage"
-                aspect-ratio="1"
-            >
-                </v-img>
-        </v-img>
-        
-        <div class="d-flex justify-center align-center">
-            <div class="d-flex justify-center align-center">
-                <v-btn class="mr-2" elevation="0" color="secondary" @click="removeOne(n)"><v-icon>mdi-minus</v-icon></v-btn>
-            </div>
-            <h1>{{photo.cantidad}}</h1>
-            <div class="d-flex justify-center align-center">
-                <v-btn class="ml-2" elevation="0" color="secondary" @click="addOne(n)" ><v-icon>mdi-plus</v-icon></v-btn>
-            </div>
-        </div>
-        </v-card>
+      <cropped-image :index="n" :active="active" :selectedFrameImage="selectedFrameImage" @click="changeSelectedImage(n)"></cropped-image>
       </v-slide-item>
     </v-slide-group>
-            
         
     </div>
     </v-container>
 </template>
 
 <script>
+    import CroppedImage from '../../components/CroppedImage.vue'
     export default {
         layout: 'new-photos-frame',
         data() {
@@ -101,13 +73,7 @@
                     this.selected = selected
                 }
             },
-            addOne(index) {
-                this.$store.dispatch("new/addCantidad", index)
-            },
-            removeOne(index) {
-                if (this.photos[index].cantidad > 1)
-                    this.$store.dispatch("new/removeCantidad", index)
-            },
+
             getMarco(index) {
                 switch (index) {
                     case 1:
@@ -120,6 +86,9 @@
                         return '/marcoBlanco.png'
                 }
             }
+        },
+        components: {
+            CroppedImage
         }
     }
 </script>
