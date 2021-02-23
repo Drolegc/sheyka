@@ -104,18 +104,9 @@
                             file: files[i],
                             original: e.target.result,
                             preview: '',
+                            aux_preview: '',
                             cantidad: 1,
                         }
-
-                        // data['cropper'] = new Cropper(data['original'], {
-                        //     zoomable: true,
-                        //     scalable: true,
-                        //     aspectRatio: 1,
-                        //     crop: () => {
-                        //         const canvas = this.cropper.getCroppedCanvas()
-                        //         data['destination'] = canvas.toDataUrl("image/png")
-                        //     }
-                        // })
 
                         this.$store.dispatch("new/addPhoto", data)
                     }

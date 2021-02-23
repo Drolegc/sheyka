@@ -30,21 +30,55 @@
 
         <v-dialog
             v-model="dialog"
+            fullscreen
             :overlay="false"
             transition="scroll-y-reverse-transition"
             eager
         >
+
+        <v-app-bar
+            flat
+            color="primary"
+          >
+            <v-btn icon color="white" @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
+
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="white"
+              text
+              @click="done"
+            >
+              Listo
+            </v-btn>
+          </v-app-bar>
         <v-card
         >
-            <img 
-            :src="photo.original"
-            :ref="'cropped' + index"
-            crossorigin
-            />
+            <div class="cropper-div" ref="father-cropper" >
+                <img 
+                class="cropper-image"
+                :src="photo.original"
+                :ref="'cropped' + index"
+                crossorigin
+                />
+            </div>
         </v-card>
-    
-            </v-dialog>
-        </v-card>
+
+        <v-app-bar app flat bottom color="transparent">
+            <div v-if="isMobile" class="d-flex full-width justify-space-between align-center text-center mb-5">
+                <v-icon color="white" large>mdi-gesture-pinch</v-icon>
+                <span class="headline white--text">Pellizca para zoom, arrastra para mover</span>
+                <v-icon color="white" large>mdi-gesture-swipe-horizontal</v-icon>
+            </div>
+            <div v-else class="d-flex full-width justify-space-between align-center text-center" >
+                <v-icon color="white" large>mdi-mouse-move-up</v-icon>
+                <span class="headline white--text">Gira la ruedita para zoom, arrastra para mover</span>
+                <v-icon color="white" large>mdi-cursor-default-gesture-outline</v-icon>
+            </div>
+        </v-app-bar>
+
+        </v-dialog>
+    </v-card>
 </template>
 
 <script>
@@ -58,8 +92,17 @@
         data() {
             return {
                 dialog: false,
-                cropper: {}
+                cropper: {},
+                zoom: 0,
+                message: ''
             }
+        },
+        computed: {
+            photo: {
+                get() {
+                    return this.$store.getters["new/photos"][this.index]
+                }
+            },
         },
         mounted() {
             let ref = 'cropped' + this.index
@@ -68,22 +111,24 @@
                     zoomable: true,
                     scalable: false,
                     aspectRatio: 1,
+                    viewMode: 0,
+                    dragMode: 'move',
+                    minContainerWidth: window.innerWidth,
+                    minContainerHeight: window.innerHeight,
+                    background: false,
+                    ready: () => {
+                        this.done()
+                    },
                     crop: () => {
                         const canvas = this.cropper.getCroppedCanvas();
-                        this.$store.dispatch("new/setPreview", {
+                        this.$store.dispatch("new/setAuxPreview", {
                             index: this.index,
                             src: canvas.toDataURL("image/png")
                         })
                     }
                 }
             )
-        },
-        computed: {
-            photo: {
-                get() {
-                    return this.$store.getters["new/photos"][this.index]
-                }
-            }
+
         },
         methods: {
             addOne() {
@@ -93,13 +138,26 @@
                 if (this.photo.cantidad > 1)
                     this.$store.dispatch("new/removeCantidad", this.index)
             },
+            done() {
+                this.$store.dispatch("new/setPreview", this.index)
+                this.dialog = false
+            },
+            isMobile() {
+                var ua = navigator.userAgent;
+                return isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+            }
         }
     }
 </script>
 
 <style>
-    .container-cropper {
+    .cropper-image {
         display: block;
         max-width: 100%;
+    }
+    
+    .cropper-div {
+        height: 100%;
+        width: 100%;
     }
 </style>

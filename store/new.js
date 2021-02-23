@@ -92,13 +92,16 @@ export const mutations = {
     setSelectedFrame(state, selected_frame) {
         state.selected_frame = selected_frame
     },
-    setPreview(state, data) {
+    setAuxPreview(state, data) {
         let index = data.index
         let src = data.src
-        state.photos[index].preview = src
+        state.photos[index].aux_preview = src
     },
     async changeFiles(state) {
         Promise.all(state.photos.map(async photo => photo.file = await urltoFile(photo.preview, 'preview.png', 'image/png')))
+    },
+    setPreview(state, index) {
+        state.photos[index].preview = state.photos[index].aux_preview
     }
 }
 
@@ -166,11 +169,14 @@ export const actions = {
     setSelectedFrame({ commit }, selected_frame) {
         commit('setSelectedFrame', selected_frame)
     },
-    setPreview({ commit }, data) {
-        commit('setPreview', data)
+    setAuxPreview({ commit }, data) {
+        commit('setAuxPreview', data)
     },
     async changeFiles({ commit }) {
         commit('changeFiles')
+    },
+    setPreview({ commit }, index) {
+        commit('setPreview', index)
     }
 }
 
