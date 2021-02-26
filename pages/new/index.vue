@@ -65,7 +65,8 @@
 
 
 <script>
-    import Cropper from "cropperjs";
+    import Cropper from "cropperjs"
+    import Compressor from 'compressorjs'
 
     export default {
         layout: 'new-photos',
@@ -99,17 +100,32 @@
 
                     let reader = new FileReader()
                     let file = files[i]
-                    reader.onload = (e) => {
-                        let data = {
-                            file: files[i],
-                            original: e.target.result,
-                            preview: '',
-                            aux_preview: '',
-                            cantidad: 1,
-                        }
 
-                        this.$store.dispatch("new/addPhoto", data)
+                    reader.onload = (e) => {
+
+                        let self = this
+
+                        new Compressor(file, {
+                            quality: 0.2,
+                            success(result) {
+
+                                let urlCreator = window.URL || window.webkitURL
+
+                                let data = {
+                                    file: result,
+                                    original: urlCreator.createObjectURL(result),
+                                    preview: '',
+                                    aux_preview: '',
+                                    cantidad: 1,
+                                }
+
+                                self.$store.dispatch("new/addPhoto", data)
+
+                            },
+                        })
+
                     }
+
                     reader.readAsDataURL(files[i])
                 }
                 this.options = false

@@ -6,7 +6,7 @@
           :class=" !active ? 'ma-4 pa-2 rounded-lg' : 'primary-shadow ma-4 pa-2 rounded-lg primary--text ' "
         >
         <v-img
-        @click="dialog = true"
+        @click="openDialog"
         :src="photo.preview"
         aspect-ratio="1"
         class="mb-1 transparent lighten-2 rounded-lg"
@@ -40,17 +40,23 @@
             flat
             color="primary"
           >
-            <v-btn icon color="white" @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
+            <v-btn icon color="white" @click="closeDialog"><v-icon>mdi-close</v-icon></v-btn>
 
             <v-spacer></v-spacer>
 
             <v-btn
+            v-if="!loading"
               color="white"
               text
               @click="done"
             >
               Listo
             </v-btn>
+            <v-progress-circular
+            v-else
+            indeterminate
+            color="white"
+            ></v-progress-circular>
           </v-app-bar>
         <v-card
         >
@@ -78,6 +84,7 @@
         </v-app-bar>
 
         </v-dialog>
+        
     </v-card>
 </template>
 
@@ -92,6 +99,7 @@
         data() {
             return {
                 dialog: false,
+                loading: false,
                 cropper: {},
                 zoom: 0,
                 message: ''
@@ -106,29 +114,24 @@
         },
         mounted() {
             let ref = 'cropped' + this.index
+
             this.cropper = new Cropper(
                 this.$refs[ref], {
                     zoomable: true,
                     scalable: false,
                     aspectRatio: 1,
+                    cropBoxMovable: false,
+                    cropBoxResizable: false,
                     viewMode: 0,
                     dragMode: 'move',
                     minContainerWidth: window.innerWidth,
                     minContainerHeight: window.innerHeight,
                     background: false,
-                    ready: () => {
-                        this.done()
-                    },
-                    crop: () => {
-                        const canvas = this.cropper.getCroppedCanvas();
-                        this.$store.dispatch("new/setAuxPreview", {
-                            index: this.index,
-                            src: canvas.toDataURL("image/png")
-                        })
-                    }
+                    ready: () =>
+                        this.done(),
+
                 }
             )
-
         },
         methods: {
             addOne() {
@@ -139,8 +142,41 @@
                     this.$store.dispatch("new/removeCantidad", this.index)
             },
             done() {
+                this.loading = true
+                var canvas = this.cropper.getCroppedCanvas();
+                this.$store.dispatch("new/setAuxPreview", {
+                    index: this.index,
+                    src: canvas.toDataURL("image/png")
+                })
                 this.$store.dispatch("new/setPreview", this.index)
+                this.cropper.destroy()
+                this.croppper = {}
+                this.loading = false
                 this.dialog = false
+            },
+            openDialog() {
+                this.dialog = true
+                let ref = 'cropped' + this.index
+                this.cropper = new Cropper(
+                    this.$refs[ref], {
+                        zoomable: true,
+                        scalable: false,
+                        aspectRatio: 1,
+                        cropBoxMovable: false,
+                        cropBoxResizable: false,
+                        viewMode: 0,
+                        dragMode: 'move',
+                        minContainerWidth: window.innerWidth,
+                        minContainerHeight: window.innerHeight,
+                        background: false,
+
+                    }
+                )
+            },
+            closeDialog() {
+                this.dialog = false
+                this.cropper.destroy()
+                this.croppper = {}
             },
             isMobile() {
                 var ua = navigator.userAgent;

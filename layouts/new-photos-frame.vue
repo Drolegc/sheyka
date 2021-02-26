@@ -61,19 +61,12 @@
 <script>
     export default {
         name: 'new-photos-frame',
-        middleware: "auth",
-
+        // middleware: "auth",
         computed: {
             photos: {
                 get() {
                     return this.$store.getters["new/photos"]
                 }
-            }
-        },
-        methods: {
-            siguiente() {
-
-
             }
         }
     }

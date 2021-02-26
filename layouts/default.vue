@@ -195,11 +195,13 @@
                 }
             },
             iniciar() {
-                if (this.$auth.loggedIn) {
-                    this.$router.push('/new')
-                } else {
-                    this.dialogInicioSesion = true
-                }
+                this.$router.push('/new')
+
+                // if (this.$auth.loggedIn) {
+                //     this.$router.push('/new')
+                // } else {
+                //     this.dialogInicioSesion = true
+                // }
             },
             googleAuthentication(id) {
                 this.$axios.get(`/auth/google/callback?id_token=${id}#`).then(response => {
