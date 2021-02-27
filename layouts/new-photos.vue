@@ -61,7 +61,7 @@
 <script>
     export default {
         name: 'new-photos',
-        // middleware: "auth",
+        middleware: "auth",
         computed: {
             photos: {
                 get() {
@@ -70,7 +70,7 @@
             },
             showBtn: {
                 get() {
-                    return (this.photos.length >= 0)
+                    return (this.photos.length >= 3)
                 }
             }
 
