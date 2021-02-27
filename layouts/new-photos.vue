@@ -61,7 +61,7 @@
 <script>
     export default {
         name: 'new-photos',
-        //middleware: "auth",
+        middleware: "auth",
         computed: {
             photos: {
                 get() {
