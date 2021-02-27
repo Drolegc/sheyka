@@ -83,6 +83,7 @@
             return {
                 dialog: false,
                 loading: false,
+                checkOrientation: false,
                 cropper: {},
                 zoom: 0,
                 message: ''
@@ -118,6 +119,9 @@
 
                 }
             )
+        },
+        beforeDestroy() {
+            this.cropper.destroy()
         },
         methods: {
             addOne() {
