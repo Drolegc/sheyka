@@ -70,7 +70,7 @@
             },
             showBtn: {
                 get() {
-                    return (this.photos.length >= 3)
+                    return (this.photos.length >= 0)
                 }
             }
 

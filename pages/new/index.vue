@@ -14,6 +14,7 @@
 
                 <v-img
                   :src="photo.original"
+                  lazy-src="./lazyLogo.jpg"
                   aspect-ratio="1"
                   class="transparent lighten-2 rounded-lg"
                 >
