@@ -7,6 +7,7 @@
 
         <v-dialog
         v-model="dialog"
+        :width="(isMobile())?'auto':'50vw'"
         transition="dialog-transition"
     >
 
@@ -96,9 +97,10 @@
 
 <script>
     import ciudades from '~/static/ciudades.json'
-
+    import global from '~/mixins/global.js'
 
     export default {
+        mixins: [global],
         data() {
             return {
                 user: {},

@@ -1,5 +1,5 @@
 <template>
-    <v-container class="full-height d-flex flex-column justify-center align-center primary_background pl-10 pr-10">
+    <v-container class="full-height d-flex flex-column justify-center align-center primary_background pl-10 pr-10" fluid>
         <div class="full-width mb-5">
             <p class="title">Cantidad</p>
             <h1 class="primary--text">{{$store.getters["new/frames"]}} cuadros de 20x20(cm)</h1>

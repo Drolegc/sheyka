@@ -1,6 +1,6 @@
 <template>
-    <v-container class=" pa-3 full-height primary_background">
-        <h1>Mi perfil</h1>
+    <v-container class=" pa-3 full-height primary_background" fluid>
+        <h1 class="primary--text mb-10">Mi perfil</h1>
         <v-card class="pa-1 rounded-lg" >
         <v-form
         class="pa-2"

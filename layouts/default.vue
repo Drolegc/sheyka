@@ -48,7 +48,7 @@
     <nuxt></nuxt>
 </v-main>
 
-<v-dialog v-model="dialogInicioSesion" transition="dialog-transition">
+<v-dialog v-model="dialogInicioSesion" :width="(isMobile())?'auto':'50vw'" transition="dialog-transition">
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <h3>Inicio de sesion</h3>
@@ -65,7 +65,7 @@
     </div>
 </v-dialog>
 
-<v-dialog v-model="dialogRegistro" transition="dialog-transition">
+<v-dialog v-model="dialogRegistro" :width="(isMobile())?'auto':'50vw'" transition="dialog-transition">
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <h3>Registro</h3>
@@ -106,8 +106,10 @@
 </template>
 
 <script>
+    import global from '~/mixins/global.js'
     export default {
         name: 'default',
+        mixins: [global],
         data() {
             return {
                 snackbar: false,
@@ -132,12 +134,6 @@
                 showPass: false,
                 params: {
                     client_id: "957222471580-0s95ltriq07u5ugq6l81ksovbiorm6lk.apps.googleusercontent.com"
-                },
-                // only needed if you want to render the button with the google ui
-                renderParams: {
-                    width: 250,
-                    height: 50,
-                    longtitle: true,
                 },
                 model: {},
                 scope: {}

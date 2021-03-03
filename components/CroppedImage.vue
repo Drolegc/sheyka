@@ -65,7 +65,7 @@
         </v-card>
 
         <v-app-bar app flat bottom color="transparent">
-            <div v-if="isMobile" class="d-flex full-width justify-space-between align-center text-center mb-5">
+            <div v-if="isMobile()" class="d-flex full-width justify-space-between align-center text-center mb-5">
                 <v-icon color="white" large>mdi-gesture-pinch</v-icon>
                 <span class="headline white--text">Pellizca para zoom, arrastra para mover</span>
                 <v-icon color="white" large>mdi-gesture-swipe-horizontal</v-icon>
@@ -83,12 +83,14 @@
 
 <script>
     import Cropper from "cropperjs";
+    import global from "~/mixins/global.js"
     export default {
         props: {
             index: Number,
             active: Boolean,
             selectedFrameImage: String
         },
+        mixins: [global],
         data() {
             return {
                 dialog: false,
@@ -142,10 +144,6 @@
                 this.$store.dispatch("new/setPreview", this.index)
                 this.dialog = false
             },
-            isMobile() {
-                var ua = navigator.userAgent;
-                return isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
-            }
         }
     }
 </script>

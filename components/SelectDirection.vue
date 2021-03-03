@@ -6,6 +6,7 @@
         </v-container>
 
         <v-dialog
+        :width="(isMobile())?'auto':'50vw'"
         v-model="dialog"
         transition="dialog-transition"
     >
@@ -31,21 +32,6 @@
             :rules="[ v => !!v || 'Campo requerido']"
             required
         ></v-text-field>
-        <!-- <v-select 
-        :items="paises" 
-        item-text="text" 
-        item-value="value" 
-        v-model="paisSeleccionado" 
-        label="Pais" 
-        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select> -->
-        <!-- <v-select 
-        :items="ciudades" 
-        item-text="text" 
-        item-value="value" 
-        required 
-        v-model="ciudadSeleccionada" 
-        label="Ciudad" 
-        :rules="[(v) => !!v || 'Este campo es requerido']"></v-select> -->
         <v-text-field
             name="pais_seleccionado"
             v-model="paisSeleccionado"
@@ -89,22 +75,17 @@
 
 <script>
     import ciudades from '~/static/ciudades.json'
-
+    import global from '~/mixins/global.js'
 
     export default {
+        mixins: [global],
         data() {
             return {
                 message: 'Agregar direccion',
                 dialog: false,
                 validate: false,
-                // direccion1: '',
-                // direccion2: '',
                 ciudades: ciudades,
-                // estado_provincia: '',
-                // codigo_postal: '',
-                // numero: '',
                 paises: ['Colombia'],
-                // telefono: ''
             }
         },
         created() {
