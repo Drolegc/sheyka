@@ -191,6 +191,8 @@
                 }
             },
             iniciar() {
+                //this.$router.push('/new')
+
                 if (this.$auth.loggedIn) {
                     this.$router.push('/new')
                 } else {

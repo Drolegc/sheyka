@@ -120,13 +120,13 @@
                 get() {
                     switch (this.selectedFrame) {
                         case 1:
-                            return '/previewMarcoNegroBorde.svg'
+                            return '/previewMarcoNegroBorde.png'
                         case 2:
-                            return '/previewMarcoNegro.svg'
+                            return '/previewMarcoNegro.png'
                         case 3:
-                            return '/previewMarcoBlancoBorde.svg'
+                            return '/previewMarcoBlancoBorde.png'
                         case 4:
-                            return '/previewMarcoBlanco.svg'
+                            return '/previewMarcoBlanco.png'
                     }
                 }
             }

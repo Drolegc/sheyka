@@ -14,6 +14,7 @@
 
                 <v-img
                   :src="photo.original"
+                  lazy-src="./lazyLogo.jpg"
                   aspect-ratio="1"
                   class="transparent lighten-2 rounded-lg"
                 >
@@ -65,10 +66,13 @@
 
 
 <script>
-    import Cropper from "cropperjs";
+    import Cropper from "cropperjs"
+    import Compressor from 'compressorjs'
+    import global from '~/mixins/global.js'
 
     export default {
         layout: 'new-photos',
+        mixins: [global],
         data() {
             return {
                 options: false,
@@ -99,17 +103,45 @@
 
                     let reader = new FileReader()
                     let file = files[i]
+
                     reader.onload = (e) => {
-                        let data = {
-                            file: files[i],
-                            original: e.target.result,
-                            preview: '',
-                            aux_preview: '',
-                            cantidad: 1,
+
+                        if (this.isMobile()) {
+                            let self = this
+
+                            new Compressor(file, {
+                                quality: 0.2,
+                                success(result) {
+
+                                    let urlCreator = window.URL || window.webkitURL
+
+                                    let data = {
+                                        file: result,
+                                        original: urlCreator.createObjectURL(result),
+                                        preview: '',
+                                        aux_preview: '',
+                                        cantidad: 1,
+                                    }
+
+                                    self.$store.dispatch("new/addPhoto", data)
+
+                                },
+                            })
+                        } else {
+                            let data = {
+                                file: file,
+                                original: e.target.result,
+                                preview: '',
+                                aux_preview: '',
+                                cantidad: 1,
+                            }
+
+                            this.$store.dispatch("new/addPhoto", data)
                         }
 
-                        this.$store.dispatch("new/addPhoto", data)
+
                     }
+
                     reader.readAsDataURL(files[i])
                 }
                 this.options = false
