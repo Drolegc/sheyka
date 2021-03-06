@@ -50,7 +50,7 @@
     <v-spacer></v-spacer>
     <v-btn v-show="showBtn" class="rounded-lg elevation-0" color="secondary" @click="$router.push('/new/frames')" large>Siguiente</v-btn>
     <v-spacer></v-spacer>
-    <v-btn class="mb-4" fab elevation="2" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+    <v-btn class="mb-4" fab elevation="2" x-large color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
         <v-icon>mdi-whatsapp</v-icon>
     </v-btn>
 </v-app-bar>

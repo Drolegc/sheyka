@@ -10,10 +10,14 @@
                         class="grey lighten-2"
                     >
                     </v-img>
+                    <span class="font-weight-bold">{{frameName(n)}}</span>
+
                     </v-card>
                 </v-col>
             </v-row>
-        <div class="d-flex justify-center align-center full-height primary_background">
+        <div class="primary_background">
+            <h3 class="text-center mt-2 primary--text">Has click en las fotos para poder editarlas</h3>
+
             <v-slide-group
             v-model="selected"
         >
@@ -29,6 +33,7 @@
         </div>
         </v-container>
         <v-container v-else min-height="100%" fluid>
+            
             <v-layout class="split">
                 <v-section class="right primary_background">
                     <v-card
@@ -42,9 +47,12 @@
                                 class="grey lighten-2"
                             >
                             </v-img>
+                            <span class="font-weight-bold">{{frameName(n)}}</span>
                             </v-card>
                 </v-section>
                 <v-section class="left primary_background">
+                    <h3 class="text-center mt-2 primary--text">Has click en las fotos para poder editarlas</h3>
+
                     <v-row class="pa-5">
                         <v-col
                         v-for="(photo,index) in photos"
@@ -57,36 +65,6 @@
                     </v-row>
                 </v-section>
             </v-layout>
-            <!-- <v-row>
-                <v-col  md="10">
-                    <v-row>
-                        <v-col
-                        v-for="(photo,index) in photos"
-                        cols="4"
-                        >
-                        <v-item  :key="index" v-slot="{ active, toggle }">
-                            <cropped-image :index="index" :active="active" :selectedFrameImage="selectedFrameImage" @click="changeSelectedImage(n)"></cropped-image>
-                        </v-item>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                <v-col md="2">
-                    <v-row justify="end">
-                        <v-col md="9" v-for="n in 4">
-                            <v-card
-                            :class="(selectedFrame == n)?'pa-1':'pa-1 elevation-0'" 
-                            @click="selectedFrame = n">
-                                <v-img
-                                :src="getMarco(n)"
-                                aspect-ratio="1"
-                                class="grey lighten-2"
-                            >
-                            </v-img>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row> -->
         </v-container>
     </div>
 </template>
@@ -96,6 +74,7 @@
     import CroppedImage from '../../components/CroppedImage.vue'
     export default {
         layout: 'new-photos-frame',
+        middleware: 'checkEmpty',
         mixins: [global],
         data() {
             return {
@@ -149,6 +128,18 @@
                     case 4:
                         return '/marcoBlanco.png'
                 }
+            },
+            frameName(index) {
+                switch (index) {
+                    case 1:
+                        return 'Clasico'
+                    case 2:
+                        return 'Vivo'
+                    case 3:
+                        return 'Puro'
+                    case 4:
+                        return 'Zen'
+                }
             }
         },
         components: {
@@ -187,7 +178,6 @@
         flex: 1;
         overflow-y: scroll;
         overflow-x: scroll;
-        /* it works! */
     }
     
     .left::-webkit-scrollbar {

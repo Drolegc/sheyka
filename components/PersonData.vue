@@ -1,96 +1,62 @@
 <template>
-    <v-container >
-        <v-container class="d-flex justify-space-around align-center rounded-lg white" @click="dialog = true">
-            <v-icon x-large>mdi-card-account-details</v-icon>
-        <span class="headline ml-2">{{message}}</span>
-        </v-container>
-
-        <v-dialog
-        v-model="dialog"
-        :width="(isMobile())?'auto':'50vw'"
-        transition="dialog-transition"
-    >
-
-   <div class="rounded-lg white pa-2">
-
-    <div class="mb-3 d-flex justify-space-between">
-        <v-btn class="elevation-0 flex-grow-0" color="primary" :outlined="regalo" @click="regalo = false">Para mi</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" :outlined="!regalo" @click="regalo = true">De regalo!</v-btn>
-    </div>
-    <v-select
-    v-show="regalo"
-        filled
-        class="ma-2"
-        :items="personas"
-        v-model="selectedPerson"
-        label="Amigos a los que ya les reglaste"
-        item-text="nombre_apellido"
-        item-value="id"
-    ></v-select>
-    <v-form
-    ref="formDirection"
-    v-model="validate"
-    >
-        <v-text-field
-            name="nombre_apellido"
-            label="Nombre y Apellidos"
-            id="nombre_apellido"
-            v-model="nombre_apellido"
-            :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
-            :disabled="!regalo || !nuevo_amigo"
-            required
-        ></v-text-field>
-        <v-text-field
-            name="documento"
-            label="Documento de identidad"
-            id="documento"
-            v-model="documento"
-            :rules="[ v => !!v || 'Documento requerido']"
-            :disabled="!regalo || !nuevo_amigo"
-            required
-        ></v-text-field>
-        <v-text-field
-            name="email"
-            label="Email"
-            type="email"
-            id="email"
-            required
-            v-model="email"
-            :rules="[ v => !!v || 'Email requerido']"
-            :disabled="!regalo || !nuevo_amigo"
-
-        ></v-text-field>
-        <v-text-field
-            name="telefono"
-            label="Numero de telefono"
-            type="number"
-            id="telefono"
-            required
-            v-model="telefono"
-            :rules="[ v => !!v || 'Telefono requerido']"
-            :disabled="!regalo || !nuevo_amigo"
-
-        ></v-text-field>
-        <div class="d-flex align-center">
-            <v-checkbox 
-            label="Terminos y condiciones" 
-            v-model="terminos_y_condiciones"
-            :rules="[v => !!v || 'Debe aceptar los terminos y condiciones para continuar']"
-            required
+    <v-container class="pa-0" fluid>
+        <div class="d-flex justify-left align-center">
+            <v-checkbox  
+            v-model="regalo"
             ></v-checkbox>
-            <v-btn 
-            class="ml-1"
-            icon
-            color="blue lighten-3"><v-icon>mdi-help-circle</v-icon></v-btn>
+            <h3>Lo quieres para regalo?</h3>            
         </div>
-        <div class="text-center mt-1">
-            <v-btn class="elevation-0" block color="secondary" @click="checkForm"><v-icon>mdi-check</v-icon></v-btn>
-        </div>
-    </v-form>
+
+        <div v-show="regalo" class="rounded-lg white pa-2">
+            <h3>Para:</h3>
+            
+            <v-select
+                filled
+                class="ma-2"
+                :items="personas"
+                v-model="selectedPerson"
+                label="Amigos a los que ya les reglaste"
+                item-text="nombre_apellido"
+                item-value="id"
+            ></v-select>
+            <v-form
+            ref="formDirection"
+            v-model="validate"
+            >
+                <v-text-field
+                    name="nombre_apellido"
+                    label="Nombre y Apellidos"
+                    id="nombre_apellido"
+                    v-model="nombre_apellido"
+                    :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
+                    required
+                ></v-text-field>
+                
+                <v-text-field
+                    name="email"
+                    label="Email"
+                    type="email"
+                    id="email"
+                    required
+                    v-model="email"
+                    :rules="[ v => !!v || 'Email requerido']"
         
-   </div>
-    </v-dialog>
+                ></v-text-field>
+                <v-text-field
+                    name="telefono"
+                    label="Numero de telefono"
+                    type="number"
+                    id="telefono"
+                    required
+                    v-model="telefono"
+                    :rules="[ v => !!v || 'Telefono requerido']"
+        
+                ></v-text-field>
+                
+            </v-form>
+                
+           </div>
+
     </v-container>
     
 </template>
@@ -115,8 +81,7 @@
         },
         created() {
             this.$root.$on('showOrderPersonInformation', () => {
-                this.dialog = true
-                    //this.checkForm()
+                this.checkForm()
             })
             this.$axios.get('/users/' + this.$auth.user.id).then(response => {
                 this.user = response.data
@@ -134,7 +99,6 @@
                 this.personas.push({
                     id: 0,
                     nombre_apellido: 'Nuevo amigo',
-                    documento: '',
                     email: '',
                     telefono: ''
                 })
@@ -145,7 +109,6 @@
             selectedPerson(persona_id) {
                 var persona = this.personas.find(persona => persona.id == persona_id)
                 this.nombre_apellido = persona.nombre_apellido
-                this.documento = persona.documento
                 this.email = persona.email
                 this.telefono = persona.telefono
                 if (persona_id == 0) {
@@ -198,16 +161,7 @@
                     return this.$store.getters["new/getTelefono"]
                 }
             },
-            documento: {
-                set(value) {
-                    this.$store.dispatch("new/setDocumento", value)
-                    if (this.personas.length > 0 && this.regalo)
-                        this.persona.documento = value
-                },
-                get() {
-                    return this.$store.getters["new/getDocumento"]
-                }
-            },
+
             email: {
                 set(value) {
                     this.$store.dispatch("new/setEmail", value)

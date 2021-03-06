@@ -1,8 +1,8 @@
 <template>
     <v-container class="full-height" >
         <div class="d-flex flex-column justify-center align-center full-height" @click="options = true" v-if="photos.length == 0" >
-            <h3 class="ma-3 text-center" >Has click para seleccionar</h3>
-            <v-icon x-large>mdi-plus</v-icon>
+            <h3 class="ma-3 text-center primary--text" >Has click para seleccionar</h3>
+            <v-icon color="primary" x-large>mdi-plus</v-icon>
         </div>
         <v-row v-else>
             <v-col
@@ -32,16 +32,24 @@
               <v-icon>mdi-delete</v-icon></v-btn>
                   </v-img>
 
-                  
-                  
               </div>
             </v-col>
             <v-col
             cols="4">
-                <div @click="options = true" class="full-height d-flex flex-column justify-center align-center" >
-                    <v-icon>mdi-plus</v-icon>
-                </div>
+
+                <v-card
+                @click="options = true"
+                elevation="0"
+                class="dotted text-center"
+                >
+                    <v-responsive
+                    class="align-center"
+                    aspect-ratio="1">
+                            <v-icon color="primary">mdi-plus</v-icon>
+                    </v-responsive>
+                </v-card>
             </v-col>
+            
         </v-row>
         <v-bottom-sheet v-model="options">
             <v-sheet
@@ -54,8 +62,8 @@
             </v-sheet>
         </v-bottom-sheet>
         <v-snackbar
+        :timeout="-1"
             v-model="moreImages"
-            timeout="2000"
             rounded="pill"
         >
             Te faltan {{3 - photos.length}} imagenes para un minimo de 3
@@ -72,6 +80,7 @@
 
     export default {
         layout: 'new-photos',
+        middleware: 'checkEmpty',
         mixins: [global],
         data() {
             return {
@@ -83,6 +92,8 @@
             photos(value) {
                 if (value.length < 3) {
                     this.moreImages = true
+                } else {
+                    this.moreImages = false
                 }
             }
         },
@@ -154,3 +165,9 @@
         },
     }
 </script>
+
+<style scoped>
+    .dotted {
+        border: dashed 2px;
+    }
+</style>

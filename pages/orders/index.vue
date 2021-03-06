@@ -6,7 +6,7 @@
         <template v-else>
             <v-row>
                 <v-col sm="12"md="6" v-for="(order,index) in orders">
-                    <div class="white d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3">
+                    <div @click="orderAction(order)" class="white hover d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3">
                         <v-img
                         class="mr-3"
                         :src="$axios.defaults.baseURL + order.frames[0].picture.url"
@@ -14,38 +14,17 @@
                         width="33%"
                         >   
                         </v-img>
+                        <v-spacer></v-spacer>
                         <div class="text-left">
                             <span class="subtitle">{{quantity(order)}} cuadros</span>
                             <br>
                             <span><b>Estado:</b> {{state(order.state)}}</span>
                             <br>
                             <span><b>Fecha:</b> {{formatDate(order.created_at)}}</span>
-        
-                            
+                            <br>
+                            <v-btn outlined color="primary" >Rastrear</v-btn>                            
                         </div>
-                        <v-spacer></v-spacer>
-                        <div class="text-center">
-                            <v-menu
-                        bottom
-                        left
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            icon
-                            v-bind="attrs"
-                            v-on="on"
-                          >
-                            <v-icon>mdi-dots-vertical</v-icon>
-                          </v-btn>
-                        </template>
-
-<v-list>
-    <v-list-item @click="orderAction(order)">
-        <v-list-item-title>Detalles</v-list-item-title>
-    </v-list-item>
-</v-list>
-</v-menu>
-</div>
+                        
 
 </div>
 </v-col>
@@ -107,11 +86,6 @@
                 snackbarMessage: 'Reporte de demora enviado'
             }
         },
-        computed: {
-            responsive() {
-                return (this.isMobile()) ? 'white d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3' : ''
-            }
-        },
         created() {
             this.$axios.get(`/orders?user=${this.$auth.user.id}`).then(response => this.orders = response.data)
         },
@@ -168,3 +142,9 @@
         }
     }
 </script>
+
+<style>
+    .hover:hover {
+        cursor: pointer;
+    }
+</style>

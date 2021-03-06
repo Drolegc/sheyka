@@ -51,25 +51,38 @@
 <v-dialog v-model="dialogInicioSesion" :width="(isMobile())?'auto':'50vw'" transition="dialog-transition">
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
-        <h3>Inicio de sesion</h3>
-        <v-form class="full-width text-center" ref="form" v-model="valid_inicio_sesion">
+        <div class="d-flex flex-column align-center">
+            <v-btn class="font-weight-black mb-2" color="primary" elevation="0">Inicio de sesion</v-btn>
+            <v-btn outlined color="primary" @click="changeToRegistro">Crear una nueva cuenta</v-btn>
+        </div>
+        <v-form class="full-width text-center mt-2" ref="form" v-model="valid_inicio_sesion">
             <v-text-field name="Email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
             <v-text-field name="pass" label="Contraseña" id="pass" v-model="pass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="inicioDeSesion" block>Entrar</v-btn>
         </v-form>
-        <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
-            <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
 
-        <v-btn class="mt-1" color="white" block elevation="0">
-            <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
+        <div class="rounded-lg pa-3 mt-3 full-width primary_grey text-center">
+            <span class="ma-5 primary--text font-weight-bold">
+                Acceso rapido
+            </span>
+
+            <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
+                <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
+
+            <v-btn class="mt-1" color="white" block elevation="0">
+                <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
+        </div>
     </div>
 </v-dialog>
 
 <v-dialog v-model="dialogRegistro" :width="(isMobile())?'auto':'50vw'" transition="dialog-transition">
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
-        <h3>Registro</h3>
-        <v-form class="text-center full-width" ref="form_registro" v-model="valid_registro">
+        <div class="d-flex flex-column align-center">
+            <v-btn class="font-weight-black mb-2" color="primary" elevation="0">Registro</v-btn>
+            <v-btn outlined color="primary" @click="changeToInicio">Ya tengo cuenta</v-btn>
+        </div>
+        <v-form class="text-center full-width mt-2" ref="form_registro" v-model="valid_registro">
             <v-text-field name="email" type="email" label="Email" id="email" v-model="email" :rules="emailRules" required></v-text-field>
             <v-text-field name="pass" type="password" label="Contraseña" id="pass" v-model="pass" @click:append="showPass = !showPass" required></v-text-field>
             <v-text-field name="nombre" label="Nombre" id="nombre" v-model="nombre" required></v-text-field>
@@ -78,11 +91,17 @@
             <v-text-field name="documento" label="Documento" id="documento" v-model="documento" type="number" required></v-text-field>
             <v-btn class="elevation-0 large" color="primary" @click="registro" block>Crear cuenta</v-btn>
         </v-form>
-        <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
-            <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
+        <div class="rounded-lg pa-3 mt-3 full-width primary_grey text-center">
+            <span class="ma-5 primary--text font-weight-bold">
+                Acceso rapido
+            </span>
 
-        <v-btn class="mt-1" color="white" block elevation="0">
-            <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
+            <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
+                <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
+
+            <v-btn class="mt-1" color="white" block elevation="0">
+                <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
+        </div>
     </div>
 
 
@@ -98,6 +117,9 @@
     <v-spacer></v-spacer>
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="iniciar" large>Iniciemos</v-btn>
     <v-spacer></v-spacer>
+    <v-btn class="mb-4" fab elevation="2" x-large color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+        <v-icon>mdi-whatsapp</v-icon>
+    </v-btn>
 </v-app-bar>
 <v-snackbar v-model="snackbar" :timeout="1500">
     Email y/o contraseña incorrecta
@@ -141,6 +163,14 @@
         },
         methods: {
 
+            changeToInicio() {
+                this.dialogRegistro = false
+                this.dialogInicioSesion = true
+            },
+            changeToRegistro() {
+                this.dialogInicioSesion = false
+                this.dialogRegistro = true
+            },
             registro() {
                 this.loading = true
                 this.$refs.form_registro.validate()
@@ -196,7 +226,7 @@
                 if (this.$auth.loggedIn) {
                     this.$router.push('/new')
                 } else {
-                    this.dialogInicioSesion = true
+                    this.dialogRegistro = true
                 }
             },
             googleAuthentication(id) {
@@ -219,5 +249,9 @@
 <style>
     .no-transition .stepper__content {
         transition: none;
+    }
+    
+    .primary_grey {
+        background-color: #3b628028;
     }
 </style>

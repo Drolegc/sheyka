@@ -10,15 +10,29 @@
         </div>
 
         <div class="full-width mb-5">
-            <p class="title">Direccion</p>
+            <p class="title">Direccion del destinatario</p>
             <select-direction></select-direction>
         </div>
+        <div class="full-width d-flex justify-left align-center">
+            <v-checkbox 
+            v-model="terminos_y_condiciones"
+            :rules="[v => !!v || 'Debe aceptar los terminos y condiciones para continuar']"
+            required
+            >
+            <template v-slot:label>
+                <h3>Terminos y condiciones</h3>
+            </template>
+</v-checkbox>
 
-        <div class="full-width mb-5">
-            <p class="title">Para</p>
-            <person-data></person-data>
-        </div>
-    </v-container>
+<v-btn class="ml-1" icon color="blue lighten-3">
+    <v-icon>mdi-help-circle</v-icon>
+</v-btn>
+</div>
+<div class="full-width mb-5">
+    <person-data></person-data>
+</div>
+
+</v-container>
 </template>
 
 <script>
@@ -27,6 +41,7 @@
 
     export default {
         layout: 'confirmation',
+        middleware: 'checkEmpty',
         data() {
             return {
                 price: null
@@ -44,6 +59,14 @@
                     return this.$store.getters["new/photos"]
                 }
             },
+            terminos_y_condiciones: {
+                set(value) {
+                    this.$store.dispatch("new/setTerminosYCondiciones", value)
+                },
+                get() {
+                    return this.$store.getters["new/getTerminosYCondiciones"]
+                }
+            }
         },
         components: {
             SelectDirection,

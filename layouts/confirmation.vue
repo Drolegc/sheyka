@@ -50,7 +50,7 @@
     <v-spacer></v-spacer>
     <v-btn class="rounded-lg elevation-0" color="secondary" @click="createOrder" large>Confirmar</v-btn>
     <v-spacer></v-spacer>
-    <v-btn class="mb-4" fab elevation="2" color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
+    <v-btn class="mb-4" fab elevation="2" x-large color="success" href="https://wa.me/message/YKH44MFDY2Z4O1" target="_blank" absolute right>
         <v-icon>mdi-whatsapp</v-icon>
     </v-btn>
 </v-app-bar>
@@ -107,11 +107,6 @@
                     return this.$store.getters["new/getTelefono"]
                 }
             },
-            documento: {
-                get() {
-                    return this.$store.getters["new/getDocumento"]
-                }
-            },
             paisSeleccionado: {
                 set(value) {
                     this.$store.dispatch("new/setPais", value)
@@ -152,13 +147,13 @@
                 get() {
                     switch (this.$store.getters["new/getSelectedFrame"]) {
                         case 1:
-                            return 'negro_margen'
+                            return 'clasico'
                         case 2:
-                            return 'negro'
+                            return 'vivo'
                         case 3:
-                            return 'blanco_margen'
+                            return 'puro'
                         case 4:
-                            return 'blanco'
+                            return 'zen'
                     }
                 }
             },
@@ -206,7 +201,6 @@
                         if (this.is_new_person) {
                             person = (await this.$axios.post('/personas', {
                                 "nombre_apellido": this.nombre_apellido,
-                                "documento": this.documento,
                                 "email": this.email,
                                 "telefono": this.telefono
                             })).data.id
@@ -253,15 +247,10 @@
                         amount: newOrderData.price,
                         country: "co",
                         lang: "en",
-
-                        //Onpage="false" - Standard="true"
                         external: "true",
-
 
                         //Atributos opcionales
                         extra1: newOrderData.id,
-                        // extra2: "extra2",
-                        // extra3: "extra3",
                         response: window.location.hostname + "/orders",
                         confirmation: window.location.hostname + "/orders/confirm",
                         accepted: window.location.hostname + "/orders/acepted",
@@ -277,7 +266,7 @@
                         //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
 
                     }
-                    console.log("Opening dialog")
+                    console.log("Redirecting to epayco")
                     handler.open(data)
 
                 } catch (e) {
