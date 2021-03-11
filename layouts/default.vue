@@ -124,6 +124,9 @@
 <v-snackbar v-model="snackbar" :timeout="1500">
     Email y/o contraseña incorrecta
 </v-snackbar>
+<v-snackbar v-model="snackbar" :timeout="1500">
+    Email y/o contraseña incorrecta
+</v-snackbar>
 </v-app>
 </template>
 
@@ -194,7 +197,10 @@
 
                     })
 
-                }).catc(e => this.loading = false)
+                }).catc(e => {
+
+                    this.loading = false
+                })
             },
             async inicioDeSesion() {
                 this.loading = true
