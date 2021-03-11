@@ -9,7 +9,7 @@
                     <div @click="orderAction(order)" class="white hover d-flex justify-center align-center rounded-lg elevation-1 pa-3 mt-3 mb-3">
                         <v-img
                         class="mr-3"
-                        :src="$axios.defaults.baseURL + order.frames[0].picture.url"
+                        :src="order.frames[0].picture.url"
                         aspect-ratio="1"
                         width="33%"
                         >   
@@ -46,7 +46,7 @@
                 <v-img
                 aspect-ratio="1"
                 class="mr-3"
-                :src="$axios.defaults.baseURL + frame.picture.url"
+                :src="frame.picture.url"
                 max-width="75"
                 max-height="75"
                 ></v-img>

@@ -194,7 +194,7 @@
 
                     })
 
-                }).catc(e => loading = false)
+                }).catc(e => this.loading = false)
             },
             async inicioDeSesion() {
                 this.loading = true
