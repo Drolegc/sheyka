@@ -1,7 +1,6 @@
 export default function({ store, redirect, $auth, route }) {
     // If the user is not authenticated
 
-    console.log(route)
     if (!$auth.loggedIn) {
         return redirect('/')
     }

@@ -143,18 +143,28 @@
                     return this.$store.getters["new/getTelefonoExtra"]
                 }
             },
+            email: {
+                get() {
+                    return this.$store.getters["new/getEmail"]
+                }
+            },
             selected_frame: {
                 get() {
                     switch (this.$store.getters["new/getSelectedFrame"]) {
                         case 1:
-                            return 'clasico'
+                            return 'clack_moderno'
                         case 2:
-                            return 'vivo'
+                            return 'clack_clasico'
                         case 3:
-                            return 'puro'
+                            return 'click_moderno'
                         case 4:
-                            return 'zen'
+                            return 'click_clasico'
                     }
+                }
+            },
+            documento: {
+                get() {
+                    return this.$store.getters["new/getDocumento"]
                 }
             },
 
@@ -164,14 +174,24 @@
                 try {
 
                     if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
+                        console.log('checkOrderDirectionInformation')
                         this.$root.$emit('showOrderDirectionInformation')
                         return
                     }
 
-                    if (!this.$store.getters["new/checkOrderPersonInformation"]) {
-                        this.$root.$emit('showOrderPersonInformation')
+                    if (!this.checkUserData()) {
+                        console.log('checkOrderPersonInformation')
+                        this.$root.$emit('checkOrderPersonInformation')
                         return
                     }
+
+                    if (!this.$store.getters["new/checkTerminosYCondicionesForm"]) {
+                        console.log('checkTerminosYCondicionesForm')
+                        this.$root.$emit('checkTerminosYCondicionesForm')
+                        return
+                    }
+
+                    console.log('Chequeos superados')
 
                     this.loading = true
 
@@ -272,6 +292,14 @@
                 } catch (e) {
                     this.loading = false
                 }
+            },
+            checkUserData() {
+                var user = this.$auth.user
+
+                return (
+                    user.documento != null &&
+                    user.telefono != null &&
+                    user.nombre_apellido != null)
             }
 
         }

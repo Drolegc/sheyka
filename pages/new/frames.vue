@@ -132,13 +132,13 @@
             frameName(index) {
                 switch (index) {
                     case 1:
-                        return 'Clasico'
+                        return 'Clack moderno'
                     case 2:
-                        return 'Vivo'
+                        return 'Clack clásico'
                     case 3:
-                        return 'Puro'
+                        return 'Click moderno'
                     case 4:
-                        return 'Zen'
+                        return 'Click clásico'
                 }
             }
         },

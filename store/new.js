@@ -197,9 +197,11 @@ export const getters = {
             state.nombre_apellido != '' &&
             state.telefono != '' &&
             state.documento != '' &&
-            state.email != '' &&
-            state.terminos_y_condiciones
+            state.email != ''
         )
+    },
+    checkTerminosYCondicionesForm(state) {
+        return state.terminos_y_condiciones
     },
     frames(state) {
         var frames = 0

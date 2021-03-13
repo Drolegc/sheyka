@@ -52,7 +52,6 @@
                     :rules="[ v => !!v || 'Telefono requerido']"
         
                 ></v-text-field>
-                
             </v-form>
                 
            </div>

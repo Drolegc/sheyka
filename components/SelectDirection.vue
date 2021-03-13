@@ -67,16 +67,12 @@
         mixins: [global],
         data() {
             return {
-                message: 'Agregar direccion',
-                dialog: false,
-                validate: false,
-                ciudades: ciudades,
-                paises: ['Colombia'],
+                validate: false
+
             }
         },
         created() {
             this.$root.$on('showOrderDirectionInformation', () => {
-                //this.dialog = true
                 this.checkForm()
             })
 
@@ -134,10 +130,9 @@
         },
         methods: {
             checkForm() {
+                console.log('Chequeo de formulario de direccion')
                 this.$refs.formDirection.validate()
                 if (!this.validate) return
-                this.dialog = false
-                this.message = `${this.paisSeleccionado} ${this.ciudadSeleccionada} ${this.calle_numero} ${this.piso_puerta_otros}`
             }
         }
     }
