@@ -10,7 +10,7 @@
         </div>
 
         <div class="full-width mb-5">
-            <p class="title">Direccion del destinatario</p>
+            <p class="title">Dirección del destinatario</p>
             <select-direction></select-direction>
         </div>
         <div class="full-width d-flex justify-left align-center">

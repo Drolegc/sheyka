@@ -57,7 +57,7 @@
             >
             <div class="white rounded-xl">
                 <input multiple type="file" ref="imagePicker" @change="newImages" style="display:none;" accept="image/png, image/jpg, image/jpeg"> 
-                <h3 class="pa-2" @click="$refs.imagePicker.click()">Galeria</h3>
+                <h3 class="pa-2" @click="$refs.imagePicker.click()">Galería</h3>
             </div>
             </v-sheet>
         </v-bottom-sheet>

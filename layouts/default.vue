@@ -35,7 +35,7 @@
 </v-list>
 <v-list v-else>
     <v-list-item>
-        <v-list-item-title @click="dialogInicioSesion = true">Iniciar sesion</v-list-item-title>
+        <v-list-item-title @click="dialogInicioSesion = true">Iniciar sesión</v-list-item-title>
     </v-list-item>
     <v-list-item>
         <v-list-item-title @click="dialogRegistro = true">Registro</v-list-item-title>
@@ -52,7 +52,7 @@
 
     <div class="white d-flex flex-column align-center pa-5 rounded-xl">
         <div class="d-flex flex-column align-center">
-            <v-btn class="font-weight-black mb-2" color="primary" elevation="0">Inicio de sesion</v-btn>
+            <v-btn class="font-weight-black mb-2" color="primary" elevation="0">Inicio de sesión</v-btn>
             <v-btn outlined color="primary" @click="changeToRegistro">Crear una nueva cuenta</v-btn>
         </div>
         <v-form class="full-width text-center mt-2" ref="form" v-model="valid_inicio_sesion">

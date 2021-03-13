@@ -16,8 +16,8 @@
       ></img>  
       <h1 class="white--text text-center ls-3 sheyka-title">Sheyka</h1>
       <span class="white--text text-center">Galería en casa</span>
-      <p class="white--text text-center pl-5 ls-2 pr-5 mt-6">No pierdas tus mejores recuerdos en la memoria de tu celular, comienza a crear una galeria en tu casa.</p>
-      <h2 class="white--text text-center ls-2 mb-6 mt-6">Asi de simple:</h2>
+      <p class="white--text text-center pl-5 ls-2 pr-5 mt-6">No pierdas tus mejores recuerdos en la memoria de tu celular, comienza a crear una galería en tu casa.</p>
+      <h2 class="white--text text-center ls-2 mb-6 mt-6">Así de simple:</h2>
 
       <div class="pa-1 video-size mb-10" >
         <iframe class="rounded-xl" src="https://youtube.com/embed/P3MdfNZF9iY?autoplay=0&showinfo=0&controls=0" frameborder="0" height="100%" width="100%"></iframe>
