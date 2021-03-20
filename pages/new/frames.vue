@@ -1,20 +1,42 @@
 <template>
     <div>
         <v-container v-if="isMobile()" class="full-height d-flex flex-column pa-0" min-height="100%" >
-            <v-row justify="center" class="ml-1 mr-1">
+            <v-sheet class="mb-2 mt-2">
+                <v-slide-group>
+                    <v-slide-item
+                    v-for="n in 4"
+                    >
+                    <v-card 
+                    
+                    :class="(selectedFrame == n)?'pa-1 mx-2':'pa-1 elevation-0 mx-2'" 
+                    @click="selectedFrame = n">
+                        <v-img
+                        width="120"
+                        :src="getMarco(n)"
+                        aspect-ratio="1"
+                        class="grey lighten-2 "
+                    >
+                    </v-img>
+                    <span v-html="frameName(n)" class="font-weight-bold" ></span>
+
+                    </v-card>
+                    </v-slide-item>
+                </v-slide-group>
+            </v-sheet>
+            <!-- <v-row justify="center" class="ml-1 mr-1">
                 <v-col v-for="n in 4">
                     <v-card :class="(selectedFrame == n)?'pa-1':'pa-1 elevation-0'" @click="selectedFrame = n">
                         <v-img
                         :src="getMarco(n)"
                         aspect-ratio="1"
-                        class="grey lighten-2"
+                        class="grey lighten-2 "
                     >
                     </v-img>
-                    <span class="font-weight-bold">{{frameName(n)}}</span>
+                    <span class="text-caption" >{{frameName(n)}}</span>
 
                     </v-card>
                 </v-col>
-            </v-row>
+            </v-row> -->
         <div class="primary_background">
             <h3 class="text-center mt-2 primary--text">Has click en las fotos para poder editarlas</h3>
 
@@ -42,12 +64,12 @@
                             @click="selectedFrame = n">
                                 <v-img
                                 :src="getMarco(n)"
-                                width="100px"
+                                width="'100px'" 
                                 aspect-ratio="1"
                                 class="grey lighten-2"
                             >
                             </v-img>
-                            <span class="font-weight-bold">{{frameName(n)}}</span>
+                            <span  class="font-weight-bold" >{{frameName(n)}}</span>
                             </v-card>
                 </v-section>
                 <v-section class="left primary_background">

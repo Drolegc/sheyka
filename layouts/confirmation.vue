@@ -59,6 +59,9 @@
         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
     </div>
 </v-dialog>
+<v-snackbar v-model="snackbar" timeout="2000">
+    {{snackbarMessage}}
+</v-snackbar>
 <script2 src="https://checkout.epayco.co/checkout.js"></script2>
 </v-app>
 
@@ -74,6 +77,8 @@
         data() {
             return {
                 loading: false,
+                snackbar: false,
+                snackbarMessage: ''
             }
         },
         computed: {
@@ -222,7 +227,7 @@
                             person = (await this.$axios.post('/personas', {
                                 "nombre_apellido": this.nombre_apellido,
                                 "email": this.email,
-                                "telefono": this.telefono
+                                "telefono": `${this.telefono}`
                             })).data.id
                         } else {
                             person = this.id_person
@@ -291,6 +296,8 @@
 
                 } catch (e) {
                     this.loading = false
+                    this.snackbar = true
+                    this.snackbarMessage = e
                 }
             },
             checkUserData() {
