@@ -40,6 +40,9 @@
     <v-list-item>
         <v-list-item-title @click="dialogRegistro = true">Registro</v-list-item-title>
     </v-list-item>
+    <v-list-item>
+        <v-list-item-title @click="dialogPassword = true">Olvidé mi contraseña</v-list-item-title>
+    </v-list-item>
 </v-list>
 
 </v-menu>
@@ -104,8 +107,28 @@
         </div>
     </div>
 
+</v-dialog>
 
+<v-dialog v-model="dialogPassword" :width="(isMobile())?'auto':'50vw'">
+    <div class="white d-flex flex-column align-center pa-5 rounded-xl">
+        <h4>Si olvidaste tu contraseña, escribe tu email y te enviaremos un codigo para que puedas escribir una nueva</h4>
+        <v-form class="text-center full-width mt-2" ref="form_forgot_password" v-model="valid_forgot_password">
+            <v-text-field name="email" type="email" label="Email" id="email" v-model="emailForgotPassword" :rules="emailRules" required></v-text-field>
+            <v-btn class="elevation-0 large" color="primary" @click="confirmarForgotPassword" block>Confirmar</v-btn>
+        </v-form>
+        <span class="text-decoration-underline hover" @click="dialogCodigo = true">Ya tengo codigo</span>
+    </div>
+</v-dialog>
 
+<v-dialog v-model="dialogCodigo" :width="(isMobile())?'auto':'50vw'">
+    <div class="white d-flex flex-column align-center pa-5 rounded-xl">
+        <h4>Ingresa el codigo que te enviamos por email para poder resetear tu contraseña</h4>
+        <v-form class="text-center full-width mt-2" ref="form_reset_password" v-model="valid_reset_password">
+            <v-text-field name="Codigo" label="Codigo" id="codigo" v-model="codigo" required></v-text-field>
+            <v-text-field name="pass" label="Contraseña" id="pass" v-model="recoverPass" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" :type="showPass ? 'text' : 'password'" :rules="passRules" @click:append="showPass = !showPass" required></v-text-field>
+            <v-btn class="elevation-0 large" color="primary" @click="confirmarResetPassword" block>Confirmar</v-btn>
+        </v-form>
+    </div>
 </v-dialog>
 
 <v-dialog v-model="loading" fullscreen class="no-transition">
@@ -127,6 +150,9 @@
 <v-snackbar v-model="snackbarRegistro" :timeout="1500">
     Email ocupado
 </v-snackbar>
+<v-snackbar v-model="snackbarRecoverPassword" :timeout="1500">
+    {{snackbarRecoverMessage}}
+</v-snackbar>
 </v-app>
 </template>
 
@@ -137,6 +163,15 @@
         mixins: [global],
         data() {
             return {
+                codigo: '',
+                snackbarRecoverMessage: '',
+                snackbarRecoverPassword: false,
+                emailForgotPassword: '',
+                valid_forgot_password: false,
+                valid_reset_password: false,
+                recoverPass: '',
+                dialogCodigo: false,
+                dialogPassword: false,
                 snackbar: false,
                 snackbarRegistro: false,
                 dialogInicioSesion: false,
@@ -246,6 +281,43 @@
                 this.$axios.get(`/auth/facebook/callback?access_token=${id}#`).then(response => {
                     this.$axios.setToken(response.data['jwt'])
                     this.$auth.setUser(response.data['user'])
+                })
+            },
+            confirmarForgotPassword() {
+                this.$refs.form_forgot_password.validate()
+                if (!this.valid_forgot_password) return
+
+                this.loading = true
+                this.$axios.post('/auth/forgot-password', {
+                    email: this.emailForgotPassword,
+                    url: 'https//sheyka.com.co'
+                }).then(response => {
+                    this.loading = false
+                    this.snackbarRecoverPassword = true
+                    this.snackbarRecoverMessage = "Chequea tu email"
+                }).catch(error => {
+                    this.loading = false
+                    this.snackbarRecoverPassword = true
+                    this.snackbarRecoverMessage = `${error}`
+                })
+            },
+            confirmarResetPassword() {
+                this.$refs.form_reset_password.validate()
+                if (!this.valid_reset_password) return
+
+                this.loading = true
+                this.$axios.post('/auth/reset-password', {
+                    code: this.codigo,
+                    password: this.recoverPass,
+                    passwordConfirmation: this.recoverPass
+                }).then(response => {
+                    this.loading = false
+                    this.snackbarRecoverPassword = true
+                    this.snackbarRecoverMessage = "Constraseña cambiada, ya puedes iniciar sesion"
+                }).catch(error => {
+                    this.loading = false
+                    this.snackbarRecoverPassword = true
+                    this.snackbarRecoverMessage = `${error}`
                 })
             }
 
