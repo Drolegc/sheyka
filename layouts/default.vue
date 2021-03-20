@@ -69,7 +69,7 @@
             <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
                 <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
 
-            <v-btn class="mt-1" color="white" block elevation="0">
+            <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/facebook'">
                 <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
         </div>
     </div>
@@ -99,7 +99,7 @@
             <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/google'">
                 <v-icon class="mr-1">mdi-google</v-icon>Google</v-btn>
 
-            <v-btn class="mt-1" color="white" block elevation="0">
+            <v-btn class="mt-1" color="white" block elevation="0" :href="$axios.defaults.baseURL + '/connect/facebook'">
                 <v-icon class="mr-1">mdi-facebook</v-icon>Facebook</v-btn>
         </div>
     </div>
@@ -241,13 +241,23 @@
                     this.$axios.setToken(response.data['jwt'])
                     this.$auth.setUser(response.data['user'])
                 })
+            },
+            facebookAuthentication(id) {
+                this.$axios.get(`/auth/facebook/callback?access_token=${id}#`).then(response => {
+                    this.$axios.setToken(response.data['jwt'])
+                    this.$auth.setUser(response.data['user'])
+                })
             }
 
         },
         created() {
             const id_token = this.$route.query['id_token']
             if (id_token != undefined)
-                this.googleAuthentication()
+                this.googleAuthentication(id_token)
+
+            const access_token = this.$route.query['access_token']
+            if (access_token != undefined)
+                this.facebookAuthentication()
         },
 
     }
