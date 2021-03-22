@@ -7,7 +7,6 @@
                     v-for="n in 4"
                     >
                     <v-card 
-                    
                     :class="(selectedFrame == n)?'pa-1 mx-2':'pa-1 elevation-0 mx-2'" 
                     @click="selectedFrame = n">
                         <v-img
@@ -23,20 +22,6 @@
                     </v-slide-item>
                 </v-slide-group>
             </v-sheet>
-            <!-- <v-row justify="center" class="ml-1 mr-1">
-                <v-col v-for="n in 4">
-                    <v-card :class="(selectedFrame == n)?'pa-1':'pa-1 elevation-0'" @click="selectedFrame = n">
-                        <v-img
-                        :src="getMarco(n)"
-                        aspect-ratio="1"
-                        class="grey lighten-2 "
-                    >
-                    </v-img>
-                    <span class="text-caption" >{{frameName(n)}}</span>
-
-                    </v-card>
-                </v-col>
-            </v-row> -->
         <div class="primary_background">
             <h3 class="text-center mt-2 primary--text">Has click en las fotos para poder editarlas</h3>
 
@@ -154,13 +139,13 @@
             frameName(index) {
                 switch (index) {
                     case 1:
-                        return 'Clack moderno'
+                        return (!this.isMobile()) ? 'Negro con margen' : 'Negro con <br>margen'
                     case 2:
-                        return 'Clack clásico'
+                        return 'Negro'
                     case 3:
-                        return 'Click moderno'
+                        return (!this.isMobile()) ? 'Blanco con margen' : 'Blanco con <br>margen'
                     case 4:
-                        return 'Click clásico'
+                        return 'Blanco'
                 }
             }
         },

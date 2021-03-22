@@ -23,11 +23,13 @@
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
 
-    <v-list-item>
+    <v-list-item @click="$router.push('/preguntas_frecuentes')">
         <v-list-item-title>Preguntas frecuentes</v-list-item-title>
+
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('terminos_y_condiciones')">
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
+
     </v-list-item>
     <v-list-item @click="$auth.logout()">
         <v-list-item-title>Salir</v-list-item-title>

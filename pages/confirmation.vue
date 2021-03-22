@@ -29,7 +29,7 @@
 </v-checkbox>
 </v-form>
 
-<v-btn class="ml-1" icon color="blue lighten-3">
+<v-btn class="ml-1" icon color="blue lighten-3" @click="dialogTerminosYCondiciones = true">
     <v-icon>mdi-help-circle</v-icon>
 </v-btn>
 </div>
@@ -37,6 +37,15 @@
     <person-data></person-data>
 </div>
 <user-personal-data></user-personal-data>
+<v-dialog v-model="dialogTerminosYCondiciones" width="600px">
+    <v-card>
+
+        <v-card-text>
+            <terminos-y-condiciones-text></terminos-y-condiciones-text>
+        </v-card-text>
+
+    </v-card>
+</v-dialog>
 
 </v-container>
 </template>
@@ -45,6 +54,7 @@
     import SelectDirection from '~/components/SelectDirection.vue'
     import PersonData from '~/components/PersonData.vue'
     import UserPersonalData from '~/components/UserPersonalData.vue'
+    import TerminosYCondicionesText from '~/components/TerminosYCondicionesText.vue'
 
     export default {
         layout: 'confirmation',
@@ -52,7 +62,8 @@
         data() {
             return {
                 price: null,
-                terminosYCondicionesValidation: false
+                terminosYCondicionesValidation: false,
+                dialogTerminosYCondiciones: false
             }
         },
         async created() {
@@ -85,7 +96,8 @@
         components: {
             SelectDirection,
             PersonData,
-            UserPersonalData
+            UserPersonalData,
+            TerminosYCondicionesText
         }
     }
 </script>

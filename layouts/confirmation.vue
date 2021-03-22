@@ -29,11 +29,13 @@
     <v-list-item @click="$router.push('/orders/')">
         <v-list-item-title>Mis ordenes</v-list-item-title>
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('/preguntas_frecuentes')">
         <v-list-item-title>Preguntas frecuentes</v-list-item-title>
+
     </v-list-item>
-    <v-list-item>
+    <v-list-item @click="$router.push('terminos_y_condiciones')">
         <v-list-item-title>Terminos y condiciones</v-list-item-title>
+
     </v-list-item>
 
     <v-list-item @click="$auth.logout()">
@@ -157,13 +159,13 @@
                 get() {
                     switch (this.$store.getters["new/getSelectedFrame"]) {
                         case 1:
-                            return 'clack_moderno'
+                            return 'negro_con_margen'
                         case 2:
-                            return 'clack_clasico'
+                            return 'negro'
                         case 3:
-                            return 'click_moderno'
+                            return 'blanco_con_margen'
                         case 4:
-                            return 'click_clasico'
+                            return 'blanco'
                     }
                 }
             },
