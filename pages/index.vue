@@ -20,7 +20,7 @@
       <h2 class="white--text text-center ls-2 mb-6 mt-6">Así de simple:</h2>
 
       <div class="pa-1 video-size mb-10" >
-        <iframe class="rounded-xl" src="https://youtube.com/embed/P3MdfNZF9iY?autoplay=0&showinfo=0&controls=0" frameborder="0" height="100%" width="100%"></iframe>
+        <iframe class="rounded-xl" src="https://www.youtube.com/embed/yeTE-arIzSo?autoplay=0&showinfo=0&controls=0" frameborder="0" height="100%" width="100%"></iframe>
       </div>
 
       <h3 class="pl-5 ls-2 pr-5 primary--text text-center">3 marcos por COL$150.000 y cada adicional por COL$30.000. No olvides que los envíos nacionales son gratis</h3>
