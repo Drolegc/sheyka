@@ -66,7 +66,7 @@
                         cols="4"
                         >
                         <v-item  :key="index" v-slot="{ active, toggle }">
-                            <cropped-image :index="index" :active="active" :selectedFrameImage="selectedFrameImage" @click="changeSelectedImage(n)"></cropped-image>
+                            <cropped-image :index="index" :active="active" :selectedFrameImage="selectedFrameImage" :selectedFrameImageIndex="selectedFrame" @click="changeSelectedImage(n)"></cropped-image>
                         </v-item>
                         </v-col>
                     </v-row>

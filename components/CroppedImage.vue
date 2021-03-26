@@ -4,19 +4,35 @@
           :width="'80vw'"
           :class=" !active ? 'ma-4  rounded-lg' : 'primary-shadow ma-4  rounded-lg primary--text ' "
         >
-        <v-img
-        @click="openDialog"
-        :src="photo.preview"
-        lazy-src="./lazyLogo.jpg"
-        aspect-ratio="1"
-        class="mb-1 transparent lighten-2 rounded-lg"
-        >
             <v-img
+            v-if="(selectedFrameImageIndex % 2)"
                 :src="selectedFrameImage"
                 aspect-ratio="1"
             >
-                </v-img>
-        </v-img>
+                <div class="cropper-preview">
+                    <v-img
+                    @click="openDialog"
+                    :src="photo.preview"
+                    lazy-src="./lazyLogo.jpg"
+                    aspect-ratio="1"
+                    class="transparent lighten-2  cropper-item"
+                    >
+                    </v-img>
+                </div>
+            </v-img>
+            <v-img
+                v-else
+                @click="openDialog"
+                :src="photo.preview"
+                lazy-src="./lazyLogo.jpg"
+                aspect-ratio="1"
+                class="transparent lighten-2 rounded-lg"
+            >
+                <v-img
+                    :src="selectedFrameImage"
+                    aspect-ratio="1"
+                ></v-img>
+            </v-img>
 
         <div>
             <h2 class="text-center">Copias:</h2>
@@ -80,7 +96,8 @@
         props: {
             index: Number,
             active: Boolean,
-            selectedFrameImage: String
+            selectedFrameImage: String,
+            selectedFrameImageIndex: Number
         },
         mixins: [global],
         data() {
@@ -185,5 +202,25 @@
     .cropper-div {
         height: 100%;
         width: 100%;
+    }
+    
+    .cropper-preview {
+        height: 97%;
+        width: 97%;
+    }
+    
+    .cropper-preview {
+        height: 97%;
+        width: 97%;
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
+        grid-template-rows: 10% 80% 10%;
+    }
+    
+    .cropper-item {
+        grid-column-start: 2;
+        grid-column-end: 2;
+        grid-row-end: 2;
+        grid-row-start: 2;
     }
 </style>
