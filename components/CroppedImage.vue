@@ -153,6 +153,7 @@
                     this.$store.dispatch("new/removeCantidad", this.index)
             },
             done() {
+                console.log("recortando imagen...")
                 this.loading = true
                 var canvas = this.cropper.getCroppedCanvas();
                 this.$store.dispatch("new/setAuxPreview", {

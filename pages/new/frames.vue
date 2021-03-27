@@ -33,7 +33,7 @@
             :key="n"
             v-slot="{ active, toggle }"
           >
-          <cropped-image :index="n" :active="active" :selectedFrameImage="selectedFrameImage" @click="changeSelectedImage(n)"></cropped-image>
+          <cropped-image :index="n" :active="active" :selectedFrameImageIndex="selectedFrame" :selectedFrameImage="selectedFrameImage" @click="changeSelectedImage(n)"></cropped-image>
           </v-slide-item>
         </v-slide-group>
             

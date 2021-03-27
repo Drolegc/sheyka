@@ -1,8 +1,11 @@
-function urltoFile(url, filename, mimeType) {
-    return (fetch(url)
-        .then(function(res) { return res.arrayBuffer(); })
-        .then(function(buf) { return new File([buf], filename, { type: mimeType }); })
-    );
+async function urltoFile(url, filename, mimeType) {
+    const res = await fetch(url)
+    const blob = await res.blob()
+    return new File([blob], filename, { type: 'image/png' })
+        // return (fetch(url)
+        //     .then(function(res) { return res.arrayBuffer(); })
+        //     .then(function(buf) { return new File([buf], filename, { type: mimeType }); })
+        // );
 }
 
 export const state = () => ({
@@ -98,7 +101,16 @@ export const mutations = {
         state.photos[index].aux_preview = src
     },
     async changeFiles(state) {
-        Promise.all(state.photos.map(async photo => photo.file = await urltoFile(photo.preview, 'preview.png', 'image/png')))
+        console.log("Changening files...")
+        for (let i = 0; i < state.photos.length; i++) {
+            console.log(state.photos[i])
+            state.photos[i].file = await urltoFile(state.photos[i].preview, 'preview.png', 'image/png')
+
+        }
+        // for (const photo in state.photos) {
+        //     photo.file = await urltoFile(photo.preview, 'preview.png', 'image/png')
+        // }
+        console.log("ready")
     },
     setPreview(state, index) {
         state.photos[index].preview = state.photos[index].aux_preview

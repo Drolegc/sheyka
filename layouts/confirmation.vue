@@ -180,6 +180,9 @@
             async createOrder() {
                 try {
 
+                    await this.$store.dispatch('new/changeFiles')
+
+
                     if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
                         console.log('checkOrderDirectionInformation')
                         this.$root.$emit('showOrderDirectionInformation')

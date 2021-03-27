@@ -1,5 +1,9 @@
 <template>
     <v-container class="full-height" >
+        <div v-show="moreImages" class="text-center">
+            <span class="primary--text">Te faltan {{3 - photos.length}} imagenes para un minimo de 3 </span>
+        </div>
+
         <div class="d-flex flex-column justify-center align-center full-height" @click="options = true" v-if="photos.length == 0" >
             <h3 class="ma-3 text-center primary--text" >Has click para seleccionar</h3>
             <v-icon color="primary" x-large>mdi-plus</v-icon>
@@ -61,17 +65,9 @@
             </div>
             </v-sheet>
         </v-bottom-sheet>
-        <v-snackbar
-        :timeout="-1"
-            v-model="moreImages"
-            rounded="pill"
-        >
-            Te faltan {{3 - photos.length}} imagenes para un minimo de 3
-        </v-snackbar>
 
     </v-container>
 </template>
-
 
 <script>
     import Cropper from "cropperjs"
@@ -85,7 +81,7 @@
         data() {
             return {
                 options: false,
-                moreImages: false,
+                moreImages: true,
             }
         },
         watch: {
@@ -129,8 +125,8 @@
                                     let data = {
                                         file: result,
                                         original: urlCreator.createObjectURL(result),
-                                        preview: '',
-                                        aux_preview: '',
+                                        preview: '/lazyLogo.jpg',
+                                        aux_preview: '/lazyLogo.jpg',
                                         cantidad: 1,
                                     }
 

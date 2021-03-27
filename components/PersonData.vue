@@ -31,25 +31,22 @@
                     :rules="[ v => !!v || 'Nombre y apellidos requeridos']"
                     required
                 ></v-text-field>
+                <v-text-field
+                name="telefono"
+                label="Numero de telefono"
+                type="number"
+                id="telefono"
+                required
+                v-model="telefono"
+                :rules="[ v => !!v || 'Telefono requerido']"
                 
+                ></v-text-field>
                 <v-text-field
                     name="email"
                     label="Email"
                     type="email"
-                    id="email"
-                    required
+                    id="email"                    
                     v-model="email"
-                    :rules="[ v => !!v || 'Email requerido']"
-        
-                ></v-text-field>
-                <v-text-field
-                    name="telefono"
-                    label="Numero de telefono"
-                    type="number"
-                    id="telefono"
-                    required
-                    v-model="telefono"
-                    :rules="[ v => !!v || 'Telefono requerido']"
         
                 ></v-text-field>
             </v-form>
