@@ -180,9 +180,6 @@
             async createOrder() {
                 try {
 
-                    await this.$store.dispatch('new/changeFiles')
-
-
                     if (!this.$store.getters["new/checkOrderDirectionInformation"]) {
                         console.log('checkOrderDirectionInformation')
                         this.$root.$emit('showOrderDirectionInformation')
@@ -205,7 +202,19 @@
 
                     this.loading = true
 
-                    await this.$store.dispatch('new/changeFiles')
+                    console.log("Changing files...")
+                    for (let index = 0; index < this.photos.length; index++) {
+                        let res = await fetch(this.photos[index].preview)
+                        let blob = await res.blob()
+                        let file = new File([blob], `-${index}-preview.png`, {
+                            type: 'image/png'
+                        })
+                        this.$store.commit('new/setFile', {
+                            index,
+                            file
+                        })
+                    }
+                    console.log("ready")
 
                     const framesQuantity = this.$store.getters["new/frames"]
 
@@ -312,7 +321,7 @@
                     user.documento != null &&
                     user.telefono != null &&
                     user.nombre_apellido != null)
-            }
+            },
 
         }
 
