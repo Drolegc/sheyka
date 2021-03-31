@@ -24,7 +24,7 @@
       </div>
 
       <h3 class="pl-5 ls-2 pr-5 primary--text text-center">3 marcos por COL$150.000 y cada adicional por COL$30.000. No olvides que los envíos nacionales son gratis.</h3>
-      <h3 class="pl-5 mt-3 ls-2 pr-5 primary--text text-center">Tambien puedes hacernos el encargue por Whatsapp!</h3>
+      <h3 class="pl-5 pt-3 ls-2 pr-5 primary--text text-center">Tambien puedes hacernos el encargue por Whatsapp!</h3>
 
   </v-container>
 </template>
@@ -48,8 +48,8 @@
 
 <style>
     .background {
-        background: rgb(25, 82, 126);
-        background: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
+        background-color: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
+        background-image: url('/background.png');
     }
     
     .sheyka-title {
@@ -63,9 +63,7 @@
     
     @media (min-width: 768px) {
         .background {
-            /* height: 100vh; */
             width: 100%;
-            background: rgb(25, 82, 126);
             background: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
         }
         .video-size {

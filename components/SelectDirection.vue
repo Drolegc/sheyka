@@ -8,7 +8,7 @@
             >
                 <v-text-field
                     name="calle_numero"
-                    label="Calle y numero"
+                    label="Direccion"
                     id="calle_numero"
                     v-model="calle_numero"
                     :rules="[ v => !!v || 'Calle y numero requeridos']"
@@ -17,7 +17,7 @@
                 <v-text-field
                     name="piso_puerta_otros"
                     v-model="piso_puerta_otros"
-                    label="Piso, puerta, escalera, otros"
+                    label="Casa, apto, edificio, otros"
                     id="piso_puerta_otros"
                     :rules="[ v => !!v || 'Campo requerido']"
                     required
