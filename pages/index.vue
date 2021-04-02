@@ -11,7 +11,7 @@
     
       <img
       class="logo mb-3"
-      src="/logo.png"
+      src="/logo-t.png"
       height="200vh"    
       ></img>  
       <h1 class="white--text text-center ls-3 sheyka-title">Sheyka</h1>
@@ -48,8 +48,7 @@
 
 <style>
     .background {
-        background-color: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
-        background-image: url('/background.png');
+        background: url('/background.png');
     }
     
     .sheyka-title {
@@ -64,7 +63,7 @@
     @media (min-width: 768px) {
         .background {
             width: 100%;
-            background: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
+            background: url('/background.png');
         }
         .video-size {
             width: 90%;

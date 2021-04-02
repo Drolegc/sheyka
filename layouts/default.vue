@@ -8,11 +8,13 @@
     <v-menu offset-y>
       <template v-slot:activator="{on,attrs}">
         <v-btn 
-        icon 
+        fab
+        small
+        elevation="0" 
         color="white" 
         v-bind="attrs"
         v-on="on">
-          <v-icon>mdi-menu</v-icon>
+          <v-icon color="primary">mdi-menu</v-icon>
         </v-btn>
       </template>
 <v-list v-if="$auth.loggedIn">
