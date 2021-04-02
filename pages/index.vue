@@ -48,11 +48,7 @@
 
 <style>
     .background {
-<<<<<<< HEAD
         background: url('/background.png');
-=======
-        background-color: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
->>>>>>> 27d977e5ec0d493609ff5d5f1238709da08e3834
     }
     
     .sheyka-title {
