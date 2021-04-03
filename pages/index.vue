@@ -47,8 +47,10 @@
 </script>
 
 <style>
-    .background {
-        background: url('/background.png');
+    @media only screen and (max-width: 600px) {
+        .background {
+            background: url('/background-mobile.png') #C7E3FA no-repeat;
+        }
     }
     
     .sheyka-title {
@@ -64,6 +66,12 @@
         .background {
             width: 100%;
             background: url('/background.png');
+            background-position: center;
+            /* Center the image */
+            background-repeat: no-repeat;
+            /* Do not repeat the image */
+            background-size: cover;
+            /* Resize the background image to cover the entire container */
         }
         .video-size {
             width: 90%;
