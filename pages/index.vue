@@ -50,6 +50,7 @@
     @media only screen and (max-width: 600px) {
         .background {
             background: url('/background-mobile.png') #C7E3FA no-repeat;
+            background-size: 100%;
         }
     }
     
