@@ -23,8 +23,8 @@
         <iframe class="rounded-xl" src="https://www.youtube.com/embed/yeTE-arIzSo?autoplay=0&showinfo=0&controls=0" frameborder="0" height="100%" width="100%"></iframe>
       </div>
 
-      <h3 class="pl-5 ls-2 pr-5 primary--text text-center">3 marcos por COL$150.000 + IVA y cada adicional por COL$30.000 + IVA. No olvides que los envíos nacionales son gratis.</h3>
-      <h3 class="pl-5 pt-3 ls-2 pr-5 primary--text text-center">Tambien puedes hacernos el encargue por Whatsapp!</h3>
+      <h3 class="pl-5 ls-2 pr-5 primary--text text-center">Cada pedido empieza en COP$149.000+IVA para los primeros 3 cuadros, y luego cada cuadro adicional costaría COP$39.000+IVA  en ese pedido. No olvides que los envíos nacionales son gratis.</h3>
+      <h3 class="pl-5 pt-3 ls-2 pr-5 primary--text text-center">Tambien puedes hacernos el pedido por Whatsapp!</h3>
 
   </v-container>
 </template>

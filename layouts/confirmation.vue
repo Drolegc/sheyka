@@ -285,8 +285,8 @@
                         currency: "cop",
                         amount: newOrderData.price,
                         country: "co",
-                        lang: "en",
-                        external: "true",
+                        lang: "es",
+                        external: "false",
 
                         //Atributos opcionales
                         extra1: newOrderData.id,
@@ -305,6 +305,7 @@
                         //methodsDisable: ["TDC", "PSE", "SP", "CASH", "DP"]
 
                     }
+                    this.loading = false
                     console.log("Redirecting to epayco")
                     handler.open(data)
 

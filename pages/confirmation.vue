@@ -6,7 +6,7 @@
         </div>
         <div class="full-width mb-5">
             <p class="title">Precio total</p>
-            <h1 class="primary--text">COL$ {{price}}.<small>*IVA incluido</small></h1>
+            <h1 class="primary--text">COP$ {{price}}.<small>*IVA incluido</small></h1>
         </div>
 
         <div class="full-width mb-5">

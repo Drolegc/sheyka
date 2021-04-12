@@ -50,7 +50,9 @@
                 </div>
             </div>
         </div>
-
+        <div class="d-flex justify-center align-center">
+            <span v-show="lowQualityMessage" class="red--text">Cuidado! Imagen de baja calidad</span>
+        </div>
         <v-dialog v-model="dialog" fullscreen :overlay="false" transition="scroll-y-reverse-transition" eager>
 
             <v-app-bar flat color="primary">
@@ -107,7 +109,8 @@
                 checkOrientation: false,
                 cropper: {},
                 zoom: 0,
-                message: ''
+                message: '',
+                lowQualityMessage: false
             }
         },
         computed: {
@@ -155,7 +158,14 @@
             done() {
                 console.log("recortando imagen...")
                 this.loading = true
-                var canvas = this.cropper.getCroppedCanvas();
+                let canvas = this.cropper.getCroppedCanvas();
+
+                let diagonalPicture = Math.sqrt(Math.pow(canvas.width, 2) + Math.pow(canvas.height, 2))
+                let diagonalPhisicalFrame = 8.9 / 2.54 //cm to inches
+                let ppi = diagonalPicture / diagonalPhisicalFrame
+                console.log("ppi", ppi)
+                this.lowQualityMessage = (ppi < 300)
+
                 this.$store.dispatch("new/setAuxPreview", {
                     index: this.index,
                     src: canvas.toDataURL("image/png")
@@ -190,6 +200,7 @@
                 this.cropper.destroy()
                 this.croppper = {}
             },
+
         }
     }
 </script>
