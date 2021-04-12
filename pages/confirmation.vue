@@ -6,7 +6,7 @@
         </div>
         <div class="full-width mb-5">
             <p class="title">Precio total</p>
-            <h1 class="primary--text">COL$ {{price}}</h1>
+            <h1 class="primary--text">COL$ {{price}}.<small>*IVA incluido</small></h1>
         </div>
 
         <div class="full-width mb-5">
@@ -76,7 +76,7 @@
             var cantidad = this.$store.getters["new/frames"]
             const basePrice = (await this.$axios.get('/order-price')).data.price
             const extraOrderPrice = (await this.$axios.get('/extra-order-price')).data.price
-            this.price = basePrice + (cantidad - 3) * extraOrderPrice
+            this.price = (basePrice + (cantidad - 3) * extraOrderPrice) * 1.19
         },
         computed: {
             photos: {

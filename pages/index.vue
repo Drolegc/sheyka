@@ -47,8 +47,11 @@
 </script>
 
 <style>
-    .background {
-        background-color: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
+    @media only screen and (max-width: 600px) {
+        .background {
+            background: url('/background-mobile.png') #C7E3FA no-repeat;
+            background-size: 100%;
+        }
     }
     
     .sheyka-title {
@@ -63,7 +66,13 @@
     @media (min-width: 768px) {
         .background {
             width: 100%;
-            background: linear-gradient(180deg, rgba(25, 82, 126, 1) 0%, rgba(25, 82, 126, 1) 22%, rgba(25, 82, 126, 1) 39%, rgba(25, 82, 126, 1) 63%, rgba(255, 255, 255, 0.14889705882352944) 86%);
+            background: url('/background.png');
+            background-position: center;
+            /* Center the image */
+            background-repeat: no-repeat;
+            /* Do not repeat the image */
+            background-size: cover;
+            /* Resize the background image to cover the entire container */
         }
         .video-size {
             width: 90%;
