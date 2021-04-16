@@ -4,6 +4,7 @@
           :width="'80vw'"
           :class=" !active ? 'ma-4  rounded-lg' : 'primary-shadow ma-4  rounded-lg primary--text ' "
         >
+        
             <v-img
             v-if="(selectedFrameImageIndex % 2)"
                 :src="selectedFrameImage"
@@ -17,6 +18,13 @@
                     aspect-ratio="1"
                     class="transparent lighten-2  cropper-item"
                     >
+                        <div v-show="lowQualityMessage" class="red-info ma-1 rounded-xl">
+                            
+                            <small  class="white--text">
+                            <v-icon color="white">mdi-information-outline</v-icon>
+                            Cuidado! Imagen de baja calidad
+                            </small>
+                        </div>
                     </v-img>
                 </div>
             </v-img>
@@ -31,7 +39,16 @@
                 <v-img
                     :src="selectedFrameImage"
                     aspect-ratio="1"
-                ></v-img>
+                >
+                
+              <div v-show="lowQualityMessage" class="red-info mt-4 ml-3 mr-5 rounded-xl">
+                            
+                            <small  class="white--text">
+                            <v-icon color="white">mdi-information-outline</v-icon>
+                            Cuidado! Imagen de baja calidad
+                            </small>
+                        </div>
+                </v-img>
             </v-img>
 
         <div>
@@ -50,9 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-center align-center">
-            <span v-show="lowQualityMessage" class="red--text">Cuidado! Imagen de baja calidad</span>
-        </div>
+        
         <v-dialog v-model="dialog" fullscreen :overlay="false" transition="scroll-y-reverse-transition" eager>
 
             <v-app-bar flat color="primary">
@@ -234,5 +249,9 @@
         grid-column-end: 2;
         grid-row-end: 2;
         grid-row-start: 2;
+    }
+
+    .red-info {
+        background-color: rgba(228,1,1,0.39);
     }
 </style>

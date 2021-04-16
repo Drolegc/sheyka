@@ -54,12 +54,12 @@
             </div>
         </template>
         <hr class="mt-2 mb-2">
-        <h3>Total: $COL {{selectedOrderData.price}}</h3>
+        <h3>Total: $COP {{selectedOrderData.price}}</h3>
         <hr class="mt-2 mb-2">
-        <div v-show="selectedOrderData.state != 'received'" class=" text-center">
+        <div v-show="selectedOrderData.state != 'received' && selectedOrderData.state != 'denied'" class=" text-center">
             <v-btn class="elevation-0 rounded-lg mt-2 mb-2" color="primary" @click="yaLlego">Ya llego!</v-btn>
             <v-spacer></v-spacer>
-            <v-btn class="mt-2" text small color="red" @click="reportarDemora">Reportar demora</v-btn>
+            <v-btn class="mt-2" v-show="selectedOrderData.state != 'delay'" text small color="red" @click="reportarDemora">Reportar demora</v-btn>
         </div>
     </div>
 </v-dialog>
@@ -135,8 +135,10 @@
                 this.$axios.post('/orders/report', {
                     order: this.selectedOrderData.id
                 }).then((response) => {
-                    this.snackbar = true
                     this.selectedOrderData.state = 'delay'
+                    this.selectedOrder = false
+                    this.snackbar = true
+                    
                 })
             }
         }

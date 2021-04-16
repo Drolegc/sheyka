@@ -54,7 +54,7 @@
 
 </v-menu>
 <v-spacer></v-spacer>
-<span v-if="$auth.loggedIn" class="sheyka-app-bar white--text">Hola {{$auth.user.username}}!</span>
+<span v-if="$auth.loggedIn" class="sheyka-app-bar text-body-1 white--text">Hola {{$auth.user.username}}!</span>
 <v-spacer></v-spacer>
 </v-app-bar>
 <v-main>
